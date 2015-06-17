@@ -4,9 +4,9 @@
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Shannan Sussman
+  - __Scrum Master__: Leon Yip
+  - __Development Team Members__: Andrew Li, Murat Ozgul
 
 ## Table of Contents
 
