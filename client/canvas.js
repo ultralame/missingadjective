@@ -4,71 +4,62 @@ var ctx = canvas.getContext('2d');
 ctx.fillStyle = "green"
 ctx.fillRect(10,10, 100, 100);
 
-var keysPressedArr = [];
+var maxWidth = 800;
+var maxHeight = 600;
+var minWidth = 0;
+var minHeight = 0;
+var currentTopLeft = 10;
+var currentBotRight = 100;
+var move = 1;
 
-$(document).ready(function(){
-  //listening for arrow keys being pressed
-  $(document).keydown(function(event){
-    if(event.keyCode === 37) {
-      // left
-      console.log("pressed left");
-      if(keysPressedArr.indexOf("left") === -1){
-        keysPressedArr.push("left");
-      }
+var startPosition = {
+  x1: 10,
+  y1: 10,
+  x2: 30,
+  y2: 40
+};
 
-    }
-    else if (event.keyCode === 38){
-      // up
-      console.log("pressed up");
-      if(keysPressedArr.indexOf("up") === -1){
-        keysPressedArr.push("up");
-      }
-    }
-    else if (event.keyCode === 39){
-      // right
-      if(keysPressedArr.indexOf("right") === -1){
-        keysPressedArr.push("right");
-      }
-    }
-    else if (event.keyCode === 40){
-      // down
-      if(keysPressedArr.indexOf("down") === -1){
-        keysPressedArr.push("down");
-      }
-    }
-    console.log(keysPressedArr);
-  });
+var player = new Player("Dude", 1, startPosition, ctx);
 
-  //listening for arrow keys being released
-  $(document).keyup(function(event){
-    if(event.keyCode === 37) {
-      // left
-      console.log("released left");
-      if(keysPressedArr.indexOf("left") >= 0){
-        keysPressedArr.splice(keysPressedArr.indexOf("left"), 1);
-      }
-    }
-    else if (event.keyCode === 38){
-      // up
-      console.log("released up");
-      if(keysPressedArr.indexOf("up") >= 0){
-        keysPressedArr.splice(keysPressedArr.indexOf("up"), 1);
-      }
-    }
-    else if (event.keyCode === 39){
-      // right
-      console.log("released right");
-      if(keysPressedArr.indexOf("right") >= 0){
-        keysPressedArr.splice(keysPressedArr.indexOf("right"), 1);
-      }
-    }
-    else if (event.keyCode === 40){
-      // down
-      console.log("released down");
-      if(keysPressedArr.indexOf("down") >= 0){
-        keysPressedArr.splice(keysPressedArr.indexOf("down"), 1);
-      }
-    }
-    console.log(keysPressedArr);
-  });
-});
+var update = function(){
+  var currentPosition = player.position;
+  if(keysPressedArr.indexOf("right") > -1){
+    currentPosition.x1+=5;
+    player.move(currentPosition);
+  }
+  if(keysPressedArr.indexOf("down") > -1){
+    currentPosition.y1+=5;
+    player.move(currentPosition);
+  }
+  if(keysPressedArr.indexOf("left") > -1){
+    currentPosition.x1-=5;
+    player.move(currentPosition);
+  }
+  if(keysPressedArr.indexOf("up") > -1){
+    currentPosition.y1-=5;
+    player.move(currentPosition);
+  }
+};
+
+var draw = function(){
+  ctx.clearRect(minWidth, minHeight, maxWidth, maxHeight);
+  player.draw();
+};
+
+var render = function(){
+  update();
+  draw();
+  // Clear the canvas (delete everything);
+  requestAnimationFrame(render);
+  // currentTopLeft += move;
+  // currentBotRight += move;
+  // ctx.fillRect(currentTopLeft, 10, currentBotRight, 100);
+  // if (currentTopLeft < minWidth) {
+  //   move *= -1;
+  // }
+  // else if (currentBotRight > maxWidth) {
+  //   move *= -1;
+  // };
+};
+
+render();
