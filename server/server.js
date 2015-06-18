@@ -1,7 +1,17 @@
-var express = require('express');
-
+var express = require('express')
 var app = express();
+var server = require('http').Server(app);
+var io = require('socket.io')(server);
 
-require('./config/middleware.js')(app, express);
+// Middleware Setup
+var morgan = require('morgan');
+var bodyParser = require('body-parser');
 
-module.exports = app;
+app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+app.use(express.static(__dirname + '/../client'));
+
+
+
+module.exports = server;
