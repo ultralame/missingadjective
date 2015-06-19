@@ -25,7 +25,11 @@ var teamCounter = 0;
 
 var leaveRoomQ = new helpers.Queue();
 
-
+//object that stores default coordinates
+var defaultCoordinates = {};
+//object index is the team number
+defaultCoordinates[0] = [2, 10]; // for example, these are the coordinates for team 0
+defaultCoordinates[1] = [10, 2]; // and these are the coordinates for team 1
 
 
 io.on('connection', function(socket) {
@@ -50,12 +54,9 @@ io.on('connection', function(socket) {
     }
 
     //initialize game coordinates
+    socket.coordinate = defaultCoordinates[socket.team];
 
-
-
-
-
-
+    //put client in correct room
     if(leaveRoomQ.size() >= 1) {
       socket.room = leaveRoomQ.dequeue().room;
     }
@@ -69,6 +70,7 @@ io.on('connection', function(socket) {
     }
 
     console.log(socket.name + " has joined team "  + socket.team + " in room " + socket.room + '.');
+    console.log('Starting position: ' + socket.coordinate + '.');
   });
 
 
