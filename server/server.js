@@ -17,9 +17,16 @@ app.use(express.static(__dirname + '/../client'));
 
 var roomId = 0;
 var roomCounter = 0;
-var roomSize = 3;
+var roomSize = 6;
+
+var teamSizeCounter = 0;
+var teamSize = roomSize / 2; // the maximum team size will always be half the size of the room
+var teamCounter = 0;
 
 var leaveRoomQ = new helpers.Queue();
+
+
+
 
 io.on('connection', function(socket) {
 
@@ -29,31 +36,56 @@ io.on('connection', function(socket) {
     socket.room = roomId;
     socket.join(roomId);
 
+    //initialize teams
     if(leaveRoomQ.size() >= 1) {
-      socket.room = leaveRoomQ.dequeue();
+      socket.team = leaveRoomQ.dequeue().team;
+    }
+    else {
+      socket.team = teamCounter;
+      teamSizeCounter++;
+      if(teamSizeCounter === teamSize) {
+        teamCounter++;
+        teamSizeCounter = 0;
+      }
+    }
+
+    //initialize game coordinates
+
+
+
+
+
+
+    if(leaveRoomQ.size() >= 1) {
+      socket.room = leaveRoomQ.dequeue().room;
     }
     else {
       roomCounter++;
       if(roomCounter === roomSize) {
         roomId++;
         roomCounter = 0;
+        teamCounter = 0;
       }
     }
 
-    console.log(socket.name + " has joined room " + socket.room + '.');
+    console.log(socket.name + " has joined team "  + socket.team + " in room " + socket.room + '.');
   });
 
 
   socket.on('disconnect',function() {
 
-    console.log(socket.name + " has left room " + socket.room + '.');
+    console.log(socket.name + " has left team " + socket.team + " from room " + socket.room + '.');
 
     // maybe broadcast that the person has left the room
     socket.leave(socket.room);
 
     if(socket.room !== undefined) {
-      leaveRoomQ.enqueue(socket.room);
+      leaveRoomQ.enqueue(socket);
     }
+  });
+
+  socket.on('keyMovement', function(coordinates) {
+
   });
 
 });
