@@ -1,9 +1,6 @@
 var canvas = document.getElementById('canvas');
 var ctx = canvas.getContext('2d');
 
-ctx.fillStyle = "green"
-ctx.fillRect(10,10, 100, 100);
-
 var maxWidth = 800;
 var maxHeight = 600;
 var minWidth = 0;
@@ -13,34 +10,78 @@ var currentBotRight = 100;
 var move = 1;
 
 var startPosition = {
-  x1: 10,
-  y1: 10,
-  x2: 30,
-  y2: 40
+  x: 10,
+  y: 10,
 };
 
-var player = new Player("Dude", 1, startPosition, ctx);
+var player = new Player("Dude", 1, startPosition, ctx, 1);
+var gravity = 1;
 
 var update = function(){
   var currentPosition = player.position;
   if(keysPressedArr.indexOf("right") > -1){
-    currentPosition.x1+=5;
-    player.move(currentPosition);
+    currentPosition.x+=5;
+    if (collisions(currentPosition.x, 'x')) {
+      player.move(currentPosition);
+    }
+    else {
+      currentPosition.x-=5;
+    }
   }
   if(keysPressedArr.indexOf("down") > -1){
-    currentPosition.y1+=5;
-    player.move(currentPosition);
+    currentPosition.y+=5;
+    if (collisions(currentPosition.y, 'y')) {
+      player.move(currentPosition);
+    }
+    else {
+      currentPosition.y-=5;
+    }
   }
   if(keysPressedArr.indexOf("left") > -1){
-    currentPosition.x1-=5;
-    player.move(currentPosition);
+    currentPosition.x-=5;
+    if (collisions(currentPosition.x, 'x')) {
+      player.move(currentPosition);
+    }
+    else {
+      currentPosition.x+=5;
+    }
   }
   if(keysPressedArr.indexOf("up") > -1){
-    currentPosition.y1-=5;
-    player.move(currentPosition);
+    currentPosition.y-=5;
+    if (collisions(currentPosition.y, 'y')) {
+      player.move(currentPosition);
+    }
+    else {
+      currentPosition.y+=5;
+    }
   }
+
+  // gravity
+  // currentPosition.y+= gravity;
+  // player.move(currentPosition);
 };
 
+var collisions = function(position, direction) {
+  // tests for if moving in x or y direction
+  if (direction === 'x') {
+    if (position > minWidth + (player.radius - .01) && position < maxWidth - (player.radius - .01)) {
+      return true;
+    }
+    else {
+      console.log('we be stuck');
+      return false;
+    }
+  }
+  else {
+    if (position > minHeight + (player.radius - .01) && position < maxHeight - (player.radius - .01)) {
+      return true;
+    }
+    else {
+      console.log('we be stuck Y');
+      return false;
+    }
+  }
+}
 var draw = function(){
   ctx.clearRect(minWidth, minHeight, maxWidth, maxHeight);
   player.draw();
