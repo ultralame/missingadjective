@@ -10,6 +10,7 @@ var io = require('socket.io')(server);
 var morgan = require('morgan');
 var bodyParser = require('body-parser');
 
+//morgan is for debugging
 //serve static assets
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));

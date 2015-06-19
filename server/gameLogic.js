@@ -22,6 +22,14 @@ defaultCoordinates[1] = [10, 2]; // and these are the coordinates for team 1
 
 
 
+//NEED TO:
+//clean up
+//flag tracker
+//score, winning, and win conditions
+//collision detection
+//other game logic
+
+
 
 
 //the player is the passed in socket/client
@@ -83,7 +91,7 @@ var gameLogic = module.exports.gameLogic = function(player) {
     }
   });
 
-  player.on('movement', function(coordinates) {
+  player.on('updatePosition', function(coordinates) {
     player.coordinates = coordinates;
   });
 
