@@ -15,7 +15,11 @@ var startPosition = {
 };
 
 var player = new Player("Dude", 1, startPosition, ctx, 1);
-var gravity = 1;
+// var gravity = 1;
+var flag = new Flag(50, 50, ctx);
+var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
+var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
+flag.capturedByPlayer(player);
 
 var update = function(){
   var currentPosition = player.position;
@@ -56,6 +60,10 @@ var update = function(){
     }
   }
 
+  flag.update();
+  base1.update();
+  base2.update();
+
   // gravity
   // currentPosition.y+= gravity;
   // player.move(currentPosition);
@@ -85,6 +93,9 @@ var collisions = function(position, direction) {
 var draw = function(){
   ctx.clearRect(minWidth, minHeight, maxWidth, maxHeight);
   player.draw();
+  flag.draw();
+  base1.draw();
+  base2.draw();
 };
 
 var render = function(){
