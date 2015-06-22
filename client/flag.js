@@ -12,9 +12,11 @@ var Flag = function(x, y, ctx){
 
 Flag.prototype.capturedByPlayer = function(player){
   this.player = player;
+  player.hasFlag = true;
 };
 
 Flag.prototype.drop = function(){
+  this.player.hasFlag = false;
   this.player = null;
   this.dropped = true;
   this.dropTimer();
