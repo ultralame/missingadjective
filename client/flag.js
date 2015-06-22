@@ -19,8 +19,8 @@ Flag.prototype.drop = function(){
 
 Flag.prototype.update = function(){
   if(this.player){
-    this.x = player.position.x; //change it to "x" for circle
-    this.y = player.position.y; //change it to "y" for circle
+    this.x = this.player.position.x; //change it to "x" for circle
+    this.y = this.player.position.y; //change it to "y" for circle
   };
 };
 

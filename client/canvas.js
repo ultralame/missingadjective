@@ -5,9 +5,9 @@ var maxWidth = 800;
 var maxHeight = 600;
 var minWidth = 0;
 var minHeight = 0;
-var currentTopLeft = 10;
-var currentBotRight = 100;
-var move = 1;
+// var currentTopLeft = 10;
+// var currentBotRight = 100;
+var move = 5;
 
 var startPosition = {
   x: 10,
@@ -24,39 +24,39 @@ flag.capturedByPlayer(player);
 var update = function(){
   var currentPosition = player.position;
   if(keysPressedArr.indexOf("right") > -1){
-    currentPosition.x+=5;
+    currentPosition.x+= move;
     if (collisions(currentPosition.x, 'x')) {
       player.move(currentPosition);
     }
     else {
-      currentPosition.x-=5;
+      currentPosition.x-= move;
     }
   }
   if(keysPressedArr.indexOf("down") > -1){
-    currentPosition.y+=5;
+    currentPosition.y+= move;
     if (collisions(currentPosition.y, 'y')) {
       player.move(currentPosition);
     }
     else {
-      currentPosition.y-=5;
+      currentPosition.y-= move;
     }
   }
   if(keysPressedArr.indexOf("left") > -1){
-    currentPosition.x-=5;
+    currentPosition.x-= move;
     if (collisions(currentPosition.x, 'x')) {
       player.move(currentPosition);
     }
     else {
-      currentPosition.x+=5;
+      currentPosition.x+= move;
     }
   }
   if(keysPressedArr.indexOf("up") > -1){
-    currentPosition.y-=5;
+    currentPosition.y-= move;
     if (collisions(currentPosition.y, 'y')) {
       player.move(currentPosition);
     }
     else {
-      currentPosition.y+=5;
+      currentPosition.y+= move;
     }
   }
 
@@ -76,7 +76,7 @@ var collisions = function(position, direction) {
       return true;
     }
     else {
-      console.log('we be stuck');
+      console.log('we be stuck X');
       return false;
     }
   }
