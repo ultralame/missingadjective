@@ -19,6 +19,7 @@ var player = new Player("Dude", 1, startPosition, ctx, 1);
 var flag = new Flag(50, 50, ctx);
 var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
 var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
+var collisionContainer = Collisions;
 // flag.capturedByPlayer(player);
 
 var update = function(){
@@ -27,7 +28,7 @@ var update = function(){
     currentPlayer.position.x+= move;
     if (collisions(currentPlayer.position.x, 'x')) {
       player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
+      collisionContainer.flagDetection(currentPlayer, flag);
     }
     else {
       currentPlayer.position.x-= move;
@@ -37,7 +38,7 @@ var update = function(){
     currentPlayer.position.y+= move;
     if (collisions(currentPlayer.position.y, 'y')) {
       player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
+      collisionContainer.flagDetection(currentPlayer, flag);
     }
     else {
       currentPlayer.position.y-= move;
@@ -47,7 +48,7 @@ var update = function(){
     currentPlayer.position.x-= move;
     if (collisions(currentPlayer.position.x, 'x')) {
       player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
+      collisionContainer.flagDetection(currentPlayer, flag);
     }
     else {
       currentPlayer.position.x+= move;
@@ -57,7 +58,7 @@ var update = function(){
     currentPlayer.position.y-= move;
     if (collisions(currentPlayer.position.y, 'y')) {
       player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
+      collisionContainer.flagDetection(currentPlayer, flag);
     }
     else {
       currentPlayer.position.y+= move;

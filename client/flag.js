@@ -1,23 +1,31 @@
 var Flag = function(x, y, ctx){
   this.x = x;
   this.y = y;
-  this.collisionRadius = 2;
+  this.radius = 2;
   this.player = null;
   this.ctx = ctx;
   this.poleColor = "black";
   this.flagColor = "red";
   this.animator = new ObjectAnimator(1000);
-  this.captured = false;
+  this.dropped = false;
 };
 
 Flag.prototype.capturedByPlayer = function(player){
   this.player = player;
-  this.captured = true;
 };
 
 Flag.prototype.drop = function(){
   this.player = null;
-  this.captured = false;
+  this.dropped = true;
+  this.dropTimer();
+
+};
+
+Flag.prototype.dropTimer = function(){
+  context = this;
+  setTimeout(function(){
+    context.dropped = false;
+  }, 2000)
 };
 
 Flag.prototype.update = function(){
@@ -27,18 +35,6 @@ Flag.prototype.update = function(){
   };
 };
 
-Flag.prototype.playerDetection = function(player){
-  var distanceToFlagX = Math.pow(player.position.x - this.x, 2);
-  var distanceToFlagY = Math.pow(player.position.y - this.y, 2);
-  var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
-
-  if (distanceToFlag <= player.radius + this.collisionRadius) {
-    this.captured = true;
-    this.capturedByPlayer(player);
-    console.log('captured!');
-  }
-
-}
 
 Flag.prototype.draw = function(){
   // Drawing the flag pole
