@@ -19,44 +19,48 @@ var player = new Player("Dude", 1, startPosition, ctx, 1);
 var flag = new Flag(50, 50, ctx);
 var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
 var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
-flag.capturedByPlayer(player);
+// flag.capturedByPlayer(player);
 
 var update = function(){
-  var currentPosition = player.position;
+  var currentPlayer = player;
   if(keysPressedArr.indexOf("right") > -1){
-    currentPosition.x+= move;
-    if (collisions(currentPosition.x, 'x')) {
-      player.move(currentPosition);
+    currentPlayer.position.x+= move;
+    if (collisions(currentPlayer.position.x, 'x')) {
+      player.move(currentPlayer.position);
+      flag.playerDetection(currentPlayer);
     }
     else {
-      currentPosition.x-= move;
+      currentPlayer.position.x-= move;
     }
   }
   if(keysPressedArr.indexOf("down") > -1){
-    currentPosition.y+= move;
-    if (collisions(currentPosition.y, 'y')) {
-      player.move(currentPosition);
+    currentPlayer.position.y+= move;
+    if (collisions(currentPlayer.position.y, 'y')) {
+      player.move(currentPlayer.position);
+      flag.playerDetection(currentPlayer);
     }
     else {
-      currentPosition.y-= move;
+      currentPlayer.position.y-= move;
     }
   }
   if(keysPressedArr.indexOf("left") > -1){
-    currentPosition.x-= move;
-    if (collisions(currentPosition.x, 'x')) {
-      player.move(currentPosition);
+    currentPlayer.position.x-= move;
+    if (collisions(currentPlayer.position.x, 'x')) {
+      player.move(currentPlayer.position);
+      flag.playerDetection(currentPlayer);
     }
     else {
-      currentPosition.x+= move;
+      currentPlayer.position.x+= move;
     }
   }
   if(keysPressedArr.indexOf("up") > -1){
-    currentPosition.y-= move;
-    if (collisions(currentPosition.y, 'y')) {
-      player.move(currentPosition);
+    currentPlayer.position.y-= move;
+    if (collisions(currentPlayer.position.y, 'y')) {
+      player.move(currentPlayer.position);
+      flag.playerDetection(currentPlayer);
     }
     else {
-      currentPosition.y+= move;
+      currentPlayer.position.y+= move;
     }
   }
 
