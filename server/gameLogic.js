@@ -1,8 +1,10 @@
 //gameLogic.js
 
 
+
 // Helper Functions
 var helpers = require('./helpers.js');
+
 
 
 //variable(s) to keep track of rooms
@@ -20,6 +22,14 @@ var PLAYER_DEFAULT_COORDINATES = {};
 //object key/index is the team number
 PLAYER_DEFAULT_COORDINATES[0] = [2, 10]; //for example, these are the coordinates for team 0
 PLAYER_DEFAULT_COORDINATES[1] = [10, 2]; //and these are the coordinates for team 1
+
+
+//object that stores default coordinates for objects in the game environment
+var OBJECT_DEFAULT_COORDINATES = {};
+//key is the name of the object in the environment
+OBJECT_DEFAULT_COORDINATES['FLAG'] = [5, 5]; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE1'] = [2, 5]; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE2'] = [10, 5]; //these are the coordinates for base 2
 
 
 //an object that will hold the updating properties associated to each game room
@@ -56,6 +66,11 @@ var initRoom = function(roomId) {
     roomProperties[roomId].teamScore[i] = 0;
   }
 
+  //put the flag in the default starting position
+  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];
+
+  //the team that has the flag; -1 means that no team has the flag
+  roomProperties[roomId].teamWithFlag = -1;
 };
 
 
@@ -68,6 +83,22 @@ var resetRoom = function(roomId) {
     roomProperties[roomId].teamScore[i] = 0;
   }
 
+  //reset flag position
+  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];  
+
+  //reset team with flag; -1 means that no team has the flag
+  roomProperties[roomId].teamWithFlag = -1;  
+
+  //reset player positions
+  //reset players to not have the flag
+  var player;
+  for(var playerIndex in roomProperties[roomId].players)
+  {
+    player = roomProperties[roomId].players[playerIndex];
+    player.coordinates = PLAYER_DEFAULT_COORDINATES[player.team];
+    player.hasFlag = false;
+  }
+
 };
 
 
@@ -77,8 +108,9 @@ var joinRoom = function(player) {
   //have player join the room
   player.join(player.room);
 
-  //put the player's id (memory address of the player object) into the players property of the room; the actual value stored doesn't matter
-  roomProperties[player.room].players[player] = true;
+  //keep track of every player in the room by putting the player into the players property of the room 
+  //the key for each player is the player object itself
+  roomProperties[player.room].players[player] = player;
 
   //increment the number of players in the room
   roomProperties[player.room].numPlayers++;
@@ -93,9 +125,12 @@ var joinRoom = function(player) {
     }
   }
 
+  //initialize the player to not have the flag
+  player.hasFlag = false;
+
   //put the player in the correct starting location
   player.coordinates = PLAYER_DEFAULT_COORDINATES[player.team];
-  //TODO: broadcast name, coords, and team number to everyone else in room    
+  //TODO: broadcast name, coords, and team number to everyone else in room
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
   console.log('Starting position: ' + player.coordinates + '.');
@@ -152,6 +187,59 @@ var matchMaker = function(player) {
 };
 
 
+
+var handleWin = function() {
+
+};
+
+
+var checkForWin = function() {
+
+};
+
+
+var updateScore = function() {
+
+  //check for win
+};
+
+
+
+var playerToPlayerContact = function(player) {
+
+  //if contact, check if contacted player has flag
+};
+
+var playerToFlagContact = function(player) {
+
+};
+
+var playerToBaseContact = function(player) {
+
+  //if contact, update the score
+};
+
+
+
+//events to check for after a player position update
+var checkEvents = function(player) {
+
+//player to player contact
+//--player to player with a flag
+  playerToPlayerContact(player);
+
+//player to flag contact
+  playerToFlagContact(player);
+
+//player with flag entering base
+//--fires update score condition
+//----check if game win (make game win function)
+  playerToBaseContact(player);
+
+};
+
+
+
 //the player is the passed in socket/client
 var gameLogic = module.exports = function(player) {
 
@@ -185,7 +273,10 @@ var gameLogic = module.exports = function(player) {
   player.on('updatePosition', function(coordinates) {
     player.coordinates = coordinates;
 
-    //check stuff here
+    //TODO: broadcast to every other player new position/coordinates of current player
+
+    //check for events based on new player position
+    checkEvents(player);
 
   });
 
