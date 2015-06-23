@@ -1,6 +1,5 @@
 var Flag = function(x, y, ctx){
-  this.x = x;
-  this.y = y;
+  this.position = {x: x, y: y};
   this.radius = 2;
   this.player = null;
   this.ctx = ctx;
@@ -32,8 +31,8 @@ Flag.prototype.dropTimer = function(){
 
 Flag.prototype.update = function(){
   if(this.player){
-    this.x = this.player.position.x; //change it to "x" for circle
-    this.y = this.player.position.y; //change it to "y" for circle
+    this.position.x = this.player.position.x; //change it to "x" for circle
+    this.position.y = this.player.position.y; //change it to "y" for circle
   };
 };
 
@@ -41,14 +40,14 @@ Flag.prototype.update = function(){
 Flag.prototype.draw = function(){
   // Drawing the flag pole
   this.ctx.fillStyle = this.poleColor; // Set color
-  this.ctx.fillRect(this.x, this.y-20, 5, 20); // Draw the rectangle (pole)
+  this.ctx.fillRect(this.position.x, this.position.y-20, 5, 20); // Draw the rectangle (pole)
 
   // Drawing the flag
   this.ctx.fillStyle = this.flagColor; // Set color
   var path = new Path2D(); // Draw triangle
-    path.lineTo(this.x + 5, this.y - 20);
-    path.lineTo(this.x + 15, this.y - 15);
-    path.lineTo(this.x + 5, this.y - 10);
+    path.lineTo(this.position.x + 5, this.position.y - 20);
+    path.lineTo(this.position.x + 15, this.position.y - 15);
+    path.lineTo(this.position.x + 5, this.position.y - 10);
   this.ctx.fill(path);
 };
 

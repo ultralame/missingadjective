@@ -2,8 +2,8 @@ var Collisions = {};
 
 Collisions.collisionDetection = function(player, collisionObject) {
   //return bool
-  var distanceToFlagX = Math.pow(player.position.x - collisionObject.x, 2);
-  var distanceToFlagY = Math.pow(player.position.y - collisionObject.y, 2);
+  var distanceToFlagX = Math.pow(player.position.x - collisionObject.position.x, 2);
+  var distanceToFlagY = Math.pow(player.position.y - collisionObject.position.y, 2);
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
 
   if (distanceToFlag <= player.radius + collisionObject.radius) {
@@ -21,22 +21,20 @@ Collisions.flagDetection = function(player, flag){
   }
 };
 
-Collisions.playerDetection = function(myPlayer, otherPlayer){
-  if (myPlayer.team === otherPlayer.team) {
-    this.teammateDetection(myPlayer, otherPlayer);
+Collisions.playerDetection = function(player, otherPlayer){
+  if (player.team === otherPlayer.team) {
+    return this.teammateDetection(player, otherPlayer);
   } else {
-    this.enemyDetection(myPlayer, otherPlayer);
+    return this.enemyDetection(player, otherPlayer);
   }
 };
 
-Collisions.teammateDetection = function(myPlayer, teammate) {
-  if(this.collisionDetection(myPlayer, teammate)){
-    
-  }
+Collisions.teammateDetection = function(player, teammate) {
+  return this.collisionDetection(player, teammate)
 };
 
-Collisions.enemyDetection = function(myPlayer, enemy) {
-
+Collisions.enemyDetection = function(player, enemy) {
+  return this.collisionDetection(player, enemy)
 };
 
 Collisions.windowDetection = function(position, direction) {
