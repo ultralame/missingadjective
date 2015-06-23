@@ -253,6 +253,7 @@ var gameLogic = module.exports = function(io, player) {
     var player_send = {};
 
     player_send.id = player.id;
+    player_send.name = player.name;
     player_send.coordinates = player.coordinates;
     player_send.team = player.team;
     player_send.hasFlag = player.hasFlag;
@@ -263,13 +264,15 @@ var gameLogic = module.exports = function(io, player) {
     var playersInRoom = roomProperties[player.room].players;
 
     for(var playerId in playersInRoom) {
-      player_send = {};
 
       if(player.id === playersInRoom[playerId].id) {
         continue;
       }
 
+      player_send = {};
+
       player_send.id = playersInRoom[playerId].id;
+      player_send.name = playersInRoom[playerId].name;
       player_send.coordinates = playersInRoom[playerId].coordinates;
       player_send.team = playersInRoom[playerId].team;
       player_send.hasFlag = playersInRoom[playerId].hasFlag;

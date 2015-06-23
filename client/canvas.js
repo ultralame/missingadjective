@@ -10,8 +10,8 @@ var minHeight = 0;
 var move = 5;
 
 // var player = new Player("Dude", 1, startPosition, ctx, 1);
-var enemy = new Enemy("Bad Guy", 2, {x:200, y:100}, ctx, 2);
-var playerContainer = [ enemy ];
+// var enemy = new Enemy("Bad Guy", 2, {x:200, y:100}, ctx, 2);
+var playerContainer = {};
 // var gravity = 1;
 
 var flag = new Flag(50, 50, ctx);
@@ -23,12 +23,13 @@ var collisionContainer = Collisions;
 var collisionDetection = function(collided, direction, posOrNeg){
   player.position[direction] += move * posOrNeg;
 
-  playerContainer.forEach(function(otherPlayer){
+  for(playerId in playerContainer) {
+    var otherPlayer = playerContainer[playerId];
     if(collisionContainer.playerDetection(player, otherPlayer)){
       console.log('we collided')
       collided = true;
     }
-  });
+  };
 
   if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
     player.move(player.position); //check to see if redundant;
@@ -71,7 +72,9 @@ var draw = function(){
   flag.draw();
   base1.draw();
   base2.draw();
-  enemy.draw();
+  for(playerId in playerContainer) {
+    playerContainer[playerId].draw();
+  }
 };
 
 var render = function(){
