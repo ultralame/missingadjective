@@ -15,8 +15,8 @@ var playerContainer = {};
 // var gravity = 1;
 
 //var flag = new Flag(50, 50, ctx);
-var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
-var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
+// var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
+// var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
 var collisionContainer = Collisions;
 // flag.capturedByPlayer(player);
 
@@ -33,7 +33,7 @@ var collisionDetection = function(collided, direction, posOrNeg){
 
   if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
     player.move(player.position); // check to see if redundant;
-    socket.emit('updatePosition', JSON.stringify(player.position, player.hasFlag));
+    socket.emit('updatePosition', JSON.stringify(player.position), JSON.stringify(player.hasFlag));
     collisionContainer.flagDetection(player, flag);
   } else {
     player.position[direction] += move * posOrNeg * -1;

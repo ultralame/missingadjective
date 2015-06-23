@@ -37,4 +37,10 @@ socket.on('broadcastPlayerPosition', function(data){
   var playerMovement = JSON.parse(data);
 
   playerContainer[playerMovement.id].position = playerMovement.position;
-})
+});
+
+socket.on('broadcastFlagPosition', function(data) {
+  var flagPosition = JSON.parse(data);
+
+  flag.position = flagPosition;
+});

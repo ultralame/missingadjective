@@ -315,9 +315,15 @@ var gameLogic = module.exports = function(io, player) {
 
 
   //update player position
-  player.on('updatePosition', function(position) {
+  player.on('updatePosition', function(position, hasFlag) {
 
     player.position = JSON.parse(position);
+    player.hasFlag = JSON.parse(hasFlag);
+
+    if(player.hasFlag === true) {
+      roomProperties[player.room].flag = player.position;
+      player.broadcast.to(player.room).emit('broadcastFlagPosition', JSON.stringify(roomProperties[player.room].flag));
+    }
 
     player_send = {};
 
