@@ -1,9 +1,3 @@
-var keysPressedArr = [];
-
-var test = function() {
-  console.log('we test');
-}
-
 $(document).ready(function(){
   //listening for arrow keys being pressed
   $(document).keydown(function(event){

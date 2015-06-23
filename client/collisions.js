@@ -1,7 +1,4 @@
-var Collisions = {};
-
-Collisions.collisionDetection = function(player, collisionObject) {
-  //return bool
+Collisions.collisionDetection = function(player, collisionObject) {   //return bool
   var distanceToFlagX = Math.pow(player.position.x - collisionObject.position.x, 2);
   var distanceToFlagY = Math.pow(player.position.y - collisionObject.position.y, 2);
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
@@ -37,7 +34,7 @@ Collisions.enemyDetection = function(player, enemy) {
   var enemyCollision = this.collisionDetection(player, enemy);
   if(enemyCollision) {
     player.hasFlag = false;
-    flag.drop();
+    envVariables.flag.drop();
   }
   return enemyCollision;
 };
@@ -45,7 +42,7 @@ Collisions.enemyDetection = function(player, enemy) {
 Collisions.windowDetection = function(position, direction) {
   // tests for if moving in x or y direction
   if (direction === 'x') {
-    if (position > minWidth + (player.radius - .01) && position < maxWidth - (player.radius - .01)) {
+    if (position > windowVariables.minWidth + (envVariables.player.radius - .01) && position < windowVariables.maxWidth - (envVariables.player.radius - .01)) {
       return true;
     }
     else {
@@ -54,7 +51,7 @@ Collisions.windowDetection = function(position, direction) {
     }
   }
   else {
-    if (position > minHeight + (player.radius - .01) && position < maxHeight - (player.radius - .01)) {
+    if (position > windowVariables.minHeight + (envVariables.player.radius - .01) && position < windowVariables.maxHeight - (envVariables.player.radius - .01)) {
       return true;
     }
     else {
