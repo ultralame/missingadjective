@@ -10,58 +10,53 @@ var minHeight = 0;
 var move = 5;
 
 var startPosition = {
-  x: 10,
-  y: 10,
+  x: 100,
+  y: 100,
 };
 
 var player = new Player("Dude", 1, startPosition, ctx, 1);
+var enemy = new Enemy("Bad Guy", 2, {x:400, y:300}, ctx, 2);
+var playerContainer = [ enemy ];
 // var gravity = 1;
 var flag = new Flag(50, 50, ctx);
 var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
 var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
+var collisionContainer = Collisions;
 // flag.capturedByPlayer(player);
 
+var collisionDetection = function(collided, direction, posOrNeg){
+  player.position[direction] += move * posOrNeg;
+
+  playerContainer.forEach(function(otherPlayer){
+    if(collisionContainer.playerDetection(player, otherPlayer)){
+      console.log('we collided')
+      collided = true;
+    }
+  });
+
+  if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
+    player.move(player.position); //check to see if redundant;
+    collisionContainer.flagDetection(player, flag);
+  } else {
+    player.position[direction] += move * posOrNeg * -1;
+    collided = false;
+  }
+};
+
 var update = function(){
-  var currentPlayer = player;
+  var collided = false;
+
   if(keysPressedArr.indexOf("right") > -1){
-    currentPlayer.position.x+= move;
-    if (collisions(currentPlayer.position.x, 'x')) {
-      player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
-    }
-    else {
-      currentPlayer.position.x-= move;
-    }
+    collisionDetection(collided, 'x', 1);
   }
   if(keysPressedArr.indexOf("down") > -1){
-    currentPlayer.position.y+= move;
-    if (collisions(currentPlayer.position.y, 'y')) {
-      player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
-    }
-    else {
-      currentPlayer.position.y-= move;
-    }
+    collisionDetection(collided, 'y', 1);
   }
   if(keysPressedArr.indexOf("left") > -1){
-    currentPlayer.position.x-= move;
-    if (collisions(currentPlayer.position.x, 'x')) {
-      player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
-    }
-    else {
-      currentPlayer.position.x+= move;
-    }
+    collisionDetection(collided, 'x', -1);
   }
   if(keysPressedArr.indexOf("up") > -1){
-    currentPlayer.position.y-= move;
-    if (collisions(currentPlayer.position.y, 'y')) {
-      player.move(currentPlayer.position);
-      flag.playerDetection(currentPlayer);
-    }
-    else {
-      currentPlayer.position.y+= move;
-    }
+    collisionDetection(collided, 'y', -1);
   }
 
   flag.update();
@@ -73,49 +68,21 @@ var update = function(){
   // player.move(currentPosition);
 };
 
-var collisions = function(position, direction) {
-  // tests for if moving in x or y direction
-  if (direction === 'x') {
-    if (position > minWidth + (player.radius - .01) && position < maxWidth - (player.radius - .01)) {
-      return true;
-    }
-    else {
-      console.log('we be stuck X');
-      return false;
-    }
-  }
-  else {
-    if (position > minHeight + (player.radius - .01) && position < maxHeight - (player.radius - .01)) {
-      return true;
-    }
-    else {
-      console.log('we be stuck Y');
-      return false;
-    }
-  }
-}
+
 var draw = function(){
   ctx.clearRect(minWidth, minHeight, maxWidth, maxHeight);
   player.draw();
   flag.draw();
   base1.draw();
   base2.draw();
+  enemy.draw();
 };
 
 var render = function(){
   update();
   draw();
-  // Clear the canvas (delete everything);
+ 
   requestAnimationFrame(render);
-  // currentTopLeft += move;
-  // currentBotRight += move;
-  // ctx.fillRect(currentTopLeft, 10, currentBotRight, 100);
-  // if (currentTopLeft < minWidth) {
-  //   move *= -1;
-  // }
-  // else if (currentBotRight > maxWidth) {
-  //   move *= -1;
-  // };
 };
 
 render();

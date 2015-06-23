@@ -7,6 +7,7 @@ var Player = function(username, id, position, canvas, teamId) {
   this.color = "rgb(100,255,100)";
   this.team = teamId;
   this.radius = 10;
+  this.hasFlag = false;
 };
 
 Player.prototype.draw = function(){
