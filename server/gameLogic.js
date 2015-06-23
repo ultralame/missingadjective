@@ -92,9 +92,8 @@ var resetRoom = function(roomId) {
   //reset player positions
   //reset players to not have the flag
   var player;
-  for(var playerIndex in roomProperties[roomId].players)
-  {
-    player = roomProperties[roomId].players[playerIndex];
+  for(var playerId in roomProperties[roomId].players) {
+    player = roomProperties[roomId].players[playerId];
     player.coordinates = PLAYER_DEFAULT_COORDINATES[player.team];
     player.hasFlag = false;
   }
@@ -110,7 +109,7 @@ var joinRoom = function(player) {
 
   //keep track of every player in the room by putting the player into the players property of the room
   //the key for each player is the player object itself
-  roomProperties[player.room].players[player] = player;
+  roomProperties[player.room].players[player.id] = player;
 
   //increment the number of players in the room
   roomProperties[player.room].numPlayers++;
@@ -143,7 +142,7 @@ var leaveRoom = function(player) {
   player.leave(player.room);
 
   //remove the player from the room's players property
-  delete roomProperties[player.room].players[player];
+  delete roomProperties[player.room].players[player.id];
 
   //decrement the number of players in the room
   roomProperties[player.room].numPlayers--;
@@ -260,6 +259,24 @@ var gameLogic = module.exports = function(io, player) {
 
     player.emit('createPlayer', JSON.stringify(player_send));
     player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(player_send));
+
+    var playersInRoom = roomProperties[player.room].players;
+
+    for(var playerId in playersInRoom) {
+      player_send = {};
+
+      if(player.id === playersInRoom[playerId].id) {
+        continue;
+      }
+
+      player_send.id = playersInRoom[playerId].id;
+      player_send.coordinates = playersInRoom[playerId].coordinates;
+      player_send.team = playersInRoom[playerId].team;
+      player_send.hasFlag = playersInRoom[playerId].hasFlag;
+
+      player.emit('newPlayer', JSON.stringify(player_send));
+    }
+
 
   });
 
