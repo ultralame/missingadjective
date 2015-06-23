@@ -30,11 +30,16 @@ Collisions.playerDetection = function(player, otherPlayer){
 };
 
 Collisions.teammateDetection = function(player, teammate) {
-  return this.collisionDetection(player, teammate)
+  return this.collisionDetection(player, teammate);
 };
 
 Collisions.enemyDetection = function(player, enemy) {
-  return this.collisionDetection(player, enemy)
+  var enemyCollision = this.collisionDetection(player, enemy);
+  if(enemyCollision) {
+    player.hasFlag = false;
+    flag.drop();
+  }
+  return enemyCollision;
 };
 
 Collisions.windowDetection = function(position, direction) {
