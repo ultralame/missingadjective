@@ -94,7 +94,7 @@ var resetRoom = function(roomId) {
   var player;
   for(var playerId in roomProperties[roomId].players) {
     player = roomProperties[roomId].players[playerId];
-    player.coordinates = PLAYER_DEFAULT_COORDINATES[player.team];
+    player.position = PLAYER_DEFAULT_COORDINATES[player.team];
     player.hasFlag = false;
   }
 
@@ -128,11 +128,11 @@ var joinRoom = function(player) {
   player.hasFlag = false;
 
   //put the player in the correct starting location
-  player.coordinates = PLAYER_DEFAULT_COORDINATES[player.team];
+  player.position = PLAYER_DEFAULT_COORDINATES[player.team];
   //TODO: broadcast name, coords, and team number to everyone else in room
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
-  console.log('Starting position: ', player.coordinates, '.');
+  console.log('Starting position: ', player.position, '.');
 };
 
 
@@ -254,7 +254,7 @@ var gameLogic = module.exports = function(io, player) {
 
     player_send.id = player.id;
     player_send.name = player.name;
-    player_send.coordinates = player.coordinates;
+    player_send.position = player.position;
     player_send.team = player.team;
     player_send.hasFlag = player.hasFlag;
 
@@ -273,7 +273,7 @@ var gameLogic = module.exports = function(io, player) {
 
       player_send.id = playersInRoom[playerId].id;
       player_send.name = playersInRoom[playerId].name;
-      player_send.coordinates = playersInRoom[playerId].coordinates;
+      player_send.position = playersInRoom[playerId].position;
       player_send.team = playersInRoom[playerId].team;
       player_send.hasFlag = playersInRoom[playerId].hasFlag;
 
@@ -300,8 +300,19 @@ var gameLogic = module.exports = function(io, player) {
 
 
   //update player position
-  player.on('updatePosition', function(coordinates) {
-    player.coordinates = coordinates;
+  player.on('updatePosition', function(position) {
+
+    player.position = JSON.parse(position);
+
+    player_send = {};
+
+    player_send.id = player.id;
+    player_send.name = player.name;
+    player_send.position = player.position;
+    player_send.team = player.team;
+    player_send.hasFlag = player.hasFlag;
+
+    player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(player_send));
 
     //TODO: broadcast to every other player new position/coordinates of current player
 

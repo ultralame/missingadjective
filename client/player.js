@@ -18,7 +18,14 @@ Player.prototype.draw = function(){
   this.canvasContext.fillStyle = this.color;
   this.canvasContext.fill();
   this.canvasContext.lineWidth = 2;
-  this.canvasContext.strokeStyle = '#000';
+
+  if (this.team === 0){
+    this.canvasContext.strokeStyle = 'rgb(0,0,200)';
+  }
+  else {
+    this.canvasContext.strokeStyle = 'rgb(255,0,0)';
+  }
+
   this.canvasContext.stroke();
 };
 

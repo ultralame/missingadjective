@@ -29,10 +29,11 @@ var collisionDetection = function(collided, direction, posOrNeg){
       console.log('we collided')
       collided = true;
     }
-  };
+  }
 
   if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
-    player.move(player.position); //check to see if redundant;
+    player.move(player.position); // check to see if redundant;
+    socket.emit('updatePosition', JSON.stringify(player.position));
     collisionContainer.flagDetection(player, flag);
   } else {
     player.position[direction] += move * posOrNeg * -1;
