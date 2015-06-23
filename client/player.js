@@ -1,4 +1,4 @@
-var Player = function(username, id, position, canvas, teamId) {
+var Player = function(username, id, position, canvas, teamId, flag) {
   this.username = username;
   this.id = id;
   this.position = {x: position.x, y: position.y};
@@ -7,7 +7,7 @@ var Player = function(username, id, position, canvas, teamId) {
   this.color = "rgb(100,255,100)";
   this.team = teamId;
   this.radius = 10;
-  this.hasFlag = false;
+  this.hasFlag = flag;
 };
 
 Player.prototype.draw = function(){
@@ -18,7 +18,14 @@ Player.prototype.draw = function(){
   this.canvasContext.fillStyle = this.color;
   this.canvasContext.fill();
   this.canvasContext.lineWidth = 2;
-  this.canvasContext.strokeStyle = '#000';
+
+  if (this.team === 0){
+    this.canvasContext.strokeStyle = 'rgb(0,0,200)';
+  }
+  else {
+    this.canvasContext.strokeStyle = 'rgb(255,0,0)';
+  }
+
   this.canvasContext.stroke();
 };
 

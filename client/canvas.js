@@ -9,33 +9,31 @@ var minHeight = 0;
 // var currentBotRight = 100;
 var move = 5;
 
-var startPosition = {
-  x: 100,
-  y: 100,
-};
-
-var player = new Player("Dude", 1, startPosition, ctx, 1);
-var enemy = new Enemy("Bad Guy", 2, {x:400, y:300}, ctx, 2);
-var playerContainer = [ enemy ];
+// var player = new Player("Dude", 1, startPosition, ctx, 1);
+// var enemy = new Enemy("Bad Guy", 2, {x:200, y:100}, ctx, 2);
+var playerContainer = {};
 // var gravity = 1;
-var flag = new Flag(50, 50, ctx);
-var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
-var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
+
+//var flag = new Flag(50, 50, ctx);
+// var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
+// var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
 var collisionContainer = Collisions;
 // flag.capturedByPlayer(player);
 
 var collisionDetection = function(collided, direction, posOrNeg){
   player.position[direction] += move * posOrNeg;
 
-  playerContainer.forEach(function(otherPlayer){
+  for(playerId in playerContainer) {
+    var otherPlayer = playerContainer[playerId];
     if(collisionContainer.playerDetection(player, otherPlayer)){
       console.log('we collided')
       collided = true;
     }
-  });
+  }
 
   if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
-    player.move(player.position); //check to see if redundant;
+    player.move(player.position); // check to see if redundant;
+    socket.emit('updatePosition', JSON.stringify(player.position), JSON.stringify(player.hasFlag));
     collisionContainer.flagDetection(player, flag);
   } else {
     player.position[direction] += move * posOrNeg * -1;
@@ -75,14 +73,14 @@ var draw = function(){
   flag.draw();
   base1.draw();
   base2.draw();
-  enemy.draw();
+  for(playerId in playerContainer) {
+    playerContainer[playerId].draw();
+  }
 };
 
 var render = function(){
   update();
   draw();
- 
+
   requestAnimationFrame(render);
 };
-
-render();

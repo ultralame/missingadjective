@@ -1,7 +1,7 @@
 //server.js
 
 
-var express = require('express')
+var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
@@ -22,7 +22,7 @@ var gameLogic = require('./gameLogic.js');
 //have the game logic module handle the game logic
 io.on('connection', function(socket) {
 
-  gameLogic(socket);
+  gameLogic(io, socket);
 
 });
 
