@@ -8,16 +8,23 @@ while(username === '') {
 
 socket.emit('join', username);
 
-var player;
+var player, flag, base1, base2;
+
+socket.on('getEnvironment', function(data){
+  var envData = JSON.parse(data);
+  flag = new Flag(envData.flag, ctx);
+  base1 = new Base(envData.base1, ctx, 0);
+  base2 = new Base(envData.base2, ctx, 1);
+});
 
 socket.on('createPlayer', function(data) {
   var playerData = JSON.parse(data);
   console.log(playerData);
   player = new Player(playerData.name, playerData.id, playerData.position, ctx, playerData.team, playerData.hasFlag);
-
   render();
-
 });
+
+
 
 socket.on('newPlayer', function(data){
   var newPlayer = JSON.parse(data);

@@ -27,9 +27,9 @@ PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300}; //and these are the coordina
 //object that stores default coordinates for objects in the game environment
 var OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : 5, y : 5}; //for example, these are the coordinates for the flag
-OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : 2, y : 5}; //these are the coordinates for base 1
-OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : 10, y : 5}; //these are the coordinates for base 2
+OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : 400, y : 300}; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : 150, y : 300, r : 50}; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : 650, y : 300, r: 50}; //these are the coordinates for base 2
 
 
 //an object that will hold the updating properties associated to each game room
@@ -68,6 +68,12 @@ var initRoom = function(roomId) {
 
   //put the flag in the default starting position
   roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];
+
+  //put the flag in the default starting position
+  roomProperties[roomId].base1 = OBJECT_DEFAULT_COORDINATES['BASE1'];
+
+    //put the flag in the default starting position
+  roomProperties[roomId].base2 = OBJECT_DEFAULT_COORDINATES['BASE2'];
 
   //the team that has the flag; -1 means that no team has the flag
   roomProperties[roomId].teamWithFlag = -1;
@@ -250,6 +256,16 @@ var gameLogic = module.exports = function(io, player) {
     //assign the player to the correct room
     matchMaker(player);
 
+
+    var environment = {};
+
+    environment.flag = roomProperties[player.room].flag;
+    environment.base1 = roomProperties[player.room].base1;
+    environment.base2 = roomProperties[player.room].base2;
+
+    player.emit('getEnvironment', JSON.stringify(environment));
+
+
     var player_send = {};
 
     player_send.id = player.id;
@@ -279,7 +295,6 @@ var gameLogic = module.exports = function(io, player) {
 
       player.emit('newPlayer', JSON.stringify(player_send));
     }
-
 
   });
 

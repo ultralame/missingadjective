@@ -1,5 +1,5 @@
-var Flag = function(x, y, ctx){
-  this.position = {x: x, y: y};
+var Flag = function(position, ctx){
+  this.position = {x: position.x, y: position.y};
   this.radius = 2;
   this.player = null;
   this.ctx = ctx;
