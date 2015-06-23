@@ -1,4 +1,4 @@
-var Player = function(username, id, position, canvas, teamId) {
+var Player = function(username, id, position, canvas, teamId, flag) {
   this.username = username;
   this.id = id;
   this.position = {x: position.x, y: position.y};
@@ -7,7 +7,7 @@ var Player = function(username, id, position, canvas, teamId) {
   this.color = "rgb(100,255,100)";
   this.team = teamId;
   this.radius = 10;
-  this.hasFlag = false;
+  this.hasFlag = flag;
 };
 
 Player.prototype.draw = function(){

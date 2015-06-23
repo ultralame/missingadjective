@@ -20,16 +20,16 @@ var TEAM_SIZE = MAX_ROOM_SIZE / NUM_TEAMS; //the maximum team size will be the s
 //object that stores default coordinates for players
 var PLAYER_DEFAULT_COORDINATES = {};
 //object key/index is the team number
-PLAYER_DEFAULT_COORDINATES[0] = [2, 10]; //for example, these are the coordinates for team 0
-PLAYER_DEFAULT_COORDINATES[1] = [10, 2]; //and these are the coordinates for team 1
+PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100}; //for example, these are the coordinates for team 0
+PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300}; //and these are the coordinates for team 1
 
 
 //object that stores default coordinates for objects in the game environment
 var OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-OBJECT_DEFAULT_COORDINATES['FLAG'] = [5, 5]; //for example, these are the coordinates for the flag
-OBJECT_DEFAULT_COORDINATES['BASE1'] = [2, 5]; //these are the coordinates for base 1
-OBJECT_DEFAULT_COORDINATES['BASE2'] = [10, 5]; //these are the coordinates for base 2
+OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : 5, y : 5}; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : 2, y : 5}; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : 10, y : 5}; //these are the coordinates for base 2
 
 
 //an object that will hold the updating properties associated to each game room
@@ -84,10 +84,10 @@ var resetRoom = function(roomId) {
   }
 
   //reset flag position
-  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];  
+  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];
 
   //reset team with flag; -1 means that no team has the flag
-  roomProperties[roomId].teamWithFlag = -1;  
+  roomProperties[roomId].teamWithFlag = -1;
 
   //reset player positions
   //reset players to not have the flag
@@ -108,7 +108,7 @@ var joinRoom = function(player) {
   //have player join the room
   player.join(player.room);
 
-  //keep track of every player in the room by putting the player into the players property of the room 
+  //keep track of every player in the room by putting the player into the players property of the room
   //the key for each player is the player object itself
   roomProperties[player.room].players[player] = player;
 
@@ -133,7 +133,7 @@ var joinRoom = function(player) {
   //TODO: broadcast name, coords, and team number to everyone else in room
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
-  console.log('Starting position: ' + player.coordinates + '.');
+  console.log('Starting position: ', player.coordinates, '.');
 };
 
 
@@ -146,7 +146,7 @@ var leaveRoom = function(player) {
   delete roomProperties[player.room].players[player];
 
   //decrement the number of players in the room
-  roomProperties[player.room].numPlayers--;    
+  roomProperties[player.room].numPlayers--;
 
   //put the disconnected player into the queue to see what room now has an open slot
   disconnectedPlayerQ.enqueue(player);
@@ -241,15 +241,24 @@ var checkEvents = function(player) {
 
 
 //the player is the passed in socket/client
-var gameLogic = module.exports = function(player) {
+var gameLogic = module.exports = function(io, player) {
 
   //handle player join
   player.on('join', function(name) {
 
     player.name = name;
 
-    //assign the player to the correct room 
+    //assign the player to the correct room
     matchMaker(player);
+
+    var player_send = {};
+
+    player_send.id = player.id;
+    player_send.coordinates = player.coordinates;
+    player_send.team = player.team;
+    player_send.hasFlag = player.hasFlag;
+
+    player.emit('createPlayer', JSON.stringify(player_send));
 
   });
 
@@ -269,7 +278,7 @@ var gameLogic = module.exports = function(player) {
   });
 
 
-  //update player position 
+  //update player position
   player.on('updatePosition', function(coordinates) {
     player.coordinates = coordinates;
 

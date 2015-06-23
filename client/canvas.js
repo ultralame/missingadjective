@@ -9,15 +9,11 @@ var minHeight = 0;
 // var currentBotRight = 100;
 var move = 5;
 
-var startPosition = {
-  x: 100,
-  y: 100,
-};
-
-var player = new Player("Dude", 1, startPosition, ctx, 1);
+// var player = new Player("Dude", 1, startPosition, ctx, 1);
 var enemy = new Enemy("Bad Guy", 2, {x:400, y:300}, ctx, 2);
 var playerContainer = [ enemy ];
 // var gravity = 1;
+
 var flag = new Flag(50, 50, ctx);
 var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
 var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
@@ -81,8 +77,6 @@ var draw = function(){
 var render = function(){
   update();
   draw();
- 
+
   requestAnimationFrame(render);
 };
-
-render();
