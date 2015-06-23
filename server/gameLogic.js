@@ -30,16 +30,16 @@ var PLAYER_RADIUS = 10;
 //object that stores default coordinates for players
 //var PLAYER_DEFAULT_COORDINATES = {};
 //object key/index is the team number
-//PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100, r : PLAYER_RADIUS}; //for example, these are the coordinates for team 0
-//PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300, r : PLAYER_RADIUS}; //and these are the coordinates for team 1
+//PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100, radius : PLAYER_RADIUS}; //for example, these are the coordinates for team 0
+//PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300, radius : PLAYER_RADIUS}; //and these are the coordinates for team 1
 
 
 //object that stores default coordinates for objects in the game environment
 var OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : LENGTH_X / 2, y : LENGTH_Y / 2 , r : FLAG_RADIUS}; //for example, these are the coordinates for the flag
-OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : BASE_OFFSET_X, y : LENGTH_Y / 2, r : BASE_RADIUS}; //these are the coordinates for base 1
-OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : LENGTH_X - BASE_OFFSET_X, y : LENGTH_Y / 2, r : BASE_RADIUS}; //these are the coordinates for base 2
+OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : LENGTH_X / 2, y : LENGTH_Y / 2 , radius : FLAG_RADIUS}; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : BASE_OFFSET_X, y : LENGTH_Y / 2, radius : BASE_RADIUS}; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : LENGTH_X - BASE_OFFSET_X, y : LENGTH_Y / 2, radius : BASE_RADIUS}; //these are the coordinates for base 2
 
 
 
@@ -107,11 +107,11 @@ var getLocation = function(room, side) {
     range_y = LENGTH_Y - 2 * BASE_RADIUS; 
   }
   
-  var position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , r: PLAYER_RADIUS };
+  var position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , radius : PLAYER_RADIUS };
   //keep trying to get a new random position if the selected position is invalid
   while(validPosition(room, position) === false)
   {
-    position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , r: PLAYER_RADIUS };
+    position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , radius : PLAYER_RADIUS };
   }
 
   return position;
