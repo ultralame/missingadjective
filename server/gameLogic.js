@@ -259,6 +259,7 @@ var gameLogic = module.exports = function(io, player) {
     player_send.hasFlag = player.hasFlag;
 
     player.emit('createPlayer', JSON.stringify(player_send));
+    player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(player_send));
 
   });
 

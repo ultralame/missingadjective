@@ -10,7 +10,7 @@ var minHeight = 0;
 var move = 5;
 
 // var player = new Player("Dude", 1, startPosition, ctx, 1);
-var enemy = new Enemy("Bad Guy", 2, {x:400, y:300}, ctx, 2);
+var enemy = new Enemy("Bad Guy", 2, {x:200, y:100}, ctx, 2);
 var playerContainer = [ enemy ];
 // var gravity = 1;
 
