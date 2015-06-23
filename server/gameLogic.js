@@ -4,7 +4,7 @@
 
 // Helper Functions
 var helpers = require('./helpers.js');
-
+var Collisions = require('./collisions.js');
 
 
 //variable(s) to keep track of rooms
