@@ -17,24 +17,113 @@ var NUM_TEAMS = 2; //the number of teams
 var TEAM_SIZE = MAX_ROOM_SIZE / NUM_TEAMS; //the maximum team size will be the size of the room divided by the number of teams
 
 
+
+var LENGTH_X = 800;
+var LENGTH_Y = 600;
+var BASE_OFFSET_X = 150;
+var BASE_RADIUS = 50;
+
+var FLAG_RADIUS = 2;
+var PLAYER_RADIUS = 10;
+
+
 //object that stores default coordinates for players
-var PLAYER_DEFAULT_COORDINATES = {};
+//var PLAYER_DEFAULT_COORDINATES = {};
 //object key/index is the team number
-PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100}; //for example, these are the coordinates for team 0
-PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300}; //and these are the coordinates for team 1
+//PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100, r : PLAYER_RADIUS}; //for example, these are the coordinates for team 0
+//PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300, r : PLAYER_RADIUS}; //and these are the coordinates for team 1
 
 
 //object that stores default coordinates for objects in the game environment
 var OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : 400, y : 300}; //for example, these are the coordinates for the flag
-OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : 150, y : 300, r : 50}; //these are the coordinates for base 1
-OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : 650, y : 300, r: 50}; //these are the coordinates for base 2
+OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : LENGTH_X / 2, y : LENGTH_Y / 2 , r : FLAG_RADIUS}; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : BASE_OFFSET_X, y : LENGTH_Y / 2, r : BASE_RADIUS}; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : LENGTH_X - BASE_OFFSET_X, y : LENGTH_Y / 2, r : BASE_RADIUS}; //these are the coordinates for base 2
+
+
 
 
 //an object that will hold the updating properties associated to each game room
 //the key is the roomId
 var roomProperties = {};
+
+
+
+
+//valid position function will check if the position is valid (ie. no collision)
+var validPosition = function(room, position) {
+
+  //mark valid to false if there is a collision with another object
+
+  //check against the flag
+  if(Collisions.collisionDetection(position, roomProperties[room].flag) === true) {
+    return false;
+  }
+
+  //check against all other players in the room
+  var playersInRoom = roomProperties[room].players;
+  for(var playerId in playersInRoom) {
+
+    if(playersInRoom[playerId].position === undefined) {
+      continue;
+    }
+
+    if(Collisions.collisionDetection(position, playersInRoom[playerId].position) === true) {
+      return false;
+    }
+
+  }
+
+  return true; //no collisions detected so return true
+};
+
+
+var getLocation = function(room, side) {
+
+  var offset_x;
+  var offset_y;  
+  var range_x;
+  var range_y;
+  //side = 0 only spawns in left half
+  if(side === 0) {
+    offset_x = BASE_RADIUS;
+    offset_y = BASE_RADIUS;    
+    range_x = LENGTH_X / 2 - 2 * BASE_RADIUS;
+    range_y = LENGTH_Y - 2 * BASE_RADIUS;    
+  }
+  //side = 1 only spawns in right half
+  else if(side === 1) {
+    offset_x = LENGTH_X / 2 + BASE_RADIUS;
+    offset_y = BASE_RADIUS;
+    range_x = LENGTH_X / 2 - 2 * BASE_RADIUS;
+    range_y = LENGTH_Y - 2 * BASE_RADIUS; 
+  }
+  //side = anything else spawns in either side
+  else {
+    offset_x = BASE_RADIUS;
+    offset_y = BASE_RADIUS;
+    range_x =  LENGTH_X - 2 * BASE_RADIUS;
+    range_y = LENGTH_Y - 2 * BASE_RADIUS; 
+  }
+  
+  var position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , r: PLAYER_RADIUS };
+  //keep trying to get a new random position if the selected position is invalid
+  while(validPosition(room, position) === false)
+  {
+    position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , r: PLAYER_RADIUS };
+  }
+
+  return position;
+
+};
+
+
+
+
+
+
+
 
 
 //a queue that holds the players that leave
@@ -134,8 +223,8 @@ var joinRoom = function(player) {
   player.hasFlag = false;
 
   //put the player in the correct starting location
-  player.position = PLAYER_DEFAULT_COORDINATES[player.team];
-  //TODO: broadcast name, coords, and team number to everyone else in room
+  //player.position = PLAYER_DEFAULT_COORDINATES[player.team];
+  player.position = getLocation(player.room, player.team);
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
   console.log('Starting position: ', player.position, '.');
@@ -245,8 +334,37 @@ var checkEvents = function(player) {
 
 
 
+var createSendPlayerObj = function(player) {
+  var playerToSend = {};
+
+  playerToSend.id = player.id;
+  playerToSend.name = player.name;
+  playerToSend.position = player.position;
+  playerToSend.team = player.team;
+  playerToSend.hasFlag = player.hasFlag;
+
+  return playerToSend;
+};
+
+
+var createSendEnvironmentObj = function(room) {
+  var environment = {};
+
+  environment.flag = room.flag;
+  environment.base1 = room.base1;
+  environment.base2 = room.base2;
+
+  return environment;
+};
+
+
+
+
 //the player is the passed in socket/client
 var gameLogic = module.exports = function(io, player) {
+
+  var playerToSend;
+  var environment;
 
   //handle player join
   player.on('join', function(name) {
@@ -257,25 +375,14 @@ var gameLogic = module.exports = function(io, player) {
     matchMaker(player);
 
 
-    var environment = {};
-
-    environment.flag = roomProperties[player.room].flag;
-    environment.base1 = roomProperties[player.room].base1;
-    environment.base2 = roomProperties[player.room].base2;
-
+    environment = createSendEnvironmentObj(roomProperties[player.room]);
     player.emit('getEnvironment', JSON.stringify(environment));
 
 
-    var player_send = {};
+    playerToSend = createSendPlayerObj(player);
+    player.emit('createPlayer', JSON.stringify(playerToSend));
+    player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(playerToSend));
 
-    player_send.id = player.id;
-    player_send.name = player.name;
-    player_send.position = player.position;
-    player_send.team = player.team;
-    player_send.hasFlag = player.hasFlag;
-
-    player.emit('createPlayer', JSON.stringify(player_send));
-    player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(player_send));
 
     var playersInRoom = roomProperties[player.room].players;
 
@@ -285,15 +392,8 @@ var gameLogic = module.exports = function(io, player) {
         continue;
       }
 
-      player_send = {};
-
-      player_send.id = playersInRoom[playerId].id;
-      player_send.name = playersInRoom[playerId].name;
-      player_send.position = playersInRoom[playerId].position;
-      player_send.team = playersInRoom[playerId].team;
-      player_send.hasFlag = playersInRoom[playerId].hasFlag;
-
-      player.emit('newPlayer', JSON.stringify(player_send));
+      playerToSend = createSendPlayerObj(playersInRoom[playerId]);
+      player.emit('newPlayer', JSON.stringify(playerToSend));
     }
 
   });
@@ -325,17 +425,10 @@ var gameLogic = module.exports = function(io, player) {
       player.broadcast.to(player.room).emit('broadcastFlagPosition', JSON.stringify(roomProperties[player.room].flag));
     }
 
-    player_send = {};
 
-    player_send.id = player.id;
-    player_send.name = player.name;
-    player_send.position = player.position;
-    player_send.team = player.team;
-    player_send.hasFlag = player.hasFlag;
+    playerToSend = createSendPlayerObj(player);
+    player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(playerToSend));
 
-    player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(player_send));
-
-    //TODO: broadcast to every other player new position/coordinates of current player
 
     //check for events based on new player position
     checkEvents(player);
