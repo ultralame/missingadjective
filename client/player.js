@@ -1,11 +1,11 @@
-var Player = function(username, id, position, canvasContext, teamId, flag) {
+var Player = function(username, id, position, canvasContext, teamId, flag, radius) {
   this.username = username;
   this.id = id;
   this.position = {x: position.x, y: position.y};
   this.canvasContext = canvasContext;
   this.color = "rgb(100,255,100)";
   this.team = teamId;
-  this.radius = 10;
+  this.radius = radius || 10;
   this.hasFlag = flag;
 };
 

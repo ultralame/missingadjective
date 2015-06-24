@@ -1,4 +1,4 @@
-var Team = function(username, id, position, canvasContext, teamId) {
+var Team = function(username, id, position, canvasContext, teamId, radius) {
   Player.apply(this, arguments);
   this.team = teamId;
   if(this.team === 0) {

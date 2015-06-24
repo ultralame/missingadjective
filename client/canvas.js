@@ -11,12 +11,23 @@ var collisionDetection = function(collided, direction, posOrNeg){
 
   if (Collisions.windowDetection(envVariables.player.position[direction], direction) && !collided) {
     envVariables.player.move(envVariables.player.position); // check to see if redundant;
-    socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag));
+
     Collisions.flagDetection(envVariables.player, envVariables.flag);
-  } else {
+
+    if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) {
+      // socket.emit('updateScore');
+      envVariables['scoreTeam' + envVariables.player.team] += 1;
+      // console log the score
+      console.log(envVariables['scoreTeam' + envVariables.player.team])
+    }
+
+    socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag));
+  }
+  else {
     envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg * -1;
     collided = false;
   }
+
 };
 
 var update = function(){
@@ -43,8 +54,8 @@ var draw = function(){
   canvasContext.clearRect(windowVariables.minWidth, windowVariables.minHeight, windowVariables.maxWidth, windowVariables.maxHeight);
   envVariables.player.draw();
   envVariables.flag.draw();
+  envVariables.base0.draw();
   envVariables.base1.draw();
-  envVariables.base2.draw();
   for(playerId in envVariables.playerContainer) {
     envVariables.playerContainer[playerId].draw();
   }

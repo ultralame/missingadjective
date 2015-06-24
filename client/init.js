@@ -1,9 +1,11 @@
 var envVariables = {
   player: null,
   flag: null,
+  base0: null,
   base1: null,
-  base2: null,
   moveSpeed: 5,
+  scoreTeam0: 0,
+  scoreTeam1: 0,
   playerContainer: {}
 };
 
@@ -22,9 +24,12 @@ var Collisions = {};
 
 var socket = io();
 
+
 /*
-To do list for changes:
-move = moveSpeed
-ctx = canvasContext
-collisionContainer = Collisions
+To do:
+
+Remove all canvasContext paramaters for classes and objects since it is
+now global
+
+Move client files to folders
 */

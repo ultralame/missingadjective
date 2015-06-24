@@ -1,6 +1,6 @@
-var Flag = function(position, canvasContext){
+var Flag = function(position, canvasContext, radius){
   this.position = {x: position.x, y: position.y};
-  this.radius = 2;
+  this.radius = radius || 2;
   this.player = null;
   this.canvasContext = canvasContext;
   this.poleColor = "black";
