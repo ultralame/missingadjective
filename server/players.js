@@ -2,73 +2,7 @@
 
 
 var Defaults = require('./defaults.js');
-var Collisions = require('./collisions.js');
-
-
-//valid position function will check if the position is valid (ie. no collision)
-var validPosition = function(player, roomProperties) {
-
-  //mark valid to false if there is a collision with another object
-
-  //check against the flag
-  if(Collisions.collisionDetection(player, roomProperties[player.room].flag) === true) {
-    return false;
-  }
-
-  //check against all other players in the room
-  var playersInRoom = roomProperties[player.room].players;
-  for(var playerId in playersInRoom) {
-
-    if(player.id === playersInRoom[playerId].id || playersInRoom[playerId].position === undefined) {
-      continue;
-    }
-
-    if(Collisions.collisionDetection(player, playersInRoom[playerId]) === true) {
-      return false;
-    }
-
-  }
-
-  return true; //no collisions detected so return true
-};
-
-
-var getLocation = function(player, roomProperties) {
-
-  var offset_x;
-  var offset_y;  
-  var range_x;
-  var range_y;
-  //team = 0 only spawns in left half
-  if(player.team === 0) {
-    offset_x = Defaults.BASE_RADIUS;
-    offset_y = Defaults.BASE_RADIUS;    
-    range_x = Defaults.LENGTH_X / 2 - 2 * Defaults.BASE_RADIUS;
-    range_y = Defaults.LENGTH_Y - 2 * Defaults.BASE_RADIUS;    
-  }
-  //team = 1 only spawns in right half
-  else if(player.team === 1) {
-    offset_x = Defaults.LENGTH_X / 2 + Defaults.BASE_RADIUS;
-    offset_y = Defaults.BASE_RADIUS;
-    range_x = Defaults.LENGTH_X / 2 - 2 * Defaults.BASE_RADIUS;
-    range_y = Defaults.LENGTH_Y - 2 * Defaults.BASE_RADIUS; 
-  }
-  //team = anything else spawns in either side
-  else {
-    offset_x = Defaults.BASE_RADIUS;
-    offset_y = Defaults.BASE_RADIUS;
-    range_x =  Defaults.LENGTH_X - 2 * Defaults.BASE_RADIUS;
-    range_y = Defaults.LENGTH_Y - 2 * Defaults.BASE_RADIUS; 
-  }
-  
-  player.position = {x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y};
-  //keep trying to get a new random position if the selected position is invalid
-  while(validPosition(player, roomProperties) === false)
-  {
-    player.position = {x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y};
-  }
-
-};
+var Reposition = require('./reposition.js');
 
 
 //function to put a player in a room
@@ -85,14 +19,21 @@ module.exports.joinRoom = function(player, roomProperties) {
   roomProperties[player.room].numPlayers++;
 
   //put the player on the appropriate team
-  if(player.hasOwnProperty('team') === false) {
-    //alternate putting players on different teams
-    player.team = roomProperties[player.room].teamToJoin;
-    roomProperties[player.room].teamToJoin++;
-    if(roomProperties[player.room].teamToJoin === Defaults.NUM_TEAMS) {
-      roomProperties[player.room].teamToJoin = 0;
+  //choose the team with the least number of players
+  //or the first team that shares the least number of players
+  var minPlayers = Infinity;
+  var minPlayersTeamId = 0;
+  for(var teamId in roomProperties[player.room].teamNumPlayers)
+  {
+    if(roomProperties[player.room].teamNumPlayers[teamId] < minPlayers) {
+      minPlayers = roomProperties[player.room].teamNumPlayers[teamId];
+      minPlayersTeamId = parseInt(teamId);
     }
   }
+  player.team = minPlayersTeamId;
+
+  //increment the number of players for the given team
+  roomProperties[player.room].teamNumPlayers[player.team]++;
 
   //initialize the player to not have the flag
   player.hasFlag = false;
@@ -101,7 +42,7 @@ module.exports.joinRoom = function(player, roomProperties) {
 
   //put the player in the correct starting location
   //player.position = PLAYER_DEFAULT_COORDINATES[player.team];
-  getLocation(player, roomProperties);
+  Reposition.getLocation(player, roomProperties);
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
   console.log('Starting position: ', player.position, '.');
@@ -109,7 +50,7 @@ module.exports.joinRoom = function(player, roomProperties) {
 
 
 //function to remove a player from a room
-module.exports.leaveRoom = function(player, roomProperties, disconnectedPlayerQ) {
+module.exports.leaveRoom = function(player, roomProperties) {
   //have player leave the room
   player.leave(player.room);
 
@@ -119,8 +60,8 @@ module.exports.leaveRoom = function(player, roomProperties, disconnectedPlayerQ)
   //decrement the number of players in the room
   roomProperties[player.room].numPlayers--;
 
-  //put the disconnected player into the queue to see what room now has an open slot
-  disconnectedPlayerQ.enqueue(player);
+  //decrement the number of players on the team
+  roomProperties[player.room].teamNumPlayers[player.team]--;
 
   console.log(player.name + ' has left team ' + player.team + ' from room ' + player.room + '.');
 };
