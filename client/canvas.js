@@ -16,7 +16,7 @@ var collisionDetection = function(collided, direction, posOrNeg){
 
       envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
       envVariables.flag.drop(); // drop the flag   
-      
+      //adding comment for no reason
       socket.emit('playerScores');
     }
 
