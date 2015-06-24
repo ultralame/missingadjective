@@ -67,3 +67,17 @@ socket.on('updateScoreFlag', function(data) {
   console.log(envVariables.score);
 
 });
+
+socket.on('winReset', function(data){
+  var resetData = JSON.parse(data);
+
+  var winningTeam = resetData.winningTeamId;
+
+  envVariables.flag.position = resetData.flag.position;
+  envVariables.score = resetData.teamScores;
+
+  for(player in resetData.players) {
+    envVariables.playerContainer[player].position = resetData.players[player].position;
+  }
+
+})
