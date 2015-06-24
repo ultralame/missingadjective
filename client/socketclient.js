@@ -69,6 +69,7 @@ socket.on('updateScoreFlag', function(data) {
 });
 
 socket.on('winReset', function(data){
+  console.log('win reset data:', data);
   var resetData = JSON.parse(data);
 
   var winningTeam = resetData.winningTeamId;
