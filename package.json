@@ -1,11 +1,13 @@
 {
   "name": "MissingAdjective",
   "version": "0.0.1",
+  "main": "index.js",
   "engines": {
     "node": "~0.12.4"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "bower install"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
