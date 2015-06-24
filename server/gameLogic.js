@@ -30,16 +30,16 @@ var PLAYER_RADIUS = 10;
 //object that stores default coordinates for players
 //var PLAYER_DEFAULT_COORDINATES = {};
 //object key/index is the team number
-//PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100, radius : PLAYER_RADIUS}; //for example, these are the coordinates for team 0
-//PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300, radius : PLAYER_RADIUS}; //and these are the coordinates for team 1
+//PLAYER_DEFAULT_COORDINATES[0] = {x : 100, y : 100}; //for example, these are the coordinates for team 0
+//PLAYER_DEFAULT_COORDINATES[1] = {x : 400, y : 300}; //and these are the coordinates for team 1
 
 
 //object that stores default coordinates for objects in the game environment
 var OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : LENGTH_X / 2, y : LENGTH_Y / 2 , radius : FLAG_RADIUS}; //for example, these are the coordinates for the flag
-OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : BASE_OFFSET_X, y : LENGTH_Y / 2, radius : BASE_RADIUS}; //these are the coordinates for base 1
-OBJECT_DEFAULT_COORDINATES['BASE2'] = {x : LENGTH_X - BASE_OFFSET_X, y : LENGTH_Y / 2, radius : BASE_RADIUS}; //these are the coordinates for base 2
+OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : LENGTH_X / 2, y : LENGTH_Y / 2}; //for example, these are the coordinates for the flag
+OBJECT_DEFAULT_COORDINATES['BASE0'] = {x : BASE_OFFSET_X, y : LENGTH_Y / 2}; //these are the coordinates for base 1
+OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : LENGTH_X - BASE_OFFSET_X, y : LENGTH_Y / 2}; //these are the coordinates for base 2
 
 
 
@@ -52,24 +52,24 @@ var roomProperties = {};
 
 
 //valid position function will check if the position is valid (ie. no collision)
-var validPosition = function(room, position) {
+var validPosition = function(player) {
 
   //mark valid to false if there is a collision with another object
 
   //check against the flag
-  if(Collisions.collisionDetection(position, roomProperties[room].flag) === true) {
+  if(Collisions.collisionDetection(player, roomProperties[player.room].flag) === true) {
     return false;
   }
 
   //check against all other players in the room
-  var playersInRoom = roomProperties[room].players;
+  var playersInRoom = roomProperties[player.room].players;
   for(var playerId in playersInRoom) {
 
-    if(playersInRoom[playerId].position === undefined) {
+    if(player.id === playersInRoom[playerId].id || playersInRoom[playerId].position === undefined) {
       continue;
     }
 
-    if(Collisions.collisionDetection(position, playersInRoom[playerId].position) === true) {
+    if(Collisions.collisionDetection(player, playersInRoom[playerId]) === true) {
       return false;
     }
 
@@ -79,27 +79,27 @@ var validPosition = function(room, position) {
 };
 
 
-var getLocation = function(room, side) {
+var getLocation = function(player) {
 
   var offset_x;
   var offset_y;  
   var range_x;
   var range_y;
-  //side = 0 only spawns in left half
-  if(side === 0) {
+  //team = 0 only spawns in left half
+  if(player.team === 0) {
     offset_x = BASE_RADIUS;
     offset_y = BASE_RADIUS;    
     range_x = LENGTH_X / 2 - 2 * BASE_RADIUS;
     range_y = LENGTH_Y - 2 * BASE_RADIUS;    
   }
-  //side = 1 only spawns in right half
-  else if(side === 1) {
+  //team = 1 only spawns in right half
+  else if(player.team === 1) {
     offset_x = LENGTH_X / 2 + BASE_RADIUS;
     offset_y = BASE_RADIUS;
     range_x = LENGTH_X / 2 - 2 * BASE_RADIUS;
     range_y = LENGTH_Y - 2 * BASE_RADIUS; 
   }
-  //side = anything else spawns in either side
+  //team = anything else spawns in either side
   else {
     offset_x = BASE_RADIUS;
     offset_y = BASE_RADIUS;
@@ -107,14 +107,12 @@ var getLocation = function(room, side) {
     range_y = LENGTH_Y - 2 * BASE_RADIUS; 
   }
   
-  var position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , radius : PLAYER_RADIUS };
+  player.position = {x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y};
   //keep trying to get a new random position if the selected position is invalid
-  while(validPosition(room, position) === false)
+  while(validPosition(player) === false)
   {
-    position = { x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y , radius : PLAYER_RADIUS };
+    player.position = {x : Math.random() * range_x + offset_x, y : Math.random() * range_y + offset_y};
   }
-
-  return position;
 
 };
 
@@ -156,13 +154,13 @@ var initRoom = function(roomId) {
   }
 
   //put the flag in the default starting position
-  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];
+  roomProperties[roomId].flag = {position : OBJECT_DEFAULT_COORDINATES['FLAG'], radius : FLAG_RADIUS};
 
   //put the flag in the default starting position
-  roomProperties[roomId].base1 = OBJECT_DEFAULT_COORDINATES['BASE1'];
+  roomProperties[roomId].base0 = {position : OBJECT_DEFAULT_COORDINATES['BASE0'], radius : BASE_RADIUS};
 
     //put the flag in the default starting position
-  roomProperties[roomId].base2 = OBJECT_DEFAULT_COORDINATES['BASE2'];
+  roomProperties[roomId].base1 = {position : OBJECT_DEFAULT_COORDINATES['BASE1'], radius : BASE_RADIUS};
 
   //the team that has the flag; -1 means that no team has the flag
   roomProperties[roomId].teamWithFlag = -1;
@@ -179,7 +177,7 @@ var resetRoom = function(roomId) {
   }
 
   //reset flag position
-  roomProperties[roomId].flag = OBJECT_DEFAULT_COORDINATES['FLAG'];
+  roomProperties[roomId].flag.position = OBJECT_DEFAULT_COORDINATES['FLAG'];
 
   //reset team with flag; -1 means that no team has the flag
   roomProperties[roomId].teamWithFlag = -1;
@@ -222,9 +220,11 @@ var joinRoom = function(player) {
   //initialize the player to not have the flag
   player.hasFlag = false;
 
+  player.radius = PLAYER_RADIUS;
+
   //put the player in the correct starting location
   //player.position = PLAYER_DEFAULT_COORDINATES[player.team];
-  player.position = getLocation(player.room, player.team);
+  getLocation(player);
 
   console.log(player.name + ' has joined team '  + player.team + ' in room ' + player.room + '.');
   console.log('Starting position: ', player.position, '.');
@@ -254,7 +254,7 @@ var leaveRoom = function(player) {
 //  there is no real matchmaking logic at the moment
 //  the function currently only assigns a player to the earliest created room with an open slot
 //  or makes a new room if no created room has an open slot
-var matchMaker = function(player) {
+var matchmaker = function(player) {
 
   //put player in correct room
   if(disconnectedPlayerQ.size() >= 1) { //if there is a room with an empty slot....
@@ -351,8 +351,8 @@ var createSendEnvironmentObj = function(room) {
   var environment = {};
 
   environment.flag = room.flag;
+  environment.base0 = room.base0;
   environment.base1 = room.base1;
-  environment.base2 = room.base2;
 
   return environment;
 };
@@ -372,7 +372,7 @@ var gameLogic = module.exports = function(io, player) {
     player.name = name;
 
     //assign the player to the correct room
-    matchMaker(player);
+    matchmaker(player);
 
 
     environment = createSendEnvironmentObj(roomProperties[player.room]);
@@ -408,6 +408,8 @@ var gameLogic = module.exports = function(io, player) {
 
       //have the player leave the room
       leaveRoom(player);
+
+      //TODO: broadcast disconnect
 
     }
 
