@@ -18,12 +18,10 @@ var checkForWin = function() {
 
 module.exports.updateScore = function(player, roomProperties) {
 
-  var room = roomProperties[player.room];
-
-  room.teamScores[player.team]++;
+  roomProperties[player.room].teamScores[player.team]++;
 
   //put the flag in the default starting position
-  room.flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['FLAG'], radius : Defaults.FLAG_RADIUS};
+  roomProperties[player.room].flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['FLAG'], radius : Defaults.FLAG_RADIUS};
 
   //check for win
 };
