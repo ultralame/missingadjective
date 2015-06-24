@@ -5,7 +5,7 @@ var defaults = module.exports = {};
 
 
 //"constant" properties that will apply to all rooms and shouldn't update
-defaults.MAX_ROOM_SIZE = 6; //the maximum number of players that a room can have
+defaults.MAX_ROOM_SIZE = 10; //the maximum number of players that a room can have
 defaults.NUM_TEAMS = 2; //the number of teams
 defaults.TEAM_SIZE = defaults.MAX_ROOM_SIZE / defaults.NUM_TEAMS; //the maximum team size will be the size of the room divided by the number of teams
 
@@ -35,6 +35,6 @@ defaults.OBJECT_DEFAULT_COORDINATES['BASE0'] = {x : defaults.BASE_OFFSET_X, y : 
 defaults.OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : defaults.LENGTH_X - defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 2
 
 
-//the score needed to win the game
-defaults.WIN_SCORE = 3;
+//the score needed to win the game; the first team to hit this score wins!
+defaults.WIN_SCORE = 10;
 

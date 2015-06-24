@@ -68,6 +68,11 @@ var gameLogic = module.exports = function(io, player) {
       //have the player leave the room
       Players.leaveRoom(player, roomProperties);
 
+      //delete the room if it is empty
+      if(roomProperties[player.room].numPlayers === 0) {
+        delete roomProperties[player.room];
+      }
+
       playerToSend = SendObject.createSendPlayerObj(player);
       player.broadcast.to(player.room).emit('broadcastPlayerDisconnect', JSON.stringify(playerToSend));
 
