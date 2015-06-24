@@ -17,7 +17,6 @@ socket.on('getEnvironment', function(data){
 
 socket.on('createPlayer', function(data) {
   var playerData = JSON.parse(data);
-  console.log(playerData);
   envVariables.player = new Player(playerData.name, playerData.id, playerData.position, canvasContext, playerData.team, playerData.hasFlag.position, playerData.radius);
   render();
 });
@@ -26,8 +25,6 @@ socket.on('createPlayer', function(data) {
 
 socket.on('newPlayer', function(data){
   var newPlayer = JSON.parse(data);
-  console.log(newPlayer);
-
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position, canvasContext, newPlayer.team, newPlayer.hasFlag, newPlayer.radius);
 });
 
@@ -63,13 +60,9 @@ socket.on('updateScoreFlag', function(data) {
 
 
   envVariables.flag.position = scoreFlagData.flag.position;
-
-  console.log(envVariables.score);
-
 });
 
 socket.on('winReset', function(data){
-  console.log('win reset data:', data);
   var resetData = JSON.parse(data);
 
   var winningTeam = resetData.winningTeamId;

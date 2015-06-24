@@ -4,14 +4,11 @@ var collisionDetection = function(collided, direction, posOrNeg){
   for(playerId in envVariables.playerContainer) {
     var otherPlayer = envVariables.playerContainer[playerId];
     if(Collisions.playerDetection(envVariables.player, otherPlayer)){
-      console.log('we collided');
       collided = true;
     }
   }
 
   if (Collisions.windowDetection(envVariables.player.position[direction], direction) && !collided) {
-    envVariables.player.move(envVariables.player.position); // check to see if redundant;
-
     Collisions.flagDetection(envVariables.player, envVariables.flag);
 
     if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) {
@@ -26,7 +23,7 @@ var collisionDetection = function(collided, direction, posOrNeg){
     socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag));
   }
   else {
-    envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg * -1;
+    envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg * -2;
     collided = false;
   }
 
