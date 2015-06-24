@@ -54,6 +54,11 @@ socket.on('broadcastPlayerDisconnect', function(data) {
   delete envVariables.playerContainer[disconnectedPlayerId];
 });
 
+socket.on('updateScoreFlag', function(data) {
+  var scoreFlagData = JSON.parse(data);
 
-// need a socket event listener for score updates
-
+  envVariables.player.score = false; // allows the player to score again
+  envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+  envVariables.score = scoreFlagData.teamScores; // update the scores in environment variables
+  envVariables.flag.drop(); // drop the flag
+});

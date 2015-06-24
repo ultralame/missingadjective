@@ -17,7 +17,6 @@ Flag.prototype.drop = function(){
   this.player = null;
   this.dropped = true;
   this.dropTimer();
-
 };
 
 Flag.prototype.dropTimer = function(){

@@ -15,10 +15,8 @@ var collisionDetection = function(collided, direction, posOrNeg){
     Collisions.flagDetection(envVariables.player, envVariables.flag);
 
     if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) {
-      // socket.emit('updateScore');
-      envVariables['scoreTeam' + envVariables.player.team] += 1;
-      // console log the score
-      console.log(envVariables['scoreTeam' + envVariables.player.team])
+      envVariables.player.score = true;
+      socket.emit('playerScores');
     }
 
     socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag));
