@@ -10,6 +10,7 @@ var Players = require('./players.js');
 var Matchmaker = require('./matchmaker.js');
 var Events = require('./events.js');
 var SendObject = require('./sendObject.js');
+var Score = require('./score.js');
 
 
 
@@ -76,7 +77,6 @@ var gameLogic = module.exports = function(io, player) {
 
       playerToSend = SendObject.createSendPlayerObj(player);
       player.broadcast.to(player.room).emit('broadcastPlayerDisconnect', JSON.stringify(playerToSend));
-      //TODO: broadcast disconnect
 
     }
 
@@ -98,9 +98,22 @@ var gameLogic = module.exports = function(io, player) {
     player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(playerToSend));
 
     //check for events based on new player position
-    Events.checkEvents(player, roomProperties);
+    //Events.checkEvents(player, roomProperties);
 
   });
+
+
+  //handle player scoring
+  player.on('playerScores', function() {
+
+    Score.updateScore(player, roomProperties);
+
+    var scoreAndFlagObject = {};
+    scoreAndFlagObject.teamScores = roomProperties[player.room].teamScores;
+    scoreAndFlagObject.flag = roomProperties[player.room].flag;
+    io.sockets.in(player.room).emit('updateScoreFlag', JSON.stringify(scoreAndFlagObject));
+
+  });  
 
 
 };
