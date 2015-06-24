@@ -43,5 +43,17 @@ socket.on('broadcastFlagPosition', function(data) {
   envVariables.flag.position = flagPosition.position;
 });
 
+socket.on('broadcastPlayerDisconnect', function(data) {
+  var disconnectedPlayer = JSON.parse(data);
+  var disconnectedPlayerId = disconnectedPlayer.id;
+
+  if(disconnectedPlayer.hasFlag) {
+    envVariables.flag.drop();
+  }
+
+  delete envVariables.playerContainer[disconnectedPlayerId];
+});
+
+
 // need a socket event listener for score updates
 

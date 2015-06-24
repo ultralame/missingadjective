@@ -74,6 +74,8 @@ var gameLogic = module.exports = function(io, player) {
       //have the player leave the room
       Players.leaveRoom(player, roomProperties, disconnectedPlayerQ);
 
+      playerToSend = SendObject.createSendPlayerObj(player);
+      player.broadcast.to(player.room).emit('broadcastPlayerDisconnect', JSON.stringify(playerToSend));
       //TODO: broadcast disconnect
 
     }
