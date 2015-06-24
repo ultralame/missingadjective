@@ -16,6 +16,10 @@ var collisionDetection = function(collided, direction, posOrNeg){
 
     if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) {
       envVariables.player.score = true;
+
+      envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+      envVariables.flag.drop(); // drop the flag   
+      
       socket.emit('playerScores');
     }
 

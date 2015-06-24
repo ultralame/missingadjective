@@ -12,6 +12,7 @@ var playerToPlayerContact = function(player, roomProperties) {
 
 var playerToFlagContact = function(player, roomProperties) {
 
+  //if contact, make player pick up flag
 };
 
 

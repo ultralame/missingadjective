@@ -21,11 +21,11 @@ module.exports.initRoom = function(roomId, roomProperties) {
 
   //an object that will keep track of the scores for the different teams
   //the key is the team number
-  roomProperties[roomId].teamScore = {};
+  roomProperties[roomId].teamScores = {};
 
   //initialize scores for each team to zero
   for(var i = 0; i < Defaults.NUM_TEAMS; ++i) {
-    roomProperties[roomId].teamScore[i] = 0;
+    roomProperties[roomId].teamScores[i] = 0;
   }
 
   //put the flag in the default starting position
@@ -47,9 +47,9 @@ module.exports.initRoom = function(roomId, roomProperties) {
 module.exports.resetRoom = function(roomId, roomProperties) {
 
   //reset the team scores
-  roomProperties[roomId].teamScore = {};
+  roomProperties[roomId].teamScores = {};
   for(var i = 0; i < Defaults.NUM_TEAMS; ++i) {
-    roomProperties[roomId].teamScore[i] = 0;
+    roomProperties[roomId].teamScores[i] = 0;
   }
 
   //reset flag position
@@ -63,7 +63,7 @@ module.exports.resetRoom = function(roomId, roomProperties) {
   var player;
   for(var playerId in roomProperties[roomId].players) {
     player = roomProperties[roomId].players[playerId];
-    player.position = Defaults.PLAYER_DEFAULT_COORDINATES[player.team];
+    player.position = Defaults.PLAYER_DEFAULT_COORDINATES[player.team]; //TODO: change to random position
     player.hasFlag = false;
   }
 

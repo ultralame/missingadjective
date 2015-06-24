@@ -58,7 +58,12 @@ socket.on('updateScoreFlag', function(data) {
   var scoreFlagData = JSON.parse(data);
 
   envVariables.player.score = false; // allows the player to score again
-  envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+
   envVariables.score = scoreFlagData.teamScores; // update the scores in environment variables
-  envVariables.flag.drop(); // drop the flag
+
+
+  envVariables.flag.position = scoreFlagData.flag.position;
+
+  console.log(envVariables.score);
+
 });
