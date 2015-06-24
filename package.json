@@ -1,16 +1,15 @@
 {
   "name": "MissingAdjective",
   "version": "0.0.1",
+  "main": "index.js",
   "engines": {
     "node": "~0.12.4"
   },
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "postinstall": "bower install"
   },
   "devDependencies": {
-    "grunt": "^0.4.5",
-    "grunt-cli": "^0.1.13",
-    "nodemon": "^1.3.7"
   },
   "dependencies": {
     "body-parser": "^1.13.1",
