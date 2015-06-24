@@ -1,3 +1,6 @@
+//collisions.js
+
+
 var Collisions = module.exports = {};
 
 Collisions.collisionDetection = function(player, collisionObject) {
@@ -7,11 +10,11 @@ Collisions.collisionDetection = function(player, collisionObject) {
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
 
   if (distanceToFlag <= player.radius + collisionObject.radius) {
-    console.log('collided!');
+    //console.log('collided!');
     return true;
   }
   else return false;
-}
+};
 
 Collisions.flagDetection = function(player, flag){
   if (!flag.dropped){
@@ -49,7 +52,7 @@ Collisions.windowDetection = function(position, direction) {
       return true;
     }
     else {
-      console.log('we be stuck X');
+      //console.log('we be stuck X');
       return false;
     }
   }
@@ -58,8 +61,8 @@ Collisions.windowDetection = function(position, direction) {
       return true;
     }
     else {
-      console.log('we be stuck Y');
+      //console.log('we be stuck Y');
       return false;
     }
   }
-}
+};
