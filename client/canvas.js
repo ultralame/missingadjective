@@ -1,44 +1,33 @@
-var canvas = document.getElementById('canvas');
-var ctx = canvas.getContext('2d');
-
-var maxWidth = 800;
-var maxHeight = 600;
-var minWidth = 0;
-var minHeight = 0;
-// var currentTopLeft = 10;
-// var currentBotRight = 100;
-var move = 5;
-
-// var player = new Player("Dude", 1, startPosition, ctx, 1);
-// var enemy = new Enemy("Bad Guy", 2, {x:200, y:100}, ctx, 2);
-var playerContainer = {};
-// var gravity = 1;
-
-//var flag = new Flag(50, 50, ctx);
-// var base1 = new Base( {ctx:ctx, teamId:1, x:150, y:300} );
-// var base2 = new Base( {ctx:ctx, teamId:2, x:800-150, y:300} );
-var collisionContainer = Collisions;
-// flag.capturedByPlayer(player);
-
 var collisionDetection = function(collided, direction, posOrNeg){
-  player.position[direction] += move * posOrNeg;
+  envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg;
 
-  for(playerId in playerContainer) {
-    var otherPlayer = playerContainer[playerId];
-    if(collisionContainer.playerDetection(player, otherPlayer)){
-      console.log('we collided')
+  for(playerId in envVariables.playerContainer) {
+    var otherPlayer = envVariables.playerContainer[playerId];
+    if(Collisions.playerDetection(envVariables.player, otherPlayer)){
+      console.log('we collided');
       collided = true;
     }
   }
 
-  if (collisionContainer.windowDetection(player.position[direction], direction) && !collided) {
-    player.move(player.position); // check to see if redundant;
-    socket.emit('updatePosition', JSON.stringify(player.position), JSON.stringify(player.hasFlag));
-    collisionContainer.flagDetection(player, flag);
-  } else {
-    player.position[direction] += move * posOrNeg * -1;
+  if (Collisions.windowDetection(envVariables.player.position[direction], direction) && !collided) {
+    envVariables.player.move(envVariables.player.position); // check to see if redundant;
+
+    Collisions.flagDetection(envVariables.player, envVariables.flag);
+
+    if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) {
+      // socket.emit('updateScore');
+      envVariables['scoreTeam' + envVariables.player.team] += 1;
+      // console log the score
+      console.log(envVariables['scoreTeam' + envVariables.player.team])
+    }
+
+    socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag));
+  }
+  else {
+    envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg * -1;
     collided = false;
   }
+
 };
 
 var update = function(){
@@ -57,24 +46,18 @@ var update = function(){
     collisionDetection(collided, 'y', -1);
   }
 
-  flag.update();
-  base1.update();
-  base2.update();
-
-  // gravity
-  // currentPosition.y+= gravity;
-  // player.move(currentPosition);
+  envVariables.flag.update();
 };
 
 
 var draw = function(){
-  ctx.clearRect(minWidth, minHeight, maxWidth, maxHeight);
-  player.draw();
-  flag.draw();
-  base1.draw();
-  base2.draw();
-  for(playerId in playerContainer) {
-    playerContainer[playerId].draw();
+  canvasContext.clearRect(windowVariables.minWidth, windowVariables.minHeight, windowVariables.maxWidth, windowVariables.maxHeight);
+  envVariables.player.draw();
+  envVariables.flag.draw();
+  envVariables.base0.draw();
+  envVariables.base1.draw();
+  for(playerId in envVariables.playerContainer) {
+    envVariables.playerContainer[playerId].draw();
   }
 };
 

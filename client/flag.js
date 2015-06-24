@@ -1,11 +1,10 @@
-var Flag = function(position, ctx){
+var Flag = function(position, canvasContext, radius){
   this.position = {x: position.x, y: position.y};
-  this.radius = 2;
+  this.radius = radius || 2;
   this.player = null;
-  this.ctx = ctx;
+  this.canvasContext = canvasContext;
   this.poleColor = "black";
   this.flagColor = "red";
-  this.animator = new ObjectAnimator(1000);
   this.dropped = false;
 };
 
@@ -22,10 +21,9 @@ Flag.prototype.drop = function(){
 };
 
 Flag.prototype.dropTimer = function(){
-  context = this;
   setTimeout(function(){
-    context.dropped = false;
-  }, 2000)
+    this.dropped = false;
+  }.bind(this), 2000);
 };
 
 Flag.prototype.update = function(){
@@ -38,18 +36,14 @@ Flag.prototype.update = function(){
 
 Flag.prototype.draw = function(){
   // Drawing the flag pole
-  this.ctx.fillStyle = this.poleColor; // Set color
-  this.ctx.fillRect(this.position.x, this.position.y-20, 5, 20); // Draw the rectangle (pole)
+  this.canvasContext.fillStyle = this.poleColor; // Set color
+  this.canvasContext.fillRect(this.position.x, this.position.y-20, 5, 20); // Draw the rectangle (pole)
 
   // Drawing the flag
-  this.ctx.fillStyle = this.flagColor; // Set color
+  this.canvasContext.fillStyle = this.flagColor; // Set color
   var path = new Path2D(); // Draw triangle
-    path.lineTo(this.position.x + 5, this.position.y - 20);
-    path.lineTo(this.position.x + 15, this.position.y - 15);
-    path.lineTo(this.position.x + 5, this.position.y - 10);
-  this.ctx.fill(path);
-};
-
-Flag.prototype.animate = function(){
-
+  path.lineTo(this.position.x + 5, this.position.y - 20);
+  path.lineTo(this.position.x + 15, this.position.y - 15);
+  path.lineTo(this.position.x + 5, this.position.y - 10);
+  this.canvasContext.fill(path);
 };
