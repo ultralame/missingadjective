@@ -22,7 +22,7 @@ Flag.prototype.drop = function(){
 Flag.prototype.dropTimer = function(){
   setTimeout(function(){
     this.dropped = false;
-  }.bind(this), 2000);
+  }.bind(this), 500);
 };
 
 Flag.prototype.update = function(){
