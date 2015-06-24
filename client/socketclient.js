@@ -77,8 +77,15 @@ socket.on('winReset', function(data){
   envVariables.flag.position = resetData.flag.position;
   envVariables.score = resetData.teamScores;
 
+  envVariables.player.score = false;
+
   for(player in resetData.players) {
-    envVariables.playerContainer[player].position = resetData.players[player].position;
+    if (envVariables.player.id === player) {
+      envVariables.player.position = resetData.players[player].position;
+    }
+    else {
+      envVariables.playerContainer[player].position = resetData.players[player].position;
+    }
   }
 
 })
