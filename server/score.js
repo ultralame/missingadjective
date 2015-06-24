@@ -9,26 +9,6 @@ var SendObject = require('./sendObject.js');
 
 var handleWin = function(player, roomProperties, io) {
 
-
-  var updatePosition = function(position, hasFlag) {
-
-    player.position = JSON.parse(position);
-    player.hasFlag = JSON.parse(hasFlag);
-
-    if(player.hasFlag === true) {
-      roomProperties[player.room].flag.position = player.position;
-      player.broadcast.to(player.room).emit('broadcastFlagPosition', JSON.stringify(roomProperties[player.room].flag));
-    }
-
-    playerToSend = SendObject.createSendPlayerObj(player);
-    player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(playerToSend));
-
-  };
-
-
-  //disable update position listener
-  player.removeListener('updatePosition', updatePosition);
-
   Rooms.resetRoom(player.room, roomProperties);
 
   var winObject = {};
@@ -43,9 +23,6 @@ var handleWin = function(player, roomProperties, io) {
 
   console.log('winObject: ', JSON.stringify(winObject));  
   io.sockets.in(player.room).emit('winReset', JSON.stringify(winObject));
-
-  //reenable update position listener
-  player.on('updatePosition', updatePosition); 
 
 };
 
