@@ -4,8 +4,6 @@
 
 
 //required modules
-var Helpers = require('./helpers.js');
-
 var Players = require('./players.js');
 var Matchmaker = require('./matchmaker.js');
 var Events = require('./events.js');
@@ -18,11 +16,6 @@ var Score = require('./score.js');
 //an object that will hold the updating properties associated to each game room
 //the key is the roomId
 var roomProperties = {};
-
-
-//a queue that holds the players that leave
-//this queue is used to keep track of empty rooms
-var disconnectedPlayerQ = new Helpers.Queue();
 
 
 
@@ -42,7 +35,7 @@ var gameLogic = module.exports = function(io, player) {
     player.name = name;
 
     //assign the player to the correct room
-    Matchmaker.matchmaker(player, roomProperties, disconnectedPlayerQ);
+    Matchmaker.matchmaker(player, roomProperties);
 
     environment = SendObject.createSendEnvironmentObj(roomProperties[player.room]);
     player.emit('getEnvironment', JSON.stringify(environment));
@@ -73,7 +66,7 @@ var gameLogic = module.exports = function(io, player) {
       && player.team !== undefined) {
 
       //have the player leave the room
-      Players.leaveRoom(player, roomProperties, disconnectedPlayerQ);
+      Players.leaveRoom(player, roomProperties);
 
       playerToSend = SendObject.createSendPlayerObj(player);
       player.broadcast.to(player.room).emit('broadcastPlayerDisconnect', JSON.stringify(playerToSend));
@@ -106,12 +99,7 @@ var gameLogic = module.exports = function(io, player) {
   //handle player scoring
   player.on('playerScores', function() {
 
-    Score.updateScore(player, roomProperties);
-
-    var scoreAndFlagObject = {};
-    scoreAndFlagObject.teamScores = roomProperties[player.room].teamScores;
-    scoreAndFlagObject.flag = roomProperties[player.room].flag;
-    io.sockets.in(player.room).emit('updateScoreFlag', JSON.stringify(scoreAndFlagObject));
+    Score.updateScore(player, roomProperties, io);
 
   });  
 

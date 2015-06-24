@@ -13,7 +13,7 @@ defaults.TEAM_SIZE = defaults.MAX_ROOM_SIZE / defaults.NUM_TEAMS; //the maximum 
 defaults.LENGTH_X = 800;
 defaults.LENGTH_Y = 600;
 defaults.BASE_OFFSET_X = 150;
-defaults.BASE_RADIUS = 50;
+defaults.BASE_RADIUS = 10;
 
 
 defaults.FLAG_RADIUS = 2;
@@ -33,4 +33,8 @@ defaults.OBJECT_DEFAULT_COORDINATES = {};
 defaults.OBJECT_DEFAULT_COORDINATES['FLAG'] = {x : defaults.LENGTH_X / 2, y : defaults.LENGTH_Y / 2}; //for example, these are the coordinates for the flag
 defaults.OBJECT_DEFAULT_COORDINATES['BASE0'] = {x : defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 1
 defaults.OBJECT_DEFAULT_COORDINATES['BASE1'] = {x : defaults.LENGTH_X - defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 2
+
+
+//the score needed to win the game
+defaults.WIN_SCORE = 3;
 

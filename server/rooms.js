@@ -1,7 +1,8 @@
-//this module is needed for matchmaker.js
+//this module is needed for matchmaker.js and score.js
 
 
 var Defaults = require('./defaults.js');
+var Reposition = require('./reposition.js');
 
 
 //function to initialize the room
@@ -16,8 +17,14 @@ module.exports.initRoom = function(roomId, roomProperties) {
   //initialize the number of players in the room to zero
   roomProperties[roomId].numPlayers = 0;
 
-  //the team number that the next joining player will join
-  roomProperties[roomId].teamToJoin = 0;
+  //an object that will keep track of the number of players for each team
+  //the key is the team number
+  roomProperties[roomId].teamNumPlayers = {};
+
+  //initialize number of players for each team to zero
+  for(var i = 0; i < Defaults.NUM_TEAMS; ++i) {
+    roomProperties[roomId].teamNumPlayers[i] = 0;
+  }
 
   //an object that will keep track of the scores for the different teams
   //the key is the team number
@@ -63,7 +70,8 @@ module.exports.resetRoom = function(roomId, roomProperties) {
   var player;
   for(var playerId in roomProperties[roomId].players) {
     player = roomProperties[roomId].players[playerId];
-    player.position = Defaults.PLAYER_DEFAULT_COORDINATES[player.team]; //TODO: change to random position
+    //player.position = Defaults.PLAYER_DEFAULT_COORDINATES[player.team];
+    Reposition.getLocation(player, roomProperties);
     player.hasFlag = false;
   }
 
