@@ -3,7 +3,6 @@
 
 var Defaults = require('./defaults.js');
 
-var PREPEND = 'team';
 
 //function to initialize the room
 module.exports.initRoom = function(roomId, roomProperties) {
