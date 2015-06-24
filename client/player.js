@@ -7,6 +7,7 @@ var Player = function(username, id, position, canvasContext, teamId, flag, radiu
   this.team = teamId;
   this.radius = radius || 10;
   this.hasFlag = flag;
+  this.score = false;
 };
 
 Player.prototype.draw = function(){

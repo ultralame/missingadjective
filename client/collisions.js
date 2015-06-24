@@ -39,8 +39,10 @@ Collisions.enemyDetection = function(player, enemy) {
   return enemyCollision;
 };
 Collisions.baseDetection = function(player, base) {
-  if (player.hasFlag && player.team === base.team){
-    return this.collisionDetection(player, base);
+  if(!player.score) {
+    if (player.hasFlag && player.team === base.team){
+      return this.collisionDetection(player, base);
+    }
   }
 }
 
