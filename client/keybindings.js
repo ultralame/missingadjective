@@ -3,7 +3,7 @@ $(document).ready(function(){
   $(document).keydown(function(event){
     if(event.keyCode === 37) {
       // left
-      console.log("pressed left");
+
       if(keysPressedArr.indexOf("left") === -1){
         keysPressedArr.push("left");
       }
@@ -11,7 +11,7 @@ $(document).ready(function(){
     }
     else if (event.keyCode === 38){
       // up
-      console.log("pressed up");
+
       if(keysPressedArr.indexOf("up") === -1){
         keysPressedArr.push("up");
       }
@@ -28,39 +28,37 @@ $(document).ready(function(){
         keysPressedArr.push("down");
       }
     }
-    console.log(keysPressedArr);
   });
 
   //listening for arrow keys being released
   $(document).keyup(function(event){
     if(event.keyCode === 37) {
       // left
-      console.log("released left");
+
       if(keysPressedArr.indexOf("left") >= 0){
         keysPressedArr.splice(keysPressedArr.indexOf("left"), 1);
       }
     }
     else if (event.keyCode === 38){
       // up
-      console.log("released up");
+
       if(keysPressedArr.indexOf("up") >= 0){
         keysPressedArr.splice(keysPressedArr.indexOf("up"), 1);
       }
     }
     else if (event.keyCode === 39){
       // right
-      console.log("released right");
+
       if(keysPressedArr.indexOf("right") >= 0){
         keysPressedArr.splice(keysPressedArr.indexOf("right"), 1);
       }
     }
     else if (event.keyCode === 40){
       // down
-      console.log("released down");
+
       if(keysPressedArr.indexOf("down") >= 0){
         keysPressedArr.splice(keysPressedArr.indexOf("down"), 1);
       }
     }
-    console.log(keysPressedArr);
   });
 });

@@ -30,7 +30,7 @@ var disconnectedPlayerQ = new Helpers.Queue();
 var gameLogic = module.exports = function(io, player) {
 
 
-  //temp variables that will be used throughout game logic for clarity 
+  //temp variables that will be used throughout game logic for clarity
   var playerToSend;
   var environment;
 
@@ -47,7 +47,7 @@ var gameLogic = module.exports = function(io, player) {
     player.emit('getEnvironment', JSON.stringify(environment));
 
     playerToSend = SendObject.createSendPlayerObj(player);
-    player.emit('createPlayer', JSON.stringify(playerToSend)); 
+    player.emit('createPlayer', JSON.stringify(playerToSend));
     player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(playerToSend));
 
     var playersInRoom = roomProperties[player.room].players;
@@ -88,7 +88,7 @@ var gameLogic = module.exports = function(io, player) {
     player.hasFlag = JSON.parse(hasFlag);
 
     if(player.hasFlag === true) {
-      roomProperties[player.room].flag = player.position;
+      roomProperties[player.room].flag.position = player.position;
       player.broadcast.to(player.room).emit('broadcastFlagPosition', JSON.stringify(roomProperties[player.room].flag));
     }
 
