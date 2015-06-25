@@ -4,7 +4,7 @@ var envVariables = {
   base0: null,
   base1: null,
   moveSpeed: 5,
-  score: { team0: 0, team1: 0 },
+  score: { 0: 0, 1: 0 },
   playerContainer: {}
 };
 
