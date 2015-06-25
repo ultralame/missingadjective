@@ -20,6 +20,7 @@ module.exports.createSendEnvironmentObj = function(room) {
   environment.flag = room.flag;
   environment.base0 = room.base0;
   environment.base1 = room.base1;
+  environment.teamScores = room.teamScores;
 
   return environment;
 };

@@ -13,6 +13,7 @@ socket.on('getEnvironment', function(data){
   envVariables.flag = new Flag(envData.flag.position, canvasContext, envData.flag.radius);
   envVariables.base0 = new Base(envData.base0.position, canvasContext, 0, envData.base0.radius);
   envVariables.base1 = new Base(envData.base1.position, canvasContext, 1, envData.base1.radius);
+  envVariables.score = envData.teamScores;
   uiUpdateScore();
 });
 
@@ -52,6 +53,8 @@ socket.on('broadcastPlayerDisconnect', function(data) {
   }
 
   delete envVariables.playerContainer[disconnectedPlayerId];
+
+  uiUpdatePlayers();
 });
 
 socket.on('updateScoreFlag', function(data) {
