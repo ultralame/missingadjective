@@ -13,22 +13,23 @@ socket.on('getEnvironment', function(data){
   envVariables.flag = new Flag(envData.flag.position, canvasContext, envData.flag.radius);
   envVariables.base0 = new Base(envData.base0.position, canvasContext, 0, envData.base0.radius);
   envVariables.base1 = new Base(envData.base1.position, canvasContext, 1, envData.base1.radius);
+  envVariables.score = envData.teamScores;
+  uiUpdateScore();
 });
 
 socket.on('createPlayer', function(data) {
   var playerData = JSON.parse(data);
-  console.log(playerData);
   envVariables.player = new Player(playerData.name, playerData.id, playerData.position, canvasContext, playerData.team, playerData.hasFlag.position, playerData.radius);
   render();
+  uiUpdatePlayers();
 });
 
 
 
 socket.on('newPlayer', function(data){
   var newPlayer = JSON.parse(data);
-  console.log(newPlayer);
-
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position, canvasContext, newPlayer.team, newPlayer.hasFlag, newPlayer.radius);
+  uiUpdatePlayers();
 });
 
 socket.on('broadcastPlayerPosition', function(data){
@@ -52,6 +53,8 @@ socket.on('broadcastPlayerDisconnect', function(data) {
   }
 
   delete envVariables.playerContainer[disconnectedPlayerId];
+
+  uiUpdatePlayers();
 });
 
 socket.on('updateScoreFlag', function(data) {
@@ -63,13 +66,10 @@ socket.on('updateScoreFlag', function(data) {
 
 
   envVariables.flag.position = scoreFlagData.flag.position;
-
-  console.log(envVariables.score);
-
+  uiUpdateScore();
 });
 
 socket.on('winReset', function(data){
-  console.log('win reset data:', data);
   var resetData = JSON.parse(data);
 
   var winningTeam = resetData.winningTeamId;
@@ -87,5 +87,6 @@ socket.on('winReset', function(data){
       envVariables.playerContainer[player].position = resetData.players[player].position;
     }
   }
+  uiUpdateScore();
 
 })

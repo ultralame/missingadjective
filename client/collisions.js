@@ -4,7 +4,6 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
 
   if (distanceToFlag <= player.radius + collisionObject.radius) {
-    console.log('collided!');
     return true;
   }
   else return false;
@@ -53,7 +52,6 @@ Collisions.windowDetection = function(position, direction) {
       return true;
     }
     else {
-      console.log('we be stuck X');
       return false;
     }
   }
@@ -62,7 +60,6 @@ Collisions.windowDetection = function(position, direction) {
       return true;
     }
     else {
-      console.log('we be stuck Y');
       return false;
     }
   }
