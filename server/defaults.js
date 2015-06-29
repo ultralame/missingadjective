@@ -20,7 +20,7 @@ defaults.BASE_OFFSET_X = 150; //x offset (from the right and from the left of th
 defaults.BASE_RADIUS = 10; //radius of the bases
 defaults.FLAG_RADIUS = 2; //radius of the flag
 defaults.PLAYER_RADIUS = 10; //radius of the players
-defaults.FlAG_RANGE = 550; //range of position for the flag reset
+defaults.FLAG_RANGE = 550; //range of position for the flag reset
 defaults.FLAG_OFFSET_Y = 25; // offset from the right and left edges as a placement buffer
 
 // //object that stores default coordinates for players
