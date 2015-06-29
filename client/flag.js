@@ -22,8 +22,9 @@ Setting this.player tracks the current players position to attach it to them and
 position to the server
 */
 Flag.prototype.capturedByPlayer = function(player){
-  player.hasFlag = true;
+  envVariables.player.hasFlag = true;
   this.player = player;
+  envVariables.moveSpeed = 4; //reduces speed for player with flag
 };
 
 /*
@@ -34,6 +35,7 @@ Flag.prototype.drop = function(){
   this.player = null;
   this.dropped = true;
   this.dropTimer();
+  envVariables.moveSpeed = 5; // restores original player speed
 };
 
 /*

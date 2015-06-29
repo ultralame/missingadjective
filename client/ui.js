@@ -6,16 +6,19 @@
 var $ui = $('.ui'); // cache ui selector
 
 var uiUpdateScore = function() { // update team 0 and team 1 score
-  var $team0 = $('.team0').html('');
-  var $team1 = $('.team1').html('');
-  $team0.append('<h1>Blue Team\'s Score: ' + envVariables.score[0] + '</h1>');
-  $team1.append('<h1>Red Team\'s Score: ' + envVariables.score[1] + '</h1>');
+  var $team0 = $('.team0 h2').text('');
+  var $team1 = $('.team1 h2').text('');
+  $team0.text('Blue Team\'s Score: ' + envVariables.score[0]);
+  $team1.text('Red Team\'s Score: ' + envVariables.score[1]);
 };
 
 var uiUpdatePlayers = function(){ // update list of players currently in the room
-  var $playerList = $('.players').html('');
-  $playerList.append('<li>' + envVariables.player.username + '</li>');
+  var $playerTeam0 = $('.playerteam0').html('');
+  var $playerTeam1 = $('.playerteam1').html('');
+  var playerTeam = 'playerteam' + envVariables.player.team;
+  $('.' + playerTeam).append('<li>' + envVariables.player.username + '</li>');
   $.each(envVariables.playerContainer, function(id, player){
-    $('.players').append('<li>' + player.username + '</li>');
+    var otherTeam = 'playerteam' + player.team;
+    $('.' + otherTeam).append('<li>' + player.username + '</li>');
   });
 };
