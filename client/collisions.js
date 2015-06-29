@@ -16,7 +16,7 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
     return true;
   }
   else return false;
-}
+};
 
 /*
 Checks to see if player has collided with flag
@@ -76,7 +76,7 @@ Collisions.baseDetection = function(player, base) {
       return this.collisionDetection(player, base);
     }
   }
-}
+};
 
 /*
 Check to see if the player collides with the boundries of the game board
@@ -100,4 +100,4 @@ Collisions.windowDetection = function(position, direction) {
       return false;
     }
   }
-}
+};
