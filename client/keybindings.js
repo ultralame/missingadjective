@@ -1,3 +1,9 @@
+/* The purpose of this file is to set up event listeners for key presses when the client tries to move his
+ * player. Key down events will push movement values into the keysPressedArr container and key up movements
+ * will splice them out. The call to requestAnimationFrame in canvas.js will continuosly redraw the player
+ * position based on what's in the keysPressedArr container.
+ */
+
 $(document).ready(function(){
   $(document).keydown(function(event){  //listening for arrow keys being pressed
     if(event.keyCode === 37) {  // left
