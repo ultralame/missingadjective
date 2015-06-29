@@ -62,6 +62,7 @@ module.exports.resetRoom = function(roomId, roomProperties) {
 
   //reset flag position
   roomProperties[roomId].flag.position = Defaults.OBJECT_DEFAULT_COORDINATES['flag'];
+  roomProperties[roomId].flag.position.y = (Math.random() * Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y; //random position along gameboard on flag reset
 
   //reset player positions
   //reset players to not have the flag

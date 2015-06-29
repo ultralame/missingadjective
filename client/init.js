@@ -9,7 +9,9 @@ var envVariables = { // initialize environment variables
   base1: null,
   moveSpeed: 5,
   score: { 0: 0, 1: 0 }, // key is the team number and value is the score on initialize
-  playerContainer: {} // list of all other players in the room not including yourself
+  playerContainer: {}, // list of all other players in the room not including yourself
+  winCondition: false,
+  winningTeam: null
 };
 
 var windowVariables = { // initialize game board size
