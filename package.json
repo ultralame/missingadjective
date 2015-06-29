@@ -9,7 +9,14 @@
     "start": "node index.js",
     "postinstall": "bower install"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-nodemon": "^0.4.0",
+    "grunt-shell": "^1.1.2"
+  },
   "dependencies": {
     "body-parser": "^1.13.1",
     "bower": "^1.4.1",
