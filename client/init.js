@@ -1,3 +1,5 @@
+/* The purpose of this file is to initialize variables to be used throughout the app */
+
 var envVariables = { // initialize environment variables
   player: null,
   flag: null,
