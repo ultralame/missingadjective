@@ -1,4 +1,5 @@
-/* The purpose of this file is to hold the logic for updating our Stats UI, which includes the score for each
+/*
+ * The purpose of this file is to hold the logic for updating our Stats UI, which includes the score for each
  * team, and the players currently in the room.
  */
 

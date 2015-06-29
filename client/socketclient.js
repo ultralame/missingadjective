@@ -1,5 +1,6 @@
-/* The purpose of this file is to set up all of our socket event listeners.
- * Used for all client-server communication
+/*
+ * The purpose of this file is to set up all of our socket event listeners.
+ * Used for all client-server communication.
  */
 
 var userName = function() { // prompts the user for a username on pageload
