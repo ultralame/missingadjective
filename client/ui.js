@@ -15,7 +15,6 @@ var uiUpdatePlayers = function(){ // update list of players currently in the roo
   var $playerList = $('.players').html('');
   $playerList.append('<li>' + envVariables.player.username + '</li>');
   $.each(envVariables.playerContainer, function(id, player){
-    console.log(id, ' that was the id', player, ' that was the player');
     $('.players').append('<li>' + player.username + '</li>');
   });
 };
