@@ -1,4 +1,7 @@
 //collisions.js
+//this module is for detecting collisions
+//this module is needed for reposition.js
+//if using events.js, then this module will also be needed for that
 
 
 var Collisions = module.exports = {};
