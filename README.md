@@ -1,12 +1,12 @@
 # Project Name
 
-Capture The Flag. Not for the faint hearted.
+> Capture The Flag
 
 ## Team
 
-  - __Product Owner__: Shannan Sussman
-  - __Scrum Master__: Leon Yip
-  - __Development Team Members__: Andrew Li, Murat Ozgul
+- __Product Owner__: Shannan Sussman
+- __Scrum Master__: Leon Yip
+- __Development Team Members__: Andrew Li, Murat Ozgul
 
 ## Table of Contents
 
