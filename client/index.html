@@ -5,17 +5,51 @@
     <script src="/socket.io/socket.io.js"></script>
     <meta charset="utf-8">
     <title>Missing Adjective</title>
+    <style>
+      body {
+        overflow: hidden;
+      }
+      .gamecontainer {
+        width: 100%;
+        display: inline-block;
+      }
+      #canvas {
+        display: inline-block;
+        width: 800px;
+        height: 600px;
+      }
+      .ui {
+        display: inline-block;
+        vertical-align: top;
+      }
+      .team0, .playerteam0 {
+        color: rgb(0,0,200);
+      }
+      .team1, .playerteam1 {
+        color: rgb(255,0,0);
+      }
+    </style>
   </head>
   <body>
     <div class="gamecontainer">
       <canvas id="canvas" width="800" height="600" style="border: 1px solid black"></canvas>
       <div class="ui">
+        <h1>CTF - MVP</h1>
         <div class="team0">
+          <h2></h2>
+          <h3>Players:</h3>
+          <ul class="playerteam0">
+          </ul>
         </div>
         <div class="team1">
+          <h2></h2>
+          <h3>Players:</h3>
+          <ul class="playerteam1">
+          </ul>
         </div>
-        <ul class="players">
-        </ul>
+      </div>
+      <div class="controls">
+        <h2>Use the arrow keys to move!</h2>
       </div>
     </div>
     <script src="init.js"></script>
