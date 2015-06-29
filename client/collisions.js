@@ -1,10 +1,10 @@
 /*
-Main collision detection function. Assumes the first argument will be the client's
-own player object and the collision detection is performed against the requested
-object. collisionObject accepts other players, the flag, and base objects
+ * Main collision detection function. Assumes the first argument will be the client's
+ * own player object and the collision detection is performed against the requested
+ * object. collisionObject accepts other players, the flag, and base objects.
+ * Collision detection is based off distance calclulated through Pythagorean Theorem
+ */
 
-Collision detection is based off distance calclulated through Pythagorean Theorem
-*/
 Collisions.collisionDetection = function(player, collisionObject) {   //return bool
   var distanceToFlagX = Math.pow(player.position.x - collisionObject.position.x, 2);
   var distanceToFlagY = Math.pow(player.position.y - collisionObject.position.y, 2);
@@ -16,7 +16,7 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
     return true;
   }
   else return false;
-}
+};
 
 /*
 Checks to see if player has collided with flag
@@ -33,7 +33,7 @@ Collisions.flagDetection = function(player, flag){
     }
   }
 };
-/* 
+/*
 With different conditions that happen when a player collides with a teammate vs an enemy
 This function serves as routing for the proper set of collision detection rules
 */
@@ -45,14 +45,14 @@ Collisions.playerDetection = function(player, otherPlayer){
   }
 };
 
-/* 
+/*
 Only returns bool of whether or not a player collided with a teammate
 */
 Collisions.teammateDetection = function(player, teammate) {
   return this.collisionDetection(player, teammate);
 };
 
-/* 
+/*
 If player carrying a flag collides with an enemy, initiates dropping flag commands
 Either way returns bool of collision with enemy
 */
@@ -76,7 +76,7 @@ Collisions.baseDetection = function(player, base) {
       return this.collisionDetection(player, base);
     }
   }
-}
+};
 
 /*
 Check to see if the player collides with the boundries of the game board
@@ -100,4 +100,4 @@ Collisions.windowDetection = function(position, direction) {
       return false;
     }
   }
-}
+};

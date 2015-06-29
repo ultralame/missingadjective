@@ -1,9 +1,10 @@
 /*
-Constructor object and prototype functions for flag.
-Position, and radius are defined server side and passed to players upon joining the game.
-Position is an Object with x and y values eg: {x: 50, y:230}
-canvasContext refers to global canvas node
-*/
+ * Constructor object and prototype functions for flag.
+ * Position, and radius are defined server side and passed to players upon joining the game.
+ * Position is an Object with x and y values eg: {x: 50, y:230}
+ * canvasContext refers to global canvas node
+ */
+
 var Flag = function(position, canvasContext, radius){
   this.position = {x: position.x, y: position.y};
   this.radius = radius || 2;
@@ -35,7 +36,7 @@ Flag.prototype.drop = function(){
   this.dropTimer();
 };
 
-/* 
+/*
 Initilizes a period of which the flag is unable to be picked up by the player that dropped it
 This allows the other team a chance to recapture the flag for their own team
 Currently hard coded to 500ms

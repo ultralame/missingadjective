@@ -1,26 +1,20 @@
 # Project Name
 
-> Pithy project description
+> Capture The Flag
 
 ## Team
 
-  - __Product Owner__: Shannan Sussman
-  - __Scrum Master__: Leon Yip
-  - __Development Team Members__: Andrew Li, Murat Ozgul
+- __Product Owner__: Shannan Sussman
+- __Scrum Master__: Leon Yip
+- __Development Team Members__: Andrew Li, Murat Ozgul
 
 ## Table of Contents
 
-1. [Usage](#Usage)
 1. [Requirements](#requirements)
 1. [Development](#development)
     1. [Installing Dependencies](#installing-dependencies)
-    1. [Tasks](#tasks)
 1. [Team](#team)
 1. [Contributing](#contributing)
-
-## Usage
-
-> Some usage instructions
 
 ## Requirements
 
@@ -40,8 +34,7 @@ bower install
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
-
+View the project roadmap [here](https://github.com/missingadjective/missingadjective/issues)
 
 ## Contributing
 

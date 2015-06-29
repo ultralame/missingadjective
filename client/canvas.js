@@ -1,15 +1,16 @@
 /*
-collisionDetection handles all of the logic and proper delegation of the different types of collision detection
-that are occuring throughout gameplay
-Direction is a the string value of x or y needed for defining which axis the player is moving in
-posOrNeg is a 1 or -1 value designating which direction within the axis the player is moving
-*/
-var collisionDetection = function(direction, posOrNeg){
+ * movementLogic handles all of the logic and proper delegation of the different types of collision detection
+ * that are occuring throughout gameplay
+ * Direction is a the string value of x or y needed for defining which axis the player is moving in
+ * posOrNeg is a 1 or -1 value designating which direction within the axis the player is moving
+ */
+
+var movementLogic = function(direction, posOrNeg){
   var collided = false; // all collisions are false before evaluation
 
   envVariables.player.position[direction] += envVariables.moveSpeed * posOrNeg; //this defines the new position player is trying to move to
 
-    for(playerId in envVariables.playerContainer) { // check to see if position collides with any players in game
+    for(var playerId in envVariables.playerContainer) { // check to see if position collides with any players in game
     var otherPlayer = envVariables.playerContainer[playerId];
     if(Collisions.playerDetection(envVariables.player, otherPlayer)){ //playerDetection function returns true for player to player collision
       collided = true;
@@ -23,8 +24,8 @@ var collisionDetection = function(direction, posOrNeg){
       envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
 
       envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
-      envVariables.flag.drop(); // drop the flag   
-      
+      envVariables.flag.drop(); // drop the flag
+
       //adding comment for no reason :D
 
       socket.emit('playerScores'); // send to data to server about player scoring
@@ -32,7 +33,7 @@ var collisionDetection = function(direction, posOrNeg){
 
     socket.emit('updatePosition', JSON.stringify(envVariables.player.position), JSON.stringify(envVariables.player.hasFlag)); // sends new valid player position to server and if the player has the flag or not
   }
-  /* 
+  /*
   Anything falling in this else statement is a non valid position for the player. Multiplying intended position by -2
   bounces the player back to a valid position
   */
@@ -50,16 +51,16 @@ different collision detection invocation is called to assess for valid movements
 var update = function(){
 
   if(keysPressedArr.indexOf("right") > -1){
-    collisionDetection('x', 1);
+    movementLogic('x', 1);
   }
   if(keysPressedArr.indexOf("down") > -1){
-    collisionDetection('y', 1);
+    movementLogic('y', 1);
   }
   if(keysPressedArr.indexOf("left") > -1){
-    collisionDetection('x', -1);
+    movementLogic('x', -1);
   }
   if(keysPressedArr.indexOf("up") > -1){
-    collisionDetection('y', -1);
+    movementLogic('y', -1);
   }
 
   envVariables.flag.update(); // updates flag's position every cycle if it has been picked up by player
