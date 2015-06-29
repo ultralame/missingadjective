@@ -10,7 +10,7 @@ var Players = require('./players.js'); //for providing actions that a player can
 
 
 //variable(s) to keep track of rooms
-var roomId = -1; //the id associated to each room
+var roomId = -1; //the id associated to each room; the first room will have id 0 since the room id gets incremented before the room gets initialized
 
 
 //function that searches for the first room with an open player slot
@@ -24,7 +24,7 @@ var getFirstOpenRoom = function(roomProperties) {
     }
   }
 
-  return -1;
+  return -1; //return -1 if a room with an open slot cannot be found
 };
 
 

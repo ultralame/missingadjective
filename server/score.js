@@ -18,7 +18,7 @@ var handleWin = function(player, roomProperties, io) {
   Rooms.resetRoom(player.room, roomProperties);
 
   //send object containing the winning team and the updated room properties to the clients
-  var winObject = SendObject.createSendWinObject(player, roomProperties);
+  var winObject = SendObject.createSendWinObj(player, roomProperties);
   console.log('winObject: ', JSON.stringify(winObject));  
   io.sockets.in(player.room).emit('winReset', JSON.stringify(winObject));
 
@@ -36,10 +36,10 @@ var checkForWin = function(player, roomProperties, io) {
   }
   else {
     //put the flag in the default starting position
-    roomProperties[player.room].flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['FLAG'], radius : Defaults.FLAG_RADIUS};
+    roomProperties[player.room].flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['flag'], radius : Defaults.FLAG_RADIUS};
 
     //send object containing updated score and flag position to clients
-    var scoreAndFlagObject = createSendScoreAndFlagObj(player, roomProperties);
+    var scoreAndFlagObject = SendObject.createSendScoreAndFlagObj(player, roomProperties);  
     io.sockets.in(player.room).emit('updateScoreFlag', JSON.stringify(scoreAndFlagObject));
   }
 

@@ -64,7 +64,7 @@ module.exports.createSendWinObj = function(player, roomProperties) {
   //(when a team wins, the player positions get updated)
   winObject.players = {};
   for(var playerId in roomProperties[player.room].players) {
-    winObject.players[playerId] = SendObject.createSendPlayerObj(roomProperties[player.room].players[playerId]);
+    winObject.players[playerId] = module.exports.createSendPlayerObj(roomProperties[player.room].players[playerId]);
   }
 
   return winObject;
