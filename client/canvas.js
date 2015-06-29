@@ -70,7 +70,18 @@ var update = function(){
 Every render cycle the entire gameboard is redrawn to update all player's positions and flag location
 */
 var draw = function(){
-  canvasContext.clearRect(windowVariables.minWidth, windowVariables.minHeight, windowVariables.maxWidth, windowVariables.maxHeight); //mandatory to clear the screen before each redraw
+  if (!envVariables.winCondition){ // boolean value is only true when the game is over
+    canvasContext.clearRect(windowVariables.minWidth, windowVariables.minHeight, windowVariables.maxWidth, windowVariables.maxHeight); //mandatory to clear the screen before each redraw
+  }
+  else {
+    canvasContext.font = "72px Ariel"; // winner announcement
+    if (envVariables.winningTeam === 0){ // check to see which team won the game
+      canvasContext.fillText("BLUE TEAM WINS!!!!!", 25, 100);
+    }
+    else {
+     canvasContext.fillText("RED TEAM WINS!!!!!", 25, 100); 
+    }
+  }
   envVariables.player.draw();
   envVariables.flag.draw();
   envVariables.base0.draw();
