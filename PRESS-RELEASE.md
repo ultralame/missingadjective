@@ -24,7 +24,7 @@ Once the project moves into development, the press release can be used as a touc
 
 ## Summary ##
   > Action packed 5 on 5 capture the flag to satiate your competitive desires. Two teams playing per room.
-    Try to capture the flag an bring it back to base. Bump into other players in order to knock the flag out
+    Try to capture the flag and bring it back to base. Bump into other players in order to knock the flag out
     of their hands! First to 10 wins! 
 
 ## Problem ##
