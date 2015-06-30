@@ -26,6 +26,8 @@ $(document).ready(function(){
       if(keysPressedArr.indexOf("down") === -1){
         keysPressedArr.push("down");
       }
+    } else if (event.keyCode === 32) {  
+      socket.emit('sound');
     }
   });
 
