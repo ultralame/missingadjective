@@ -296,8 +296,8 @@
         // objects
 
         var flag = new THREE.BoxGeometry( 5, 30, 5 );
-        var goal1 = new THREE.BoxGeometry( 30, 30, 30 );
-        var goal2 = new THREE.BoxGeometry( 30, 30, 30 );
+        var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
+        var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
 
         var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
@@ -306,8 +306,8 @@
         var blue = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
         var flagMesh = new THREE.Mesh( flag, white );
-        var redGoalMesh = new THREE.Mesh( goal1, red );
-        var blueGoalMesh = new THREE.Mesh( goal2, blue );
+        var redGoalMesh = new THREE.Mesh( redGoal, red );
+        var blueGoalMesh = new THREE.Mesh( blueGoal, blue );
 
         flagMesh.position.x = 0;
         flagMesh.position.y = 10;
@@ -331,7 +331,7 @@
           scene.add( redGoalMesh );
           scene.add( blueGoalMesh );
 
-        objects.push( flagMesh,redGoalMesh,blueGoalMesh );
+        objects.push( flagMesh, redGoalMesh, blueGoalMesh );
 
         renderer = new THREE.WebGLRenderer();
         renderer.setClearColor( 0xffffff );
@@ -367,7 +367,7 @@
           var isOnObject = intersections.length > 0;
 
           var time = performance.now();
-          var delta = ( time - prevTime ) / 500;
+          var delta = ( time - prevTime ) / 300;
 
           velocity.x -= velocity.x * 10.0 * delta;
           velocity.z -= velocity.z * 10.0 * delta;
@@ -383,19 +383,23 @@
           if ( isOnObject === true ) {
             velocity.y = Math.max( 0, velocity.y );
 
-            canJump = true;
+            // canJump = true;
+            canJump = false;
           }
 
           controls.getObject().translateX( velocity.x * delta );
           controls.getObject().translateY( velocity.y * delta );
           controls.getObject().translateZ( velocity.z * delta );
 
+          // console.log(controls.getObject().position.x + ", " + controls.getObject().position.z);
+
           if ( controls.getObject().position.y < 10 ) {
 
             velocity.y = 0;
             controls.getObject().position.y = 10;
 
-            canJump = true;
+            // canJump = true;
+            canJump = false;
 
           }
 
