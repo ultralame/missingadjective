@@ -297,9 +297,9 @@
 
         geometry = new THREE.BoxGeometry( 5, 30, 5 );
 
-        var goal1 = new THREE.BoxGeometry( 30, 30, 30 );
+        var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
 
-        var goal2 = new THREE.BoxGeometry( 30, 30, 30 );
+        var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
 
         // for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
 
@@ -312,37 +312,37 @@
 
         for ( var i = 0; i < 1; i ++ ) {
 
-          material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+          flagMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-          var goal1material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+          var redGoalMaterial = new THREE.MeshPhongMaterial( { specular: 0xff0000, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-          var goal2material = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+          var blueGoalMaterial = new THREE.MeshPhongMaterial( { specular: 0x0000ff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-          var flagMesh = new THREE.Mesh( geometry, material );
-          var goal1Mesh = new THREE.Mesh( goal1, goal1material );
-          var goal2Mesh = new THREE.Mesh( goal2, goal2material );
+          var flagMesh = new THREE.Mesh( geometry, flagMaterial );
+          var redGoalMesh = new THREE.Mesh( redGoal, redGoalMaterial );
+          var blueGoalMesh = new THREE.Mesh( blueGoal, blueGoalMaterial );
 
           flagMesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
           flagMesh.position.y = 10;
           flagMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
 
-          goal1Mesh.position.x = -Math.floor( Math.random() * 20 - 10 ) * 40;
-          goal1Mesh.position.y = 10;
-          goal1Mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
+          redGoalMesh.position.x = -Math.floor( Math.random() * 20 - 10 ) * 40;
+          redGoalMesh.position.y = 10;
+          redGoalMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
 
-          goal2Mesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 40;
-          goal2Mesh.position.y = 10;
-          goal2Mesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
+          blueGoalMesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 40;
+          blueGoalMesh.position.y = 10;
+          blueGoalMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
 
 
           scene.add( flagMesh );
-          scene.add( goal1Mesh );
-          scene.add( goal2Mesh );
+          scene.add( redGoalMesh );
+          scene.add( blueGoalMesh );
 
 
-          material.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+          flagMaterial.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 
-          objects.push( mesh,goal1Mesh,goal2Mesh );
+          objects.push(mesh, redGoalMesh, blueGoalMesh);
 
         }
 
@@ -380,7 +380,7 @@
           var isOnObject = intersections.length > 0;
 
           var time = performance.now();
-          var delta = ( time - prevTime ) / 1000;
+          var delta = ( time - prevTime ) / 500;
 
           velocity.x -= velocity.x * 10.0 * delta;
           velocity.z -= velocity.z * 10.0 * delta;
