@@ -3,6 +3,7 @@
 
 
 //required files
+var path = require('path');
 var express = require('express');
 var app = express();
 var server = require('http').Server(app);
@@ -16,16 +17,21 @@ var bodyParser = require('body-parser');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/../public'));
+app.use(express.static(path.join(__dirname, '/../public')));
+console.log('==========>', path.join(__dirname, '/../public'));
 
 //import game logic module
 var gameLogic = require('./gameLogic.js');
+var audioLogic = require('./audioLogic.js');
 
 //listen for client connections
 io.on('connection', function(socket) {
 
   //have the game logic module handle the game logic
   gameLogic(io, socket);
+
+  //separate function to handle audio effects
+  audioLogic(io, socket);
 
 });
 
