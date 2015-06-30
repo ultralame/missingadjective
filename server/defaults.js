@@ -37,5 +37,5 @@ defaults.OBJECT_DEFAULT_COORDINATES['base0'] = {x : defaults.BASE_OFFSET_X, y : 
 defaults.OBJECT_DEFAULT_COORDINATES['base1'] = {x : defaults.LENGTH_X - defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 2
 
 //the score needed to win the game; the first team to hit this score wins!
-defaults.WIN_SCORE = 10;
+defaults.WIN_SCORE = 4;
 
