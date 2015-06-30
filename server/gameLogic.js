@@ -98,6 +98,9 @@ var gameLogic = module.exports = function(io, player) {
   //handle player position update
   player.on('updatePosition', function(position, hasFlag) {
 
+    // position = {x:4,y:3}
+    console.log(position);
+
     //parse the received data
     player.position = JSON.parse(position);
     player.hasFlag = JSON.parse(hasFlag);
