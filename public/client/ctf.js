@@ -1,6 +1,6 @@
 var camera, scene, renderer;
 var geometry, material, mesh;
-var controls;
+var controls; // player = controls.getObject().position.x & z
 
 var objects = [];
 
