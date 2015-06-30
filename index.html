@@ -295,56 +295,43 @@
 
         // objects
 
-        geometry = new THREE.BoxGeometry( 5, 30, 5 );
+        var flag = new THREE.BoxGeometry( 5, 30, 5 );
+        var goal1 = new THREE.BoxGeometry( 30, 30, 30 );
+        var goal2 = new THREE.BoxGeometry( 30, 30, 30 );
 
-        var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
+        var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-        var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
+        var red = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-        // for ( var i = 0, l = geometry.faces.length; i < l; i ++ ) {
+        var blue = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-        //   var face = geometry.faces[ i ];
-        //   face.vertexColors[ 0 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-        //   face.vertexColors[ 1 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-        //   face.vertexColors[ 2 ] = new THREE.Color().setHSL( Math.random() * 0.3 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+        var flagMesh = new THREE.Mesh( flag, white );
+        var redGoalMesh = new THREE.Mesh( goal1, red );
+        var blueGoalMesh = new THREE.Mesh( goal2, blue );
 
-        // }
+        flagMesh.position.x = 0;
+        flagMesh.position.y = 10;
+        flagMesh.position.z = 0;
 
-        for ( var i = 0; i < 1; i ++ ) {
+        redGoalMesh.position.x = -160;
+        redGoalMesh.position.y = 10;
+        redGoalMesh.position.z = -160;
 
-          flagMaterial = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+        blueGoalMesh.position.x = 160;
+        blueGoalMesh.position.y = 10;
+        blueGoalMesh.position.z = 160;
 
-          var redGoalMaterial = new THREE.MeshPhongMaterial( { specular: 0xff0000, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+        scene.add( flagMesh );
+        scene.add( redGoalMesh );
+        scene.add( blueGoalMesh );
 
-          var blueGoalMaterial = new THREE.MeshPhongMaterial( { specular: 0x0000ff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-
-          var flagMesh = new THREE.Mesh( geometry, flagMaterial );
-          var redGoalMesh = new THREE.Mesh( redGoal, redGoalMaterial );
-          var blueGoalMesh = new THREE.Mesh( blueGoal, blueGoalMaterial );
-
-          flagMesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 20;
-          flagMesh.position.y = 10;
-          flagMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 20;
-
-          redGoalMesh.position.x = -Math.floor( Math.random() * 20 - 10 ) * 40;
-          redGoalMesh.position.y = 10;
-          redGoalMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
-
-          blueGoalMesh.position.x = Math.floor( Math.random() * 20 - 10 ) * 40;
-          blueGoalMesh.position.y = 10;
-          blueGoalMesh.position.z = Math.floor( Math.random() * 20 - 10 ) * 40;
-
+        white.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
 
           scene.add( flagMesh );
           scene.add( redGoalMesh );
           scene.add( blueGoalMesh );
 
-
-          flagMaterial.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-
-          objects.push(mesh, redGoalMesh, blueGoalMesh);
-
-        }
+        objects.push( flagMesh,redGoalMesh,blueGoalMesh );
 
         renderer = new THREE.WebGLRenderer();
         renderer.setClearColor( 0xffffff );
