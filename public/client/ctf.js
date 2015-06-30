@@ -1,6 +1,6 @@
 var camera, scene, renderer;
 var geometry, material, mesh;
-var controls;
+var controls; // player = controls.getObject().position.x & z
 
 var objects = [];
 
@@ -282,7 +282,9 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  if ( controlsEnabled ) {
+  socket.emit('updatePosition', JSON.stringify(controls.getObject().position.x), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
+
+  if ( controlsEnabled ) { 
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10;
 
