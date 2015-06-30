@@ -72,7 +72,8 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
 socket.on('winReset', function(data){ // listens for whether or not a team has won from the server
   var resetData = JSON.parse(data); // this data is used to reset player positions, flag position, and scores
   envVariables.winningTeam = resetData.winningTeamId;
-
+  envVariables.flag.position = {x: 900, y: -100};
+  
   if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
     envVariables.moveSpeed = 0;
   }
