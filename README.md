@@ -1,12 +1,12 @@
 # Project Name
 
-> Capture The Flag
+> 3D - Capture The Flag
 
 ## Team
 
-- __Product Owner__: Shannan Sussman
-- __Scrum Master__: Leon Yip
-- __Development Team Members__: Andrew Li, Murat Ozgul
+- __Product Owner__: Colin Parsons
+- __Scrum Master__: Timmy Luong
+- __Development Team Members__: JP Ji, Mike Min Kim
 
 ## Table of Contents
 
@@ -33,6 +33,8 @@ bower install
 ```
 
 ### Roadmap
+
+Change to 3D view
 
 View the project roadmap [here](https://github.com/missingadjective/missingadjective/issues)
 
