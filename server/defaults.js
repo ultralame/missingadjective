@@ -32,9 +32,16 @@ defaults.FLAG_OFFSET_Y = 25; // offset from the right and left edges as a placem
 //object that stores default coordinates for objects in the game environment
 defaults.OBJECT_DEFAULT_COORDINATES = {};
 //key is the name of the object in the environment
-defaults.OBJECT_DEFAULT_COORDINATES['flag'] = {x : defaults.LENGTH_X / 2, y : defaults.LENGTH_Y / 2}; //for example, these are the coordinates for the flag
-defaults.OBJECT_DEFAULT_COORDINATES['base0'] = {x : defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 1
-defaults.OBJECT_DEFAULT_COORDINATES['base1'] = {x : defaults.LENGTH_X - defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 2
+
+// 3JS Defaults
+defaults.OBJECT_DEFAULT_COORDINATES['flag'] = {x : 0, y : 0}; //for example, these are the coordinates for the flag
+defaults.OBJECT_DEFAULT_COORDINATES['base0'] = {x : 160, y : 160}; //these are the coordinates for base 1
+defaults.OBJECT_DEFAULT_COORDINATES['base1'] = {x : -160, y : -160}; //these are the coordinates for base 2
+
+// Canvas Defaults
+// defaults.OBJECT_DEFAULT_COORDINATES['flag'] = {x : defaults.LENGTH_X / 2, y : defaults.LENGTH_Y / 2}; //for example, these are the coordinates for the flag
+// defaults.OBJECT_DEFAULT_COORDINATES['base0'] = {x : defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 1
+// defaults.OBJECT_DEFAULT_COORDINATES['base1'] = {x : defaults.LENGTH_X - defaults.BASE_OFFSET_X, y : defaults.LENGTH_Y / 2}; //these are the coordinates for base 2
 
 //the score needed to win the game; the first team to hit this score wins!
 defaults.WIN_SCORE = 4;
