@@ -30,17 +30,20 @@ socket.on('createPlayer', function(data) { // listening for data to create user'
   // uiUpdatePlayers(); // update player list
 });
 
+
+
 socket.on('newPlayer', function(data){ // listening for new player creation event from server
   var newPlayer = JSON.parse(data);
-  envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
-                                                        null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius);
+  // create a new player model.
   console.log(envVariables.playerContainer);
-
-  
+  envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
+                                                        null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius, createPlayerModel());
+  console.log(envVariables.playerContainer);
   // uiUpdatePlayers(); // update player list
 });
 
-setInterval(function(){
+// Just to check all the players/position in the current room.
+setInterval(function(){ 
   console.log(envVariables.playerContainer);
 },2000);
 
@@ -49,6 +52,8 @@ socket.on('broadcastPlayerPosition', function(data){ // listening for all update
   // console.log(playerMovement);
   // console.log(envVariables.playerContainer[playerMovement.id].position);
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
+  envVariables.playerContainer[playerMovement.id].model.position.x = playerMovement.position.x;
+  envVariables.playerContainer[playerMovement.id].model.position.z = playerMovement.position.y;
 });
 
 socket.on('broadcastFlagPosition', function(data) { // listening for updated flag position from the server

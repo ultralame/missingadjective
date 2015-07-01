@@ -282,7 +282,7 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
+  
 
   if ( controlsEnabled ) { 
     raycaster.ray.origin.copy( controls.getObject().position );
@@ -302,9 +302,12 @@ function animate() {
 
     if ( moveForward ) velocity.z -= 400.0 * delta;
     if ( moveBackward ) velocity.z += 400.0 * delta;
-
     if ( moveLeft ) velocity.x -= 400.0 * delta;
     if ( moveRight ) velocity.x += 400.0 * delta;
+
+    if(moveForward || moveBackward || moveLeft || moveRight){ // IF MOVING
+      socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
+    }
 
     if ( isOnObject === true ) {
       velocity.y = Math.max( 0, velocity.y );
