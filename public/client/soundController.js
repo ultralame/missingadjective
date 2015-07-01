@@ -31,7 +31,7 @@ soundController.device = navigator.mediaDevices.getUserMedia({ audio: true, vide
 soundController.device.then(function (stream) {
   var context = new audioContext();
   var audioInput = context.createMediaStreamSource(stream);
-  var bufferSize = 2048;
+  var bufferSize = 4096;
   // create a javascript node
   soundController.recorder = context.createScriptProcessor(bufferSize, 1, 1);
   // specify the processing function
@@ -106,19 +106,22 @@ client.on('stream', function (stream) {
   stream.on('data', function (data) {
     var array = new Float32Array(data);
 
-    var buffer = soundController.speakerContext.createBuffer(1, 2048, 44100);
+    var buffer = soundController.speakerContext.createBuffer(1, 4096, 44100);
     buffer.copyToChannel(array, 0);
 
     var source = soundController.speakerContext.createBufferSource();
     source.buffer = buffer;
     source.connect(soundController.speakerContext.destination);
-    source.start(nextStartTime);
+    // console.log('Playing buffer:', buffer.duration);
+    // console.log('nextStartTime:', nextStartTime);
+    // source.start(nextStartTime);
+    source.start();
 
-    if (nextStartTime === 0) {
-      nextStartTime = soundController.speakerContext.currentTime
-    } else {
-      nextStartTime = nextStartTime + buffer.duration
-    }
+    // if (nextStartTime === 0) {
+    //   nextStartTime = soundController.speakerContext.currentTime
+    // } else {
+    //   nextStartTime = nextStartTime + buffer.duration
+    // }
   });
 
   stream.on('end', function () {
