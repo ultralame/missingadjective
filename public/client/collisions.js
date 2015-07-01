@@ -75,8 +75,8 @@ Either way returns bool of collision with enemy
 Collisions.enemyDetection = function(player, enemy) {
   var enemyCollision = this.collisionDetection(player, enemy);
   if(enemyCollision) {
-    console.log("ENEMY HAS COLLIDED WITH YOU");
-    scene.add(envVariables.flag.model);
+    console.log("ENEMY HAS COLLIDED WITH YOU"); 
+    if(player.hasFlag) scene.add(envVariables.flag.model);
     player.hasFlag = false;
     envVariables.flag.drop();
   }

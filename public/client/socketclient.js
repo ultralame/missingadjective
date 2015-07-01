@@ -42,6 +42,7 @@ socket.on('newPlayer', function(data){ // listening for new player creation even
 
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
   var playerMovement = JSON.parse(data);
+  Collisions.playersDetection(); // checks to see if players have collided.
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
   envVariables.playerContainer[playerMovement.id].model.position.x = playerMovement.position.x;
   envVariables.playerContainer[playerMovement.id].model.position.z = playerMovement.position.y;
