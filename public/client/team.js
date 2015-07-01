@@ -10,12 +10,6 @@
 var Team = function(username, id, position, canvasContext, teamId, radius) {
   Player.apply(this, arguments);
   this.team = teamId;
-  if(this.team === 0) { // designates color based of being a teammate or enemy
-    this.color = "rgb(0,0,200)";
-  }
-  else {
-    this.color = "rgb(255,0,0)";
-  }
 };
 
 Team.prototype = Object.create(Player.prototype);

@@ -7,11 +7,7 @@
 
 var Flag = function(position, canvasContext, radius){
   this.position = {x: position.x, y: position.y};
-  this.radius = radius || 2;
   this.player = null; // this value used to reference which player captures flag
-  this.canvasContext = canvasContext;
-  this.poleColor = "black";
-  this.flagColor = "red";
   this.dropped = false; //use to prevent players immediately picking back up flag after being dropped
 };
 
@@ -57,21 +53,4 @@ Flag.prototype.update = function(){
     this.position.x = this.player.position.x;
     this.position.y = this.player.position.y;
   };
-};
-
-/*
-Draws the flag shape
-*/
-Flag.prototype.draw = function(){
-  // Drawing the flag pole
-  this.canvasContext.fillStyle = this.poleColor; // Set color
-  this.canvasContext.fillRect(this.position.x, this.position.y-20, 5, 20); // Draw the rectangle (pole)
-
-  // Drawing the flag
-  this.canvasContext.fillStyle = this.flagColor; // Set color
-  var path = new Path2D(); // draws the triangle path
-  path.lineTo(this.position.x + 5, this.position.y - 20);
-  path.lineTo(this.position.x + 15, this.position.y - 15);
-  path.lineTo(this.position.x + 5, this.position.y - 10);
-  this.canvasContext.fill(path);
 };
