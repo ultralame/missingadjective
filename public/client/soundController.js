@@ -114,14 +114,7 @@ client.on('stream', function (stream) {
     source.connect(soundController.speakerContext.destination);
     // console.log('Playing buffer:', buffer.duration);
     // console.log('nextStartTime:', nextStartTime);
-    // source.start(nextStartTime);
     source.start();
-
-    // if (nextStartTime === 0) {
-    //   nextStartTime = soundController.speakerContext.currentTime
-    // } else {
-    //   nextStartTime = nextStartTime + buffer.duration
-    // }
   });
 
   stream.on('end', function () {
@@ -130,6 +123,9 @@ client.on('stream', function (stream) {
 
 });
 
+client.on('close', function () {
+  console.log('!!!!!OOOH NO!!!! BinaryJS connection closed!');
+});
 
 //////////////////////////////////////////////////
 // SOCKET.IO EVENTS

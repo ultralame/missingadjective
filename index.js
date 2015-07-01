@@ -13,14 +13,11 @@ var binaryserver = new BinaryServer({server: server, path: '/binary-endpoint'});
 
 //binary server handling sound events
 binaryserver.on('connection', function(client){
-
   console.log('Binary Server connection started');
 
   client.on('stream', function(stream, meta) {
 
     console.log('>>>Incoming audio stream');
-    // var clients = [];
-
 
     // broadcast to all other clients
     for(var id in binaryserver.clients){
@@ -38,10 +35,6 @@ binaryserver.on('connection', function(client){
       console.log('||| Audio stream ended');
     });
 
-  });
-
-  client.on('close', function() {
-    //client exits
   });
 
 });
