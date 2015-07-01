@@ -5,7 +5,9 @@ var soundController = {};
 soundController.recording = false;
 
 //binaryJS connection
-var client = new BinaryClient('ws://localhost:8080');
+var host = location.origin.replace(/^http/, 'ws') + '/binary-endpoint';
+console.log(host);
+var client = new BinaryClient(host);
 var audioContext = window.AudioContext || window.webkitAudioContext;
 
 //////////////////////////////////////////////////
@@ -103,7 +105,7 @@ client.on('stream', function (stream) {
   stream.on('data', function (data) {
     var array = new Float32Array(data);
 
-    var buffer = context.createBuffer(1, 2048, 48000);
+    var buffer = context.createBuffer(1, 2048, 44100);
     buffer.copyToChannel(array, 0);
 
     var source = context.createBufferSource();

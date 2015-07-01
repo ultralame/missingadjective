@@ -1,6 +1,4 @@
 var ss = require('socket.io-stream');
-var wav = require('wav');
-
 
 module.exports = function (io, socket) {
 
