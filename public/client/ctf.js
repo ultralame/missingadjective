@@ -292,7 +292,18 @@ function animate() {
       envVariables.player.position.y = controls.getObject().position.z;
       // Collision detection here based on the player position (controls.getObject().position)
       Collisions.flagDetection(envVariables.player, envVariables.flag); // checks to see if player has captured the flag
-      // console.log(envVariables);
+
+      // Base Collision Detection
+      // if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
+      //   envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
+
+      //   envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+      //   envVariables.flag.drop(); // drop the flag
+
+      //   //adding comment for no reason :D
+
+      //   socket.emit('playerScores'); // send to data to server about player scoring
+      // }
     }
 
 
