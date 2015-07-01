@@ -5,6 +5,8 @@
  * canvasContext refers to global canvas node
  */
 
+var $flagStatus = $('#flag-status');
+
 var Flag = function(position, canvasContext, radius, model){
   this.position = {x: position.x, y: position.y};
   this.player = null; // this value used to reference which player captures flag
@@ -16,7 +18,7 @@ var Flag = function(position, canvasContext, radius, model){
   scene.add( this.model );
 };
 
-var createFlagModel = function(){  
+var createFlagModel = function(){
   var flag = new THREE.BoxGeometry( 5, 30, 5 );
   var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
   white.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
@@ -32,6 +34,7 @@ position to the server
 */
 Flag.prototype.capturedByPlayer = function(player){
   envVariables.player.hasFlag = true;
+  $flagStatus.text("you have the flag!");
   this.player = player;
   scene.remove(this.model);
   envVariables.moveSpeed = 4; //reduces speed for player with flag
