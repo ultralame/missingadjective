@@ -39,6 +39,16 @@ Collisions.flagDetection = function(player, flag){
     }
   }
 };
+
+
+
+Collisions.playersDetection = function(){
+  for(var playerId in envVariables.playerContainer) { // check to see if position collides with any players in game
+    var otherPlayer = envVariables.playerContainer[playerId];
+    Collisions.enemyDetection(envVariables.player, otherPlayer)
+  }
+}
+
 /*
 With different conditions that happen when a player collides with a teammate vs an enemy
 This function serves as routing for the proper set of collision detection rules
