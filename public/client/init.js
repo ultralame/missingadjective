@@ -14,17 +14,6 @@ var envVariables = { // initialize environment variables
   winningTeam: null
 };
 
-var windowVariables = { // initialize game board size
-  maxWidth: 800,
-  maxHeight: 600,
-  minWidth: 0,
-  minHeight: 0
-};
-
-var canvas = document.getElementById('canvas'); // cache our canvas
-var canvasContext = canvas.getContext('2d'); // cache and set canvas to use 2d context
-
-var keysPressedArr = []; // holds movement value on keydown; movement values spliced upon keyup
 var Collisions = {};  // Initialize container to hold collision detection logic
 
 var socket = io(); // initialize socket connection

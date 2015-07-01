@@ -1,9 +1,6 @@
 //gameLogic.js
 //this is the primary module that listens for client events and calls other modules to handle those events
 
-
-
-
 //required modules
 var Players = require('./players.js'); //for providing actions that a player can do (joining and leaving rooms)
 var Matchmaker = require('./matchmaker.js'); //for selecting the room that a player should join
@@ -11,15 +8,9 @@ var Matchmaker = require('./matchmaker.js'); //for selecting the room that a pla
 var SendObject = require('./sendObject.js'); //for creating sendable objects to the clients
 var Score = require('./score.js'); //for updating the score and win checking and handling
 
-
-
-
 //object that will hold the properties associated to each game room
 //the key is the roomId
 var roomProperties = {};
-
-
-
 
 //primary function that will listen for client events
 //the player is the passed in socket/client
@@ -51,6 +42,8 @@ var gameLogic = module.exports = function(io, player) {
     playerToSend = SendObject.createSendPlayerObj(player);
     player.emit('createPlayer', JSON.stringify(playerToSend)); //this event is for the client to create its own player
     player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(playerToSend)); //this event is for all other clients already in the room to create the new player
+    
+    player.emit('newPlayer', JSON.stringify(playerToSend)); // MIKE
 
     //when a client joins a room, it needs to not only create its own player, but also all players who are already in the room
     //so get the properties of all players already in the room and send it back to the client that triggered the join event
@@ -99,7 +92,6 @@ var gameLogic = module.exports = function(io, player) {
   player.on('updatePosition', function(position, hasFlag) {
 
     // position = {x:4,y:3}
-    console.log(position);
 
     //parse the received data
     player.position = JSON.parse(position);
@@ -115,6 +107,7 @@ var gameLogic = module.exports = function(io, player) {
     //create a sendable object containing the player's updated position
     //and tell every other player in the room about the updated player position
     playerToSend = SendObject.createSendPlayerObj(player);
+    player.emit('broadcastPlayerPosition',JSON.stringify(playerToSend)); // MIKE
     player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(playerToSend));
 
     // //check for events based on new player position

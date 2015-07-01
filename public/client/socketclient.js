@@ -15,30 +15,39 @@ socket.emit('join', userName()); // tell server new player has joined
 
 socket.on('getEnvironment', function(data){ // listening for data from the server to create the game board
   var envData = JSON.parse(data);
-  envVariables.flag = new Flag(envData.flag.position, canvasContext, envData.flag.radius); // creates flag
-  envVariables.base0 = new Base(envData.base0.position, canvasContext, 0, envData.base0.radius); // creates base 0
-  envVariables.base1 = new Base(envData.base1.position, canvasContext, 1, envData.base1.radius); // creates base 1
+  envVariables.flag = new Flag(envData.flag.position, null, envData.flag.radius); // creates flag
+  envVariables.base0 = new Base(envData.base0.position, null, 0, envData.base0.radius); // creates base 0
+  envVariables.base1 = new Base(envData.base1.position, null, 1, envData.base1.radius); // creates base 1
   envVariables.score = envData.teamScores; // initializes scores to 0
-  uiUpdateScore(); // renders score to page
+  // uiUpdateScore(); // renders score to page
 });
 
 socket.on('createPlayer', function(data) { // listening for data to create user's player object
   var playerData = JSON.parse(data);
-  envVariables.player = new Player(playerData.name, playerData.id, playerData.position, canvasContext,
+  envVariables.player = new Player(playerData.name, playerData.id, playerData.position, null,
                                    playerData.team, playerData.hasFlag.position, playerData.radius);
-  render(); // initializes the animation rendering loop
-  uiUpdatePlayers(); // update player list
+  // render(); // initializes the animation rendering loop
+  // uiUpdatePlayers(); // update player list
 });
 
 socket.on('newPlayer', function(data){ // listening for new player creation event from server
   var newPlayer = JSON.parse(data);
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
-                                                        canvasContext, newPlayer.team, newPlayer.hasFlag, newPlayer.radius);
-  uiUpdatePlayers(); // update player list
+                                                        null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius);
+  console.log(envVariables.playerContainer);
+
+  
+  // uiUpdatePlayers(); // update player list
 });
+
+setInterval(function(){
+  console.log(envVariables.playerContainer);
+},2000);
 
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
   var playerMovement = JSON.parse(data);
+  // console.log(playerMovement);
+  // console.log(envVariables.playerContainer[playerMovement.id].position);
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
 });
 
@@ -56,7 +65,7 @@ socket.on('broadcastPlayerDisconnect', function(data) { // listening from a play
   }
 
   delete envVariables.playerContainer[disconnectedPlayerId]; // delete the disconnected player
-  uiUpdatePlayers(); // update player list
+  // uiUpdatePlayers(); // update player list
 });
 
 socket.on('updateScoreFlag', function(data) { // listens for a score event from the server
@@ -66,13 +75,13 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
   envVariables.score = scoreFlagData.teamScores; // update scores
 
   envVariables.flag.position = scoreFlagData.flag.position; // reset flag position
-  uiUpdateScore(); // update scoreboard
+  // uiUpdateScore(); // update scoreboard
 });
 
 socket.on('winReset', function(data){ // listens for whether or not a team has won from the server
   var resetData = JSON.parse(data); // this data is used to reset player positions, flag position, and scores
   envVariables.winningTeam = resetData.winningTeamId;
-  envVariables.flag.position = {x: 900, y: -100};
+  envVariables.flag.position = {x: 0, y: 0};
   
   if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
     envVariables.moveSpeed = 0;
@@ -99,5 +108,5 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
     }
   }, 7000);
 
-  uiUpdateScore(); // reset scoreboard
+  // uiUpdateScore(); // reset scoreboard
 });

@@ -84,6 +84,7 @@
     </style>
   </head>
   <body>
+    <script src="client/init.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r71/three.js"></script>
     <script src="client/PointerLockControls.js"></script>
 
@@ -98,7 +99,18 @@
     </div>
 
     <script> var socket = io(); </script>
+
+    <!-- Props -->
+    <script src="client/flag.js"></script>
+    <script src="client/player.js"></script>
+    <script src="client/team.js"></script>
+    <script src="client/base.js"></script>
+
+    <!-- Main game -->
     <script src="client/ctf.js" charset="utf-8"></script>
-    
+
+    <!-- Client Socket -->
+    <script src="client/socketclient.js"></script>
+
   </body>
 </html>

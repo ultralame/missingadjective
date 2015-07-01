@@ -282,7 +282,7 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  socket.emit('updatePosition', JSON.stringify(controls.getObject().position.x), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
+  socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
 
   if ( controlsEnabled ) { 
     raycaster.ray.origin.copy( controls.getObject().position );
