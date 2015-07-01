@@ -92,29 +92,30 @@ soundController.stopRecording = function () {
 //////////////////////////////////////////////////
 // BINARYJS EVENTS
 //////////////////////////////////////////////////
+soundController.speakerContext = new audioContext();
+
 client.on('open', function() {
   console.log('BinaryJS Connection Open');
 });
 
 client.on('stream', function (stream) {
   var nextStartTime = 0;
-  var context = new audioContext();
 
   console.log('>>> Receiving Audio Stream');
 
   stream.on('data', function (data) {
     var array = new Float32Array(data);
 
-    var buffer = context.createBuffer(1, 2048, 44100);
+    var buffer = soundController.speakerContext.createBuffer(1, 2048, 44100);
     buffer.copyToChannel(array, 0);
 
-    var source = context.createBufferSource();
+    var source = soundController.speakerContext.createBufferSource();
     source.buffer = buffer;
-    source.connect(context.destination);
+    source.connect(soundController.speakerContext.destination);
     source.start(nextStartTime);
 
     if (nextStartTime === 0) {
-      nextStartTime = context.currentTime
+      nextStartTime = soundController.speakerContext.currentTime
     } else {
       nextStartTime = nextStartTime + buffer.duration
     }
