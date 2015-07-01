@@ -47,8 +47,6 @@ setInterval(function(){
 
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
   var playerMovement = JSON.parse(data);
-  // console.log(playerMovement);
-  // console.log(envVariables.playerContainer[playerMovement.id].position);
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
   envVariables.playerContainer[playerMovement.id].model.position.x = playerMovement.position.x;
   envVariables.playerContainer[playerMovement.id].model.position.z = playerMovement.position.y;

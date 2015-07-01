@@ -43,7 +43,7 @@ var gameLogic = module.exports = function(io, player) {
     player.emit('createPlayer', JSON.stringify(playerToSend)); //this event is for the client to create its own player
     player.broadcast.to(player.room).emit('newPlayer', JSON.stringify(playerToSend)); //this event is for all other clients already in the room to create the new player
     
-    player.emit('newPlayer', JSON.stringify(playerToSend)); // MIKE
+    // player.emit('newPlayer', JSON.stringify(playerToSend)); // MIKE
 
     //when a client joins a room, it needs to not only create its own player, but also all players who are already in the room
     //so get the properties of all players already in the room and send it back to the client that triggered the join event
@@ -107,7 +107,7 @@ var gameLogic = module.exports = function(io, player) {
     //create a sendable object containing the player's updated position
     //and tell every other player in the room about the updated player position
     playerToSend = SendObject.createSendPlayerObj(player);
-    player.emit('broadcastPlayerPosition',JSON.stringify(playerToSend)); // MIKE
+    // player.emit('broadcastPlayerPosition',JSON.stringify(playerToSend)); // MIKE
     player.broadcast.to(player.room).emit('broadcastPlayerPosition', JSON.stringify(playerToSend));
 
     // //check for events based on new player position

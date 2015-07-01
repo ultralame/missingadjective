@@ -312,8 +312,8 @@ function animate() {
     if ( isOnObject === true ) {
       velocity.y = Math.max( 0, velocity.y );
 
-      // canJump = true;
-      canJump = false;
+      canJump = true;
+      // canJump = false;
     }
 
     controls.getObject().translateX( velocity.x * delta );
@@ -327,8 +327,8 @@ function animate() {
       velocity.y = 0;
       controls.getObject().position.y = 10;
 
-      // canJump = true;
-      canJump = false;
+      canJump = true;
+      // canJump = false;
 
     }
 
