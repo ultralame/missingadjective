@@ -77,6 +77,7 @@ Collisions.enemyDetection = function(player, enemy) {
   if(enemyCollision) {
     if(player.hasFlag) scene.add(envVariables.flag.model);
     player.hasFlag = false;
+    envVariables.player.hasFlag = false;
     envVariables.flag.drop();
   }
   return enemyCollision;

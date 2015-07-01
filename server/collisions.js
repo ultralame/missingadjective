@@ -43,6 +43,7 @@ Collisions.enemyDetection = function(player, enemy) {
   var enemyCollision = this.collisionDetection(player, enemy);
   if(enemyCollision) {
     player.hasFlag = false;
+    envVariables.player.hasFlag = false;
     flag.drop();
   }
   return enemyCollision;
