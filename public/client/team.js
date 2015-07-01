@@ -6,11 +6,11 @@
  * Position is an Object with x and y values eg: {x: 50, y:230}
  * canvasContext refers to global canvas node
  */
- 
+
 var Team = function(username, id, position, canvasContext, teamId, radius, model) {
   Player.apply(this, arguments);
   this.team = teamId;
-  this.model = createPlayerModel();
+  this.model = createPlayerModel(teamId);
   this.model.position.x = this.position.x;
   this.model.position.y = 10;
   this.model.position.z = this.position.y;
@@ -20,11 +20,19 @@ var Team = function(username, id, position, canvasContext, teamId, radius, model
 Team.prototype = Object.create(Player.prototype);
 Team.prototype.constructor = Team;
 
+var redTeam = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+var blueTeam = new THREE.MeshBasicMaterial( {color: 0x0000ff} );
 
-var createPlayerModel = function(){
+var createPlayerModel = function(teamId){
 
   var geometry = new THREE.SphereGeometry( 5, 32, 32 );
-  var material = new THREE.MeshBasicMaterial( {color: 0xffff00} );
+
+  if (teamId === 0) {
+    var material = redTeam;
+  } else {
+    var material = blueTeam;
+  }
+
   var sphere = new THREE.Mesh( geometry, material );
   return sphere;
 };
