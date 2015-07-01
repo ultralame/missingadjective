@@ -1,5 +1,4 @@
 var server = require('./server/server.js');
-var wav = require('wav');
 
 var port = process.env.PORT || 8000;
 
@@ -10,7 +9,7 @@ console.log('Server started.');
 
 //set up binary server for handling sound
 var BinaryServer = require('binaryjs').BinaryServer;
-var binaryserver = new BinaryServer({port: 8080});
+var binaryserver = new BinaryServer({server: server, path: '/binary-endpoint'});
 
 //binary server handling sound events
 binaryserver.on('connection', function(client){
