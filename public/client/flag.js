@@ -33,6 +33,7 @@ position to the server
 Flag.prototype.capturedByPlayer = function(player){
   envVariables.player.hasFlag = true;
   this.player = player;
+  scene.remove(this.model);
   envVariables.moveSpeed = 4; //reduces speed for player with flag
 };
 

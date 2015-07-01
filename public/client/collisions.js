@@ -17,7 +17,7 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
   //   return true;
   // }
 
-  if (distanceToFlag <= 15) {
+  if (distanceToFlag <= 5) {
     return true;
   }
   else return false;
@@ -39,6 +39,16 @@ Collisions.flagDetection = function(player, flag){
     }
   }
 };
+
+
+
+Collisions.playersDetection = function(){
+  for(var playerId in envVariables.playerContainer) { // check to see if position collides with any players in game
+    var otherPlayer = envVariables.playerContainer[playerId];
+    Collisions.enemyDetection(envVariables.player, otherPlayer);
+  }
+}
+
 /*
 With different conditions that happen when a player collides with a teammate vs an enemy
 This function serves as routing for the proper set of collision detection rules
@@ -65,6 +75,8 @@ Either way returns bool of collision with enemy
 Collisions.enemyDetection = function(player, enemy) {
   var enemyCollision = this.collisionDetection(player, enemy);
   if(enemyCollision) {
+    console.log("ENEMY HAS COLLIDED WITH YOU");
+    scene.add(envVariables.flag.model);
     player.hasFlag = false;
     envVariables.flag.drop();
   }

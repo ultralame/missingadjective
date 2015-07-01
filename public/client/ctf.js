@@ -309,6 +309,7 @@ function animate() {
       envVariables.player.position.y = controls.getObject().position.z;
       // Collision detection here based on the player position (controls.getObject().position)
       Collisions.flagDetection(envVariables.player, envVariables.flag); // checks to see if player has captured the flag
+      Collisions.playersDetection(); // checks to see if player has captured the flag
       // console.log(envVariables);
     }
 
