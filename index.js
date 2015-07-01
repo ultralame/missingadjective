@@ -13,21 +13,14 @@ var binaryserver = new BinaryServer({server: server, path: '/binary-endpoint'});
 
 //binary server handling sound events
 binaryserver.on('connection', function(client){
-  var fileWriter = null;
+
   console.log('Binary Server connection started');
 
   client.on('stream', function(stream, meta) {
+
     console.log('>>>Incoming audio stream');
-    // fileWriter = new wav.FileWriter('demo.wav', {
-    //   channels: 1,
-    //   sampleRate: 48000,
-    //   bitDepth: 16
-    // });
-    // stream.pipe(fileWriter);
-    // stream.on('end', function() {
-    //   console.log('||| Audio stream ended');
-    //   fileWriter.end();
-    // });
+    // var clients = [];
+
 
     // broadcast to all other clients
     for(var id in binaryserver.clients){
@@ -35,10 +28,11 @@ binaryserver.on('connection', function(client){
         var otherClient = binaryserver.clients[id];
         if(otherClient != client){
           var send = otherClient.createStream(meta);
+          // clients.push(send);
           stream.pipe(send);
-        }
-      }
-    }
+        } // if (otherClient...
+      } // if (binaryserver...
+    } // for (var id in ...
 
     stream.on('end', function() {
       console.log('||| Audio stream ended');
