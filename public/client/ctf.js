@@ -232,11 +232,26 @@ function init() {
 
   // objects
 
+  // USED FOR TEXTURING ///////////////////////////////////////////////
+  var logoTexture = THREE.ImageUtils.loadTexture( 'HR_logo.png' );
+  logoTexture.minFilter = THREE.LinearFilter;
+  logoTexture.wrapS = logoTexture.wrapT = THREE.RepeatWrapping;
+  logoTexture.wrapS = logoTexture.wrapT = THREE.ClampToEdgeWrapping;
+  logoTexture.anisotropy = 16;
+  /////////////////////////////////////////////////////////////////////
+
   var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
   var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
 
+  // TEXTURING:
+  // var red = new THREE.MeshBasicMaterial( { color: 0xffffff, specular: 0xffffff, vertexColors: THREE.VertexColors,
+  //                                          map: logoTexture } );
+  // var blue = new THREE.MeshBasicMaterial({ color: 0xffffff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors,
+  //                                          emissive: 0x111111, shininess: 10, map: logoTexture} );
+
   var red = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
   var blue = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+
 
   var redGoalMesh = new THREE.Mesh( redGoal, red );
   var blueGoalMesh = new THREE.Mesh( blueGoal, blue );
