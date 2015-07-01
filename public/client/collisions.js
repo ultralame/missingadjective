@@ -45,7 +45,7 @@ Collisions.flagDetection = function(player, flag){
 Collisions.playersDetection = function(){
   for(var playerId in envVariables.playerContainer) { // check to see if position collides with any players in game
     var otherPlayer = envVariables.playerContainer[playerId];
-    Collisions.enemyDetection(envVariables.player, otherPlayer)
+    Collisions.enemyDetection(envVariables.player, otherPlayer);
   }
 }
 
@@ -75,6 +75,7 @@ Either way returns bool of collision with enemy
 Collisions.enemyDetection = function(player, enemy) {
   var enemyCollision = this.collisionDetection(player, enemy);
   if(enemyCollision) {
+    console.log("ENEMY HAS COLLIDED WITH YOU");
     player.hasFlag = false;
     envVariables.flag.drop();
   }
