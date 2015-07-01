@@ -8,7 +8,6 @@ var express = require('express');
 var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io')(server);
-var wav = require('wav');
 
 //middleware setup
 var morgan = require('morgan'); //morgan is for debugging
