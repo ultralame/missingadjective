@@ -35,10 +35,8 @@ socket.on('createPlayer', function(data) { // listening for data to create user'
 socket.on('newPlayer', function(data){ // listening for new player creation event from server
   var newPlayer = JSON.parse(data);
   // create a new player model.
-  console.log(envVariables.playerContainer);
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
                                                         null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius, createPlayerModel());
-  console.log(envVariables.playerContainer);
   // uiUpdatePlayers(); // update player list
 });
 
