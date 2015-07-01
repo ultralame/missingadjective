@@ -224,9 +224,11 @@ function init() {
   }
 
   // material = new THREE.MeshBasicMaterial( { vertexColors: THREE.VertexColors } );
+  var floorMaterial = new THREE.MeshBasicMaterial( {color: 0x222222} );
 
-  mesh = new THREE.Mesh( geometry, material );
-  scene.add( mesh );
+
+  floorMesh = new THREE.Mesh( geometry, floorMaterial );
+  scene.add( floorMesh );
 
   // objects
 
@@ -278,7 +280,8 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  if ( controlsEnabled ) { 
+
+  if ( controlsEnabled ) {
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10;
 
