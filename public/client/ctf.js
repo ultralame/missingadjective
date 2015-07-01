@@ -148,7 +148,7 @@ function init() {
         break;
 
       case 32: // space
-        if ( canJump === true ) velocity.y += 350;
+        if ( canJump === true ) velocity.y += 150;
         canJump = false;
         break;
 
@@ -219,23 +219,15 @@ function init() {
 
   // objects
 
-  var flag = new THREE.BoxGeometry( 5, 30, 5 );
   var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
   var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
 
-  var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-
   var red = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-
   var blue = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
 
-  var flagMesh = new THREE.Mesh( flag, white );
   var redGoalMesh = new THREE.Mesh( redGoal, red );
   var blueGoalMesh = new THREE.Mesh( blueGoal, blue );
 
-  flagMesh.position.x = 0;
-  flagMesh.position.y = 10;
-  flagMesh.position.z = 0;
 
   redGoalMesh.position.x = -160;
   redGoalMesh.position.y = 10;
@@ -245,17 +237,10 @@ function init() {
   blueGoalMesh.position.y = 10;
   blueGoalMesh.position.z = 160;
 
-  scene.add( flagMesh );
   scene.add( redGoalMesh );
   scene.add( blueGoalMesh );
 
-  white.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
-
-    scene.add( flagMesh );
-    scene.add( redGoalMesh );
-    scene.add( blueGoalMesh );
-
-  objects.push( flagMesh, redGoalMesh, blueGoalMesh );
+  objects.push(redGoalMesh, blueGoalMesh ); // MIKE - comment this out later.
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xffffff );
@@ -282,8 +267,6 @@ function animate() {
 
   requestAnimationFrame( animate );
 
-  
-
   if ( controlsEnabled ) { 
     raycaster.ray.origin.copy( controls.getObject().position );
     raycaster.ray.origin.y -= 10;
@@ -298,7 +281,7 @@ function animate() {
     velocity.x -= velocity.x * 10.0 * delta;
     velocity.z -= velocity.z * 10.0 * delta;
 
-    velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
+    velocity.y -= 9.8 * 20.0 * delta; // 20.0 = mass
 
     if ( moveForward ) velocity.z -= 400.0 * delta;
     if ( moveBackward ) velocity.z += 400.0 * delta;
@@ -306,14 +289,20 @@ function animate() {
     if ( moveRight ) velocity.x += 400.0 * delta;
 
     if(moveForward || moveBackward || moveLeft || moveRight){ // IF MOVING
-      socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(false)); // sends new valid player position to server and if the player has the flag or not
+      socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(envVariables.player.hasFlag)); // sends new valid player position to server and if the player has the flag or not
+      // Update the player object's coordinates
+      envVariables.player.position.x = controls.getObject().position.x;
+      envVariables.player.position.y = controls.getObject().position.z;
+      // Collision detection here based on the player position (controls.getObject().position)
+      Collisions.flagDetection(envVariables.player, envVariables.flag); // checks to see if player has captured the flag
+      // console.log(envVariables);
     }
 
     if ( isOnObject === true ) {
       velocity.y = Math.max( 0, velocity.y );
 
-      // canJump = true;
-      canJump = false;
+      canJump = true;
+      // canJump = false;
     }
 
     controls.getObject().translateX( velocity.x * delta );
@@ -327,9 +316,8 @@ function animate() {
       velocity.y = 0;
       controls.getObject().position.y = 10;
 
-      // canJump = true;
-      canJump = false;
-
+      canJump = true;
+      // canJump = false;
     }
 
     prevTime = time;

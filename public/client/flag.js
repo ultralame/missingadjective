@@ -5,10 +5,23 @@
  * canvasContext refers to global canvas node
  */
 
-var Flag = function(position, canvasContext, radius){
+var Flag = function(position, canvasContext, radius, model){
   this.position = {x: position.x, y: position.y};
   this.player = null; // this value used to reference which player captures flag
   this.dropped = false; //use to prevent players immediately picking back up flag after being dropped
+  this.model = createFlagModel();
+  this.model.position.x = this.position.x;
+  this.model.position.y = 10;
+  this.model.position.z = this.position.y;
+  scene.add( this.model );
+};
+
+var createFlagModel = function(){  
+  var flag = new THREE.BoxGeometry( 5, 30, 5 );
+  var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+  white.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
+  var flagMesh = new THREE.Mesh( flag, white );
+  return flagMesh;
 };
 
 /*
@@ -52,5 +65,7 @@ Flag.prototype.update = function(){
   if(this.player){
     this.position.x = this.player.position.x;
     this.position.y = this.player.position.y;
+    this.model.position.x = this.player.position.x;
+    this.model.position.z = this.player.position.y;
   };
 };

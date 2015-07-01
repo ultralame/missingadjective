@@ -15,7 +15,7 @@ socket.emit('join', userName()); // tell server new player has joined
 
 socket.on('getEnvironment', function(data){ // listening for data from the server to create the game board
   var envData = JSON.parse(data);
-  envVariables.flag = new Flag(envData.flag.position, null, envData.flag.radius); // creates flag
+  envVariables.flag = new Flag(envData.flag.position, null, envData.flag.radius, createFlagModel()); // creates flag
   envVariables.base0 = new Base(envData.base0.position, null, 0, envData.base0.radius); // creates base 0
   envVariables.base1 = new Base(envData.base1.position, null, 1, envData.base1.radius); // creates base 1
   envVariables.score = envData.teamScores; // initializes scores to 0
@@ -35,22 +35,13 @@ socket.on('createPlayer', function(data) { // listening for data to create user'
 socket.on('newPlayer', function(data){ // listening for new player creation event from server
   var newPlayer = JSON.parse(data);
   // create a new player model.
-  console.log(envVariables.playerContainer);
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
                                                         null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius, createPlayerModel());
-  console.log(envVariables.playerContainer);
   // uiUpdatePlayers(); // update player list
 });
 
-// Just to check all the players/position in the current room.
-setInterval(function(){ 
-  console.log(envVariables.playerContainer);
-},2000);
-
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
   var playerMovement = JSON.parse(data);
-  // console.log(playerMovement);
-  // console.log(envVariables.playerContainer[playerMovement.id].position);
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
   envVariables.playerContainer[playerMovement.id].model.position.x = playerMovement.position.x;
   envVariables.playerContainer[playerMovement.id].model.position.z = playerMovement.position.y;
@@ -59,6 +50,8 @@ socket.on('broadcastPlayerPosition', function(data){ // listening for all update
 socket.on('broadcastFlagPosition', function(data) { // listening for updated flag position from the server
   var flagPosition = JSON.parse(data);
   envVariables.flag.position = flagPosition.position;
+  envVariables.flag.model.position.x = flagPosition.position.x;
+  envVariables.flag.model.position.z = flagPosition.position.y;
 });
 
 socket.on('broadcastPlayerDisconnect', function(data) { // listening from a player disconnected event from the server
@@ -87,6 +80,8 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   var resetData = JSON.parse(data); // this data is used to reset player positions, flag position, and scores
   envVariables.winningTeam = resetData.winningTeamId;
   envVariables.flag.position = {x: 0, y: 0};
+  envVariables.flag.model.position.x = 0;
+  envVariables.flag.model.position.z = 0;
   
   if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
     envVariables.moveSpeed = 0;

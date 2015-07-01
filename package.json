@@ -6,8 +6,7 @@
     "node": "~0.12.4"
   },
   "scripts": {
-    "start": "node index.js",
-    "postinstall": "bower install && grunt post-install"
+    "start": "node index.js"
   },
   "devDependencies": {
     "grunt-contrib-concat": "^0.5.1",

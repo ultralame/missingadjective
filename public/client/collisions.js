@@ -9,10 +9,15 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
   var distanceToFlagX = Math.pow(player.position.x - collisionObject.position.x, 2);
   var distanceToFlagY = Math.pow(player.position.y - collisionObject.position.y, 2);
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
-
+  
   //if calculated distance is less/equal to total radius of player and other object
   //there is a collision
-  if (distanceToFlag <= player.radius + collisionObject.radius) {
+
+  // if (distanceToFlag <= player.radius + collisionObject.radius) {
+  //   return true;
+  // }
+
+  if (distanceToFlag <= 15) {
     return true;
   }
   else return false;
@@ -30,6 +35,7 @@ Collisions.flagDetection = function(player, flag){
   if (!flag.dropped){
     if (this.collisionDetection(player, flag)){
       flag.capturedByPlayer(player);
+      console.log('flag captured!!');
     }
   }
 };
