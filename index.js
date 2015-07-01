@@ -41,9 +41,7 @@ binaryserver.on('connection', function(client){
   });
 
   client.on('close', function() {
-    if (fileWriter != null) {
-      fileWriter.end();
-    }
+    //client exits
   });
 
 });
