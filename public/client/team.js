@@ -35,7 +35,7 @@ var createPlayerModel = function(teamId){
     var material = redTeam;
   } else {
     console.log("you're on the red team");
-    $teamStatus.text("you're on the blue team")
+    $teamStatus.text("you're on the red team")
     var material = blueTeam;
   }
 
