@@ -125,7 +125,10 @@ client.on('stream', function (stream) {
 
 client.on('close', function () {
   console.log('!!!!!OOOH NO!!!! BinaryJS connection closed!');
-  client = new BinaryClient(host);
+  setTimeout(function () {
+    console.log('RE-ESTABLISHING BinaryJS Connection');
+    client = new BinaryClient(host);
+  }, 500);
 });
 
 
