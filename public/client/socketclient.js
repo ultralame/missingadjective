@@ -72,8 +72,12 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
 
   envVariables.player.score = false; // allows the player to score again after the flag position resets
   envVariables.score = scoreFlagData.teamScores; // update scores
-
+  console.log('update score flag called!!');
+  console.log(scoreFlagData);
   envVariables.flag.position = scoreFlagData.flag.position; // reset flag position
+  envVariables.flag.model.position.x = scoreFlagData.flag.position.x; // reset flag position
+  envVariables.flag.model.position.z = scoreFlagData.flag.position.y; // reset flag position
+  scene.add(envVariables.flag.model);
   // uiUpdateScore(); // update scoreboard
 });
 
