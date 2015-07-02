@@ -230,45 +230,13 @@ function init() {
   floorMesh = new THREE.Mesh( geometry, floorMaterial );
   scene.add( floorMesh );
 
-  // objects
-
   // USED FOR TEXTURING ///////////////////////////////////////////////
   var logoTexture = THREE.ImageUtils.loadTexture( 'HR_logo.png' );
   logoTexture.minFilter = THREE.LinearFilter;
   logoTexture.wrapS = logoTexture.wrapT = THREE.RepeatWrapping;
   logoTexture.wrapS = logoTexture.wrapT = THREE.ClampToEdgeWrapping;
   logoTexture.anisotropy = 16;
-  /////////////////////////////////////////////////////////////////////
 
-  var redGoal = new THREE.BoxGeometry( 30, 30, 30 );
-  var blueGoal = new THREE.BoxGeometry( 30, 30, 30 );
-
-  // TEXTURING:
-  // var red = new THREE.MeshBasicMaterial( { color: 0xffffff, specular: 0xffffff, vertexColors: THREE.VertexColors,
-  //                                          map: logoTexture } );
-  // var blue = new THREE.MeshBasicMaterial({ color: 0xffffff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors,
-  //                                          emissive: 0x111111, shininess: 10, map: logoTexture} );
-
-  var red = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-  var blue = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-
-
-  var redGoalMesh = new THREE.Mesh( redGoal, red );
-  var blueGoalMesh = new THREE.Mesh( blueGoal, blue );
-
-
-  redGoalMesh.position.x = -160;
-  redGoalMesh.position.y = 10;
-  redGoalMesh.position.z = -160;
-
-  blueGoalMesh.position.x = 160;
-  blueGoalMesh.position.y = 10;
-  blueGoalMesh.position.z = 160;
-
-  scene.add( redGoalMesh );
-  scene.add( blueGoalMesh );
-
-  objects.push(redGoalMesh, blueGoalMesh ); // MIKE - comment this out later.
 
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xffffff );
@@ -324,7 +292,18 @@ function animate() {
       envVariables.player.position.y = controls.getObject().position.z;
       // Collision detection here based on the player position (controls.getObject().position)
       Collisions.flagDetection(envVariables.player, envVariables.flag); // checks to see if player has captured the flag
-      // console.log(envVariables);
+
+      // Base Collision Detection
+      // if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
+      //   envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
+
+      //   envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+      //   envVariables.flag.drop(); // drop the flag
+
+      //   //adding comment for no reason :D
+
+      //   socket.emit('playerScores'); // send to data to server about player scoring
+      // }
     }
 
 
