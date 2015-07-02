@@ -128,6 +128,11 @@ client.on('close', function () {
   client = new BinaryClient(host);
 });
 
+
+client.on('error', function (error) {
+  console.log('!!!!!!OH NOOOO!!!!!! BINARYJS ERROR: ', error);
+});
+
 //////////////////////////////////////////////////
 // SOCKET.IO EVENTS
 //////////////////////////////////////////////////
