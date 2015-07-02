@@ -63,6 +63,7 @@ socket.on('broadcastPlayerDisconnect', function(data) { // listening from a play
     envVariables.flag.drop();
   }
 
+  scene.remove(envVariables.playerContainer[disconnectedPlayerId].model);
   delete envVariables.playerContainer[disconnectedPlayerId]; // delete the disconnected player
   // uiUpdatePlayers(); // update player list
 });
