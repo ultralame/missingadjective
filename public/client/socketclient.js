@@ -72,10 +72,6 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
 
   envVariables.player.score = false; // allows the player to score again after the flag position resets
   envVariables.score = scoreFlagData.teamScores; // update scores
-  console.log('update score flag called!!');
-  console.log(scoreFlagData); // { 0: 1, 1: 3 }
-  console.log(envVariables.score[0]);
-  console.log(envVariables.score[1]);
   $('#red-score').text(envVariables.score[0]);
   $('#blue-score').text(envVariables.score[1]);
 
@@ -98,31 +94,62 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   } else {
     $('#win-status').text('blue team wins! get ready for the next round...');
   }
+  console.log(resetData); // {"winningTeamId":0,"flag":{"position":{"x":0,"y":0},"radius":2},"teamScores":{"0":0,"1":0},"players":{"N0XuuRGV_BTRAGsAAAAA":{"id":"N0XuuRGV_BTRAGsAAAAA","name":"mike","position":{"x":19.789842017926276,"y":311.8561511626467},"team":0,"hasFlag":false}}}
 
-  if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
-    envVariables.moveSpeed = 0;
-  }
+  var counter = 3;
+  // TODO: Display "RESETTING GAME...3"
+  var resetting = setInterval(function(){
+    $('#win-status').text("Resetting game in..."+counter);
+    counter--;
+    if(counter === -1) stopReset();
+  },1000);
 
-  envVariables.score = resetData.teamScores;
-  envVariables.winCondition = true; //allows for render function to draw winning team's movement
+  var stopReset = function(){
+    clearInterval(resetting);
+    $('#win-status').text("");
+    resetGame();
+  };
 
-  setTimeout(function() { // pauses game reset for 7 seconds to allow for winning team some fun drawing on the game
-    envVariables.flag.position = resetData.flag.position;
-    envVariables.player.score = false; // allows the player to score again after the game resets
-    envVariables.moveSpeed = 5; // resets player movements to full speed
-    envVariables.winCondition = false; // stops drawing winning team's movements
-    envVariables.flag.drop(); // drops flag if it was picked up during victory
-    envVariables.winningTeam = null;
+  // End TODO
 
-    for(var playerId in resetData.players) {
-      if (envVariables.player.id === playerId) { // searches for user's player Id
-        envVariables.player.position = resetData.players[playerId].position;  //gives the user's player a new position
-      }
-      else {
-        envVariables.playerContainer[playerId].position = resetData.players[playerId].position; // reset everyone else's position
-      }
-    }
-  }, 7000);
+
+  var resetGame = function(){
+    // move flag to 0,0 position.
+    envVariables.flag.position = {x:0,y:0};
+    envVariables.flag.model.position.x = 0;
+    envVariables.flag.model.position.z = 0;
+    scene.add(envVariables.flag.model);
+    // move all players to opposing positions (based on team 1, and team 0)
+    // reset score 
+
+    // broadcast after each event.
+  };
+
+
+  // if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
+  //   envVariables.moveSpeed = 0;
+  // }
+
+  // envVariables.score = resetData.teamScores;
+  // envVariables.winCondition = true; //allows for render function to draw winning team's movement
+
+  // setTimeout(function() { // pauses game reset for 7 seconds to allow for winning team some fun drawing on the game
+  //   envVariables.flag.position = resetData.flag.position;
+  //   envVariables.player.score = false; // allows the player to score again after the game resets
+  //   envVariables.moveSpeed = 5; // resets player movements to full speed
+  //   envVariables.winCondition = false; // stops drawing winning team's movements
+  //   envVariables.flag.drop(); // drops flag if it was picked up during victory
+  //   envVariables.winningTeam = null;
+
+  //   for(var playerId in resetData.players) {
+  //     if (envVariables.player.id === playerId) { // searches for user's player Id
+  //       envVariables.player.position = resetData.players[playerId].position;  //gives the user's player a new position
+  //     }
+  //     else {
+  //       envVariables.playerContainer[playerId].position = resetData.players[playerId].position; // reset everyone else's position
+  //     }
+  //   }
+  // }, 7000);
 
   // uiUpdateScore(); // reset scoreboard
 });

@@ -4,8 +4,7 @@
  * object. collisionObject accepts other players, the flag, and base objects.
  * Collision detection is based off distance calclulated through Pythagorean Theorem
  */
-
-Collisions.collisionDetection = function(player, collisionObject) {   //return bool
+Collisions.collisionDetection = function(player, collisionObject, base) {   //return bool
   var distanceToFlagX = Math.pow(player.position.x - collisionObject.position.x, 2);
   var distanceToFlagY = Math.pow(player.position.y - collisionObject.position.y, 2);
   var distanceToFlag = Math.sqrt(distanceToFlagX + distanceToFlagY);
@@ -16,8 +15,10 @@ Collisions.collisionDetection = function(player, collisionObject) {   //return b
   // if (distanceToFlag <= player.radius + collisionObject.radius) {
   //   return true;
   // }
+  var targetRadius = 5;
+  if(base) targetRadius = 15;
 
-  if (distanceToFlag <= 5) {
+  if (distanceToFlag <= targetRadius) {
     return true;
   }
   else return false;
@@ -35,7 +36,6 @@ Collisions.flagDetection = function(player, flag){
   if (!flag.dropped){
     if (this.collisionDetection(player, flag)){
       flag.capturedByPlayer(player);
-      console.log('flag captured!!');
     }
   }
 };
@@ -91,7 +91,7 @@ triggered at once
 Collisions.baseDetection = function(player, base) {
   if(!player.score) {
     if (player.hasFlag && player.team === base.team){
-      return this.collisionDetection(player, base);
+      return this.collisionDetection(player, base, true);
     }
   }
 };

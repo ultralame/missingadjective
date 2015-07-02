@@ -265,12 +265,12 @@ function animate() {
     var isOnObject = intersections.length > 0;
 
     var time = performance.now();
-    var delta = ( time - prevTime ) / 300;
+    var delta = ( time - prevTime ) / 1000;
 
-    velocity.x -= velocity.x * 10.0 * delta;
-    velocity.z -= velocity.z * 10.0 * delta;
+    velocity.x -= velocity.x * 4.0 * delta;
+    velocity.z -= velocity.z * 4.0 * delta;
 
-    velocity.y -= 9.8 * 20.0 * delta; // 20.0 = mass
+    velocity.y -= 9.8 * 35.0 * delta; // 35.0 = mass
 
     if ( moveForward ) velocity.z -= 400.0 * delta;
     if ( moveBackward ) velocity.z += 400.0 * delta;
@@ -287,10 +287,7 @@ function animate() {
 
       // Base Collision Detection
       if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
-        console.log(envVariables.player.team);
-        console.log(envVariables['base'+envVariables.player.team]);
         envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
-        console.log('base collision worked!');
         envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
         envVariables.flag.drop(); // drop the flag
 
