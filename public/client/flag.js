@@ -19,7 +19,18 @@ var Flag = function(position, canvasContext, radius, model){
 };
 
 var createFlagModel = function(){
-  var flag = new THREE.BoxGeometry( 5, 30, 5 );
+  // var flag = new THREE.BoxGeometry( 5, 30, 5 );
+
+  var flag = new THREE.BoxGeometry( 20,10,5 );
+
+  for (var i = 0; i < flag.vertices.length; i++) {
+    flag.vertices[i].y += 10;
+    flag.vertices[i].x -= 10;
+  }
+
+  var pole = new THREE.CylinderGeometry(2,2,30);
+
+  flag.merge(pole);
 
   // USED FOR TEXTURING
   // var flagTexture = THREE.ImageUtils.loadTexture( 'assets/FILENAME' );
