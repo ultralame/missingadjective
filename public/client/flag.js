@@ -45,6 +45,7 @@ This is only called after a player and enemy collide after the player is carryin
 Resetting player to null maintains the flag in a fixed position on the gameboard
 */
 Flag.prototype.drop = function(){
+  $flagStatus.text('');
   this.player = null;
   this.dropped = true;
   this.dropTimer();
