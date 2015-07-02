@@ -48,6 +48,20 @@ module.exports.createSendScoreAndFlagObj = function(player, roomProperties) {
   return scoreAndFlagObject;
 };
 
+//MIKE
+
+module.exports.createResetScoreAndFlagObj = function(player, roomProperties) {
+  var scoreAndFlagObject = {};
+
+  //the scores for every team and the position of the flag....
+  //(when a team scores, the clients will need to know the updated scores and updated position of the flag)
+  roomProperties[player.room].teamScores = {0:0,1:0};
+  scoreAndFlagObject.teamScores = roomProperties[player.room].teamScores;
+  scoreAndFlagObject.flag = roomProperties[player.room].flag;
+
+  return scoreAndFlagObject;
+};
+
 
 //function to create a sendable object containing data after a win
 //this object is sent after a team wins

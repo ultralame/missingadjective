@@ -115,6 +115,10 @@ var gameLogic = module.exports = function(io, player) {
 
   });
 
+  player.on('resetGame',function(){
+    Score.resetGame(player,roomProperties,io);
+  });
+
 
   //handle player scoring
   player.on('playerScores', function() {

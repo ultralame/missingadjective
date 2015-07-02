@@ -107,11 +107,9 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   var stopReset = function(){
     clearInterval(resetting);
     $('#win-status').text("");
-    resetGame();
+    socket.emit('resetGame');
   };
-
   // End TODO
-
 
   var resetGame = function(){
     // move flag to 0,0 position.
@@ -121,7 +119,6 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
     scene.add(envVariables.flag.model);
     // move all players to opposing positions (based on team 1, and team 0)
     // reset score 
-
     // broadcast after each event.
   };
 
