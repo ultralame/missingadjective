@@ -36,7 +36,6 @@ Collisions.flagDetection = function(player, flag){
   if (!flag.dropped){
     if (this.collisionDetection(player, flag)){
       flag.capturedByPlayer(player);
-      console.log('flag captured!!');
     }
   }
 };
