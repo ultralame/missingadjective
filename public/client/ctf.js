@@ -230,6 +230,13 @@ function init() {
   floorMesh = new THREE.Mesh( geometry, floorMaterial );
   scene.add( floorMesh );
 
+  // USED FOR TEXTURING ///////////////////////////////////////////////
+  var logoTexture = THREE.ImageUtils.loadTexture( 'HR_logo.png' );
+  logoTexture.minFilter = THREE.LinearFilter;
+  logoTexture.wrapS = logoTexture.wrapT = THREE.RepeatWrapping;
+  logoTexture.wrapS = logoTexture.wrapT = THREE.ClampToEdgeWrapping;
+  logoTexture.anisotropy = 16;
+
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xffffff );
   renderer.setPixelRatio( window.devicePixelRatio );
@@ -286,16 +293,15 @@ function animate() {
       Collisions.flagDetection(envVariables.player, envVariables.flag); // checks to see if player has captured the flag
 
       // Base Collision Detection
-      // if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
-      //   envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
+      if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
+        envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
+        console.log('base collision worked!');
+        envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
+        envVariables.flag.drop(); // drop the flag
 
-      //   envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
-      //   envVariables.flag.drop(); // drop the flag
-
-      //   //adding comment for no reason :D
-
-      //   socket.emit('playerScores'); // send to data to server about player scoring
-      // }
+        //adding comment for no reason :D
+        socket.emit('playerScores'); // send to data to server about player scoring
+      }
     }
 
 
