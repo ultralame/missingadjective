@@ -101,7 +101,7 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   var counter = 3;
   // TODO: Display "RESETTING GAME...3"
   var resetting = setInterval(function(){
-    $('#win-status').text("Resetting game in..."+counter);
+    $('#win-status').text("starting in... " + counter);
     counter--;
     if(counter === -1) stopReset();
   },1000);
@@ -112,6 +112,18 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
     socket.emit('resetGame');
   };
   // End TODO
+
+  var resetGame = function(){
+    // move flag to 0,0 position.
+    envVariables.flag.position = {x:0,y:0};
+    envVariables.flag.model.position.x = 0;
+    envVariables.flag.model.position.z = 0;
+    scene.add(envVariables.flag.model);
+    // move all players to opposing positions (based on team 1, and team 0)
+    // reset score
+
+    // broadcast after each event.
+  };
 
   // if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
   //   envVariables.moveSpeed = 0;
