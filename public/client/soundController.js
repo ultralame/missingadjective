@@ -6,13 +6,14 @@ soundController.recording = false;
 
 //binaryJS connection
 var host = location.origin.replace(/^http/, 'ws') + '/binary-endpoint';
-console.log(host);
 var client = new BinaryClient(host);
-var audioContext = window.AudioContext || window.webkitAudioContext;
+console.log('Starting BinaryJS connection to: ', host);
 
 //////////////////////////////////////////////////
 // MICROHPONE ACCESS
 //////////////////////////////////////////////////
+var audioContext = window.AudioContext || window.webkitAudioContext;
+
 navigator.mediaDevices = navigator.mediaDevices || ((navigator.mozGetUserMedia || navigator.webkitGetUserMedia) ? {
    getUserMedia: function(c) {
      return new Promise(function(y, n) {
@@ -131,21 +132,6 @@ client.on('stream', function (stream) {
         init = true;
         soundController.playCache(audioCache);
     }
-
-    // var array = new Float32Array(data);
-
-    // var buffer = soundController.speakerContext.createBuffer(1, 4096, 44100);
-    // buffer.copyToChannel(array, 0);
-
-    // var source = soundController.speakerContext.createBufferSource();
-    // source.buffer = buffer;
-    // source.connect(soundController.speakerContext.destination);
-
-    // if (nextTime == 0) {
-    //  nextTime = context.currentTime + 0.05; 
-    // }
-    // source.start(nextTime);
-    // nextTime+=source.buffer.duration
   });
 
   stream.on('end', function () {
