@@ -1,44 +1,20 @@
 var server = require('./server/server.js');
+var binaryserver = require('./server/binaryserver.js');
 
 var port = process.env.PORT || 8000;
 
 server.listen(port);
 
+//set up binary server for handling sound
+binaryserver.init(server);
+
 console.log('Server started.');
 
-
-//set up binary server for handling sound
-var BinaryServer = require('binaryjs').BinaryServer;
-var binaryserver = new BinaryServer({server: server, path: '/binary-endpoint'});
-
 //binary server handling sound events
-binaryserver.on('connection', function(client){
-  console.log('Binary Server connection started');
-
-  client.on('stream', function(stream, meta) {
-
-    console.log('>>>Incoming audio stream');
-
-    // broadcast to all other clients
-    for(var id in binaryserver.clients){
-      if(binaryserver.clients.hasOwnProperty(id)){
-        var otherClient = binaryserver.clients[id];
-        if(otherClient != client){
-          var send = otherClient.createStream(meta);
-          // clients.push(send);
-          stream.pipe(send);
-        } // if (otherClient...
-      } // if (binaryserver...
-    } // for (var id in ...
-
-    stream.on('end', function() {
-      console.log('||| Audio stream ended');
-    });
-
-  });
-
+binaryserver.server.on('connection', function (client) {
+  binaryserver.eventHandler(client, binaryserver.server);
 });
 
-binaryserver.on('error', function (error) {
+binaryserver.server.on('error', function (error) {
   console.log('!!!!!!OH NOOOO!!!!!! BINARYJS ERROR: ', error);
 });
