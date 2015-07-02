@@ -85,9 +85,11 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
 socket.on('winReset', function(data){ // listens for whether or not a team has won from the server
   var resetData = JSON.parse(data); // this data is used to reset player positions, flag position, and scores
   envVariables.winningTeam = resetData.winningTeamId;
-  envVariables.flag.position = {x: 0, y: 0};
+  envVariables.flag.position = {x: 3000, y: 3000}; // move it aside to be sure
   envVariables.flag.model.position.x = 0;
   envVariables.flag.model.position.z = 0;
+
+  scene.remove(envVariables.flag.model);
 
   if (envVariables.winningTeam === 0) {
     $('#win-status').text('red team wins! get ready for the next round...');
@@ -110,18 +112,6 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
     socket.emit('resetGame');
   };
   // End TODO
-
-  var resetGame = function(){
-    // move flag to 0,0 position.
-    envVariables.flag.position = {x:0,y:0};
-    envVariables.flag.model.position.x = 0;
-    envVariables.flag.model.position.z = 0;
-    scene.add(envVariables.flag.model);
-    // move all players to opposing positions (based on team 1, and team 0)
-    // reset score 
-    // broadcast after each event.
-  };
-
 
   // if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
   //   envVariables.moveSpeed = 0;
