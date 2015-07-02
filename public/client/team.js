@@ -30,11 +30,11 @@ var createPlayerModel = function(teamId){
   var geometry = new THREE.SphereGeometry( 5, 32, 32 );
 
   if (teamId === 0) {
-    console.log("you're on the red team");
+    console.log("you're on the blue team");
     $teamStatus.text("you're on the red team")
     var material = redTeam;
   } else {
-    console.log("you're on the blue team");
+    console.log("you're on the red team");
     $teamStatus.text("you're on the blue team")
     var material = blueTeam;
   }
