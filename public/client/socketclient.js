@@ -93,8 +93,10 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   scene.remove(envVariables.flag.model);
 
   if (envVariables.winningTeam === 0) {
+    $('#red-score').text("5");
     $('#win-status').text('red team wins! get ready for the next round...');
   } else {
+    $('#blue-score').text("5");
     $('#win-status').text('blue team wins! get ready for the next round...');
   }
   console.log(resetData); // {"winningTeamId":0,"flag":{"position":{"x":0,"y":0},"radius":2},"teamScores":{"0":0,"1":0},"players":{"N0XuuRGV_BTRAGsAAAAA":{"id":"N0XuuRGV_BTRAGsAAAAA","name":"mike","position":{"x":19.789842017926276,"y":311.8561511626467},"team":0,"hasFlag":false}}}
@@ -110,6 +112,8 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   var stopReset = function(){
     clearInterval(resetting);
     $('#win-status').text("");
+    $('#red-score').text("0");
+    $('#blue-score').text("0");
     socket.emit('resetGame');
   };
   // End TODO
