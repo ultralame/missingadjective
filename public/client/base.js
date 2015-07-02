@@ -19,7 +19,8 @@ var Base = function(position, canvasContext, team, radius){
 
 
 var createBaseModel = function(teamId){
-  var base = new THREE.BoxGeometry( 30, 30, 30 );
+  // var base = new THREE.BoxGeometry( 30, 30, 30 );
+  var base = new THREE.CylinderGeometry(15, 15, 60, 30, 0, true);
   var material;
 
   // USED FOR TEXTURING
@@ -36,10 +37,12 @@ var createBaseModel = function(teamId){
   //                                          emissive: 0x111111, shininess: 10, map: logoTexture} );
 
 
-  if(teamId === 0){
-    material = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
-  }else{
-    material = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
+  if (teamId === 0) {
+    // red
+    material = new THREE.MeshBasicMaterial( {shading: THREE.FlatShading, color: 0xeb1414, wireframe: true, wireframeLinewidth: 1} );
+  } else {
+    // blue
+    material = new THREE.MeshBasicMaterial( {shading: THREE.FlatShading, color: 0x0033FF, wireframe: true, wireframeLinewidth: 1} );
   }
   var baseMesh = new THREE.Mesh( base, material );
 
