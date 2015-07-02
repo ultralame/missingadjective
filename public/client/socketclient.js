@@ -112,6 +112,8 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   var stopReset = function(){
     clearInterval(resetting);
     $('#win-status').text("");
+    $('#red-score').text("0");
+    $('#blue-score').text("0");
     socket.emit('resetGame');
   };
   // End TODO
