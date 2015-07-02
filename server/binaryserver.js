@@ -7,7 +7,7 @@ binaryHandler = {
     this.server = new BinaryServer({server: server, path: '/binary-endpoint'});
   },
 
-  eventHandler: function(client, server){
+  eventHandler: function(client, server, console){
     console.log('Binary Server connection started');
 
     client.on('stream', function(stream, meta) {
@@ -30,6 +30,10 @@ binaryHandler = {
       });
 
     });
+
+  client.on('close', function () {
+    console.log('BinaryJS Server connection closed for client:', client.id);
+  })
 
   }
 
