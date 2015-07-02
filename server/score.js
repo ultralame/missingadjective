@@ -15,14 +15,16 @@ var handleWin = function(player, roomProperties, io) {
 
   //reset the room after a win
   //scores, flag position, and player positions will be reset
-  Rooms.resetRoom(player.room, roomProperties);
+  // Rooms.resetRoom(player.room, roomProperties);
 
   //send object containing the winning team and the updated room properties to the clients
   var winObject = SendObject.createSendWinObj(player, roomProperties);
   console.log('winObject: ', JSON.stringify(winObject));  
-  io.sockets.in(player.room).emit('winReset', JSON.stringify(winObject));
 
+  io.sockets.in(player.room).emit('winReset', JSON.stringify(winObject));
 };
+
+
 
 
 //function to check for a win
@@ -55,5 +57,18 @@ module.exports.updateScore = function(player, roomProperties, io) {
 
   //check for win
   checkForWin(player, roomProperties, io);
+
+};
+
+// MIKE
+module.exports.resetGame = function(player,roomProperties,io){
+
+  roomProperties[player.room].flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['flag'], radius : Defaults.FLAG_RADIUS};
+  roomProperties[player.room].flag.position.y = 0; //random position along gameboard on flag reset
+  roomProperties[player.room].flag.position.x = 0; //random position along gameboard on flag reset
+
+  //send object containing updated score and flag position to clients
+  var scoreAndFlagObject = SendObject.createResetScoreAndFlagObj(player, roomProperties);  
+  io.sockets.in(player.room).emit('updateScoreFlag', JSON.stringify(scoreAndFlagObject));
 
 };
