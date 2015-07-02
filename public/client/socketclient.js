@@ -125,14 +125,13 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
     // broadcast after each event.
   };
 
->>>>>>> endgame reset message.
 
-  if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
-    envVariables.moveSpeed = 0;
-  }
+  // if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
+  //   envVariables.moveSpeed = 0;
+  // }
 
-  envVariables.score = resetData.teamScores;
-  envVariables.winCondition = true; //allows for render function to draw winning team's movement
+  // envVariables.score = resetData.teamScores;
+  // envVariables.winCondition = true; //allows for render function to draw winning team's movement
 
   // setTimeout(function() { // pauses game reset for 7 seconds to allow for winning team some fun drawing on the game
   //   envVariables.flag.position = resetData.flag.position;
