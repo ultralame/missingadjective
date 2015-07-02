@@ -3,7 +3,7 @@
  * team, and the players currently in the room.
  */
 
-var $ui = $('.ui'); // cache ui selector
+var $scoreboard = $('.scoreboard'); // cache scoreboard selector
 
 var uiUpdateScore = function() { // update team 0 and team 1 score
   var $team0 = $('.team0 h2').text('');
