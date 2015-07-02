@@ -92,7 +92,13 @@ socket.on('winReset', function(data){ // listens for whether or not a team has w
   envVariables.flag.position = {x: 0, y: 0};
   envVariables.flag.model.position.x = 0;
   envVariables.flag.model.position.z = 0;
-  
+
+  if (envVariables.winningTeam === 0) {
+    $('#win-status').text('red team wins! get ready for the next round...');
+  } else {
+    $('#win-status').text('blue team wins! get ready for the next round...');
+  }
+
   if (envVariables.player.team !== envVariables.winningTeam) { // only winning team gets victory movement
     envVariables.moveSpeed = 0;
   }
