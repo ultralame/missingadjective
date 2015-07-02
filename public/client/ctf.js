@@ -152,11 +152,11 @@ function init() {
         canJump = false;
         break;
 
-      case 16:
+      case 13:
         soundController.emitSound();
         break;
 
-      case 13:
+      case 16:
         soundController.startRecording();
         break;
 
@@ -188,7 +188,7 @@ function init() {
         moveRight = false;
         break;
 
-      case 13:
+      case 16:
         soundController.stopRecording();
 
     }
