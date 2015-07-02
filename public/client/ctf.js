@@ -230,14 +230,6 @@ function init() {
   floorMesh = new THREE.Mesh( geometry, floorMaterial );
   scene.add( floorMesh );
 
-  // USED FOR TEXTURING ///////////////////////////////////////////////
-  var logoTexture = THREE.ImageUtils.loadTexture( 'HR_logo.png' );
-  logoTexture.minFilter = THREE.LinearFilter;
-  logoTexture.wrapS = logoTexture.wrapT = THREE.RepeatWrapping;
-  logoTexture.wrapS = logoTexture.wrapT = THREE.ClampToEdgeWrapping;
-  logoTexture.anisotropy = 16;
-
-
   renderer = new THREE.WebGLRenderer();
   renderer.setClearColor( 0xffffff );
   renderer.setPixelRatio( window.devicePixelRatio );
