@@ -19,9 +19,30 @@ var Flag = function(position, canvasContext, radius, model){
 };
 
 var createFlagModel = function(){
-  
+  // var flag = new THREE.BoxGeometry( 5, 30, 5 );
 
-  var flag = new THREE.BoxGeometry( 5, 30, 5 );
+  var flag = new THREE.BoxGeometry( 20,10,5 );
+
+  for (var i = 0; i < flag.vertices.length; i++) {
+    flag.vertices[i].y += 10;
+    flag.vertices[i].x -= 10;
+  }
+
+  var pole = new THREE.CylinderGeometry(2,2,30);
+
+  flag.merge(pole);
+
+  // USED FOR TEXTURING
+  // var flagTexture = THREE.ImageUtils.loadTexture( 'assets/FILENAME' );
+  // flagTexture.minFilter = THREE.LinearFilter;
+  // flagTexture.wrapS = flagTexture.wrapT = THREE.RepeatWrapping;
+  // flagTexture.wrapS = flagTexture.wrapT = THREE.ClampToEdgeWrapping;
+  // flagTexture.anisotropy = 16;
+
+  // TEXTURING:
+  // var flagMesh = new THREE.MeshBasicMaterial({ color: 0xffffff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors,
+  //                                          emissive: 0x111111, shininess: 10, map: flagTexture} );  
+
   var white = new THREE.MeshPhongMaterial( { specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
   white.color.setHSL( Math.random() * 0.2 + 0.5, 0.75, Math.random() * 0.25 + 0.75 );
   var flagMesh = new THREE.Mesh( flag, white );
