@@ -287,10 +287,7 @@ function animate() {
 
       // Base Collision Detection
       if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
-        console.log(envVariables.player.team);
-        console.log(envVariables['base'+envVariables.player.team]);
         envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
-        console.log('base collision worked!');
         envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
         envVariables.flag.drop(); // drop the flag
 

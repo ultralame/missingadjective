@@ -72,10 +72,6 @@ socket.on('updateScoreFlag', function(data) { // listens for a score event from 
 
   envVariables.player.score = false; // allows the player to score again after the flag position resets
   envVariables.score = scoreFlagData.teamScores; // update scores
-  console.log('update score flag called!!');
-  console.log(scoreFlagData); // { 0: 1, 1: 3 }
-  console.log(envVariables.score[0]);
-  console.log(envVariables.score[1]);
   $('#red-score').text(envVariables.score[0]);
   $('#blue-score').text(envVariables.score[1]);
 
