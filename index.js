@@ -38,3 +38,7 @@ binaryserver.on('connection', function(client){
   });
 
 });
+
+binaryserver.on('error', function (error) {
+  console.log('!!!!!!OH NOOOO!!!!!! BINARYJS ERROR: ', error);
+});

@@ -125,6 +125,12 @@ client.on('stream', function (stream) {
 
 client.on('close', function () {
   console.log('!!!!!OOOH NO!!!! BinaryJS connection closed!');
+  client = new BinaryClient(host);
+});
+
+
+client.on('error', function (error) {
+  console.log('!!!!!!OH NOOOO!!!!!! BINARYJS ERROR: ', error);
 });
 
 //////////////////////////////////////////////////
