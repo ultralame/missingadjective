@@ -271,11 +271,16 @@ function animate() {
     velocity.z -= velocity.z * 4.0 * delta;
 
     velocity.y -= 9.8 * 35.0 * delta; // 35.0 = mass
+    
+    var speed = 400.0;
 
-    if ( moveForward ) velocity.z -= 400.0 * delta;
-    if ( moveBackward ) velocity.z += 400.0 * delta;
-    if ( moveLeft ) velocity.x -= 400.0 * delta;
-    if ( moveRight ) velocity.x += 400.0 * delta;
+    if(envVariables.player.hasFlag) speed = 300.0;
+
+    if ( moveForward ) velocity.z -= speed * delta;
+    if ( moveBackward ) velocity.z += speed * delta;
+    if ( moveLeft ) velocity.x -= speed * delta;
+    if ( moveRight ) velocity.x += speed * delta;
+
 
     if(moveForward || moveBackward || moveLeft || moveRight){ // IF MOVING
       socket.emit('updatePosition', JSON.stringify({x:controls.getObject().position.x,y:controls.getObject().position.z}), JSON.stringify(envVariables.player.hasFlag)); // sends new valid player position to server and if the player has the flag or not
