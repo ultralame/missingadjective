@@ -12,7 +12,7 @@ console.log('Server started.');
 
 //binary server handling sound events
 binaryserver.server.on('connection', function (client) {
-  binaryserver.eventHandler(client, binaryserver.server);
+  binaryserver.eventHandler(client, binaryserver.server, console);
 });
 
 binaryserver.server.on('error', function (error) {
