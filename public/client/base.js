@@ -20,7 +20,8 @@ var Base = function(position, canvasContext, team, radius){
 
 var createBaseModel = function(teamId){
   // var base = new THREE.BoxGeometry( 30, 30, 30 );
-  var base = new THREE.CylinderGeometry(15, 15, 60, 30, 0, true);
+  var BASE_HEIGHT = 600;
+  var base = new THREE.CylinderGeometry(15, 15, BASE_HEIGHT, 10, 0, true);
   var material;
 
   // USED FOR TEXTURING
