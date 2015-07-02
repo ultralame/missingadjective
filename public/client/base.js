@@ -36,7 +36,7 @@ var createBaseModel = function(teamId){
   //                                          emissive: 0x111111, shininess: 10, map: logoTexture} );
 
 
-  if(teamId === 1){
+  if(teamId === 0){
     material = new THREE.MeshPhongMaterial( { color: 0xff0000, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
   }else{
     material = new THREE.MeshPhongMaterial( { color: 0x000fff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors } );
