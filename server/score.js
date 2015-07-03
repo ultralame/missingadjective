@@ -39,7 +39,18 @@ var checkForWin = function(player, roomProperties, io) {
   else {
     //put the flag in the default starting position
     roomProperties[player.room].flag = {position : Defaults.OBJECT_DEFAULT_COORDINATES['flag'], radius : Defaults.FLAG_RADIUS};
-    roomProperties[player.room].flag.position.y = (Math.random() * Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y; //random position along gameboard on flag reset
+    // var rand = Math.random();
+    // var randX;
+    // var randY;
+    // if(rand <= 0.5){
+    //   randX = (Math.random() * -Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y;
+    //   randY = (Math.random() * -Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y;
+    // }else{
+    //   randX = (Math.random() * Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y;
+    //   randY = (Math.random() * Defaults.FLAG_RANGE) + Defaults.FLAG_OFFSET_Y;
+    // }
+    // roomProperties[player.room].flag.position.x = randX;
+    // roomProperties[player.room].flag.position.y = randY;
 
     //send object containing updated score and flag position to clients
     var scoreAndFlagObject = SendObject.createSendScoreAndFlagObj(player, roomProperties);  
