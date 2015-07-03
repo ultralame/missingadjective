@@ -10,7 +10,7 @@
 var Team = function(username, id, position, canvasContext, teamId, radius, model) {
   Player.apply(this, arguments);
   this.team = teamId;
-  this.model = createPlayerModel(teamId);
+  this.model = createPlayerModel(teamId, username);
   this.model.position.x = this.position.x;
   this.model.position.y = 10;
   this.model.position.z = this.position.y;
@@ -25,9 +25,31 @@ var $teamStatus = $('#team-status');
 var redTeam = new THREE.MeshBasicMaterial( {color: 0xff0000} );
 var blueTeam = new THREE.MeshBasicMaterial( {color: 0x0000ff} );
 
-var createPlayerModel = function(teamId){
+var createPlayerModel = function(teamId, username) {
+  var theText = username;
+  var hash = document.location.hash.substr( 1 );
+
+  if ( hash.length !== 0 ) {
+    theText = hash;
+  }
+
+  var text3d = new THREE.TextGeometry( theText, {
+    size: 10,
+    height: 5,
+    curveSegments: 2,
+    font: "helvetiker"
+  });
+
+  for (var i = 0; i < text3d.vertices.length; i++) {
+    text3d.vertices[i].y += 10;
+    text3d.vertices[i].x -= 10;
+  }
+
+  var nameMaterial = new THREE.MeshBasicMaterial({color: 0xffff00});
+  var textMesh = new THREE.Mesh(text3d, nameMaterial);
 
   var geometry = new THREE.SphereGeometry( 5, 32, 32 );
+  geometry.merge(text3d);
 
   if (teamId === 0) {
     console.log("you're on the blue team");
