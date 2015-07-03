@@ -124,6 +124,12 @@ function init() {
   controls = new THREE.PointerLockControls( camera );
   scene.add( controls.getObject() );
 
+  // stats = new Stats();
+	// stats.domElement.style.position = 'absolute';
+	// stats.domElement.style.bottom = '0px';
+	// stats.domElement.style.zIndex = 100;
+	// document.body.appendChild( stats.domElement );
+
   var onKeyDown = function ( event ) {
 
     switch ( event.keyCode ) {
@@ -152,11 +158,15 @@ function init() {
         canJump = false;
         break;
 
-      case 13:
+      case 86: // v
+        toggleVR();
+        break;
+
+      case 13: // enter
         soundController.emitSound();
         break;
 
-      case 16:
+      case 16: // shift
         soundController.startRecording();
         break;
 
@@ -197,6 +207,15 @@ function init() {
 
   document.addEventListener( 'keydown', onKeyDown, false );
   document.addEventListener( 'keyup', onKeyUp, false );
+
+  // FIRE THE LAZOR
+  var onClick = function(event) {
+    if (controlsEnabled) {
+      console.log('pew!')
+    }
+  }
+
+  document.addEventListener('click', onClick);
 
   raycaster = new THREE.Raycaster( new THREE.Vector3(), new THREE.Vector3( 0, - 1, 0 ), 0, 10 );
 
@@ -271,7 +290,7 @@ function animate() {
     velocity.z -= velocity.z * 4.0 * delta;
 
     velocity.y -= 9.8 * 35.0 * delta; // 35.0 = mass
-    
+
     var speed = 400.0;
 
     if(envVariables.player.hasFlag) speed = 200.0;
