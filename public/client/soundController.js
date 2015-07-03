@@ -72,7 +72,7 @@ soundController.startRecording = function () {
     console.log('>>> Start Recording');
 
     //open binary stream
-    soundController.stream = client.createStream();
+    soundController.stream = client.createStream({data: 'audio'});
     soundController.recording = true;
   }
 
@@ -93,6 +93,16 @@ soundController.stopRecording = function () {
 //////////////////////////////////////////////////
 // BINARYJS EVENTS
 //////////////////////////////////////////////////
+
+//keepalive function: for keeping connectio open on Heroku
+setInterval(function () {
+  if (soundController.recording === false) {
+    console.log('send keepalive msg');
+    var temp = new ArrayBuffer(8); //random tiny bit of buffer
+    client.send(temp, {data: 'keepalive'});
+  }
+}, 5000);
+
 soundController.speakerContext = new audioContext();
 
 // Play Cache function
