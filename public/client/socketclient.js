@@ -36,10 +36,12 @@ socket.on('flagCarrier',function(id){
 
   if(envVariables.player.id === JSON.parse(id)){
     $('#flag-status').text("you have the flag!");
+    envVariables.player.hasFlag = true;
     // this.player = player;
     scene.remove(envVariables.flag.model);
   }else{
     $('#flag-status').text("");
+    envVariables.player.hasFlag = false;
     scene.add(envVariables.flag.model);
   }
 });
