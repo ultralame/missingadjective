@@ -39,12 +39,11 @@ var createFlagModel = function(){
 
 
   // TEXTURING
-  var flagTexture = THREE.ImageUtils.loadTexture( 'assets/HR_logo.png' );
+  var flagTexture = THREE.ImageUtils.loadTexture( 'assets/hrLogoFlag.png' );
   flagTexture.minFilter = THREE.LinearFilter;
-  // flagTexture.wrapS = flagTexture.wrapT = THREE.RepeatWrapping;
-  // flagTexture.wrapS = flagTexture.wrapT = THREE.ClampToEdgeWrapping;
+  flagTexture.wrapS = flagTexture.wrapT = THREE.ClampToEdgeWrapping;
   flagTexture.anisotropy = 16;
-  var flagMesh = new THREE.MeshBasicMaterial({ color: 0xffffff, specular: 0xffffff, shading: THREE.FlatShading, vertexColors: THREE.VertexColors,
+  var flagMesh = new THREE.MeshBasicMaterial({ color: 0x989898, specular: 0xffffff, vertexColors: THREE.VertexColors,
                                            emissive: 0x111111, shininess: 10, map: flagTexture} );  
 
 
