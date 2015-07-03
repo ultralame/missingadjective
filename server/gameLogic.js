@@ -91,7 +91,6 @@ var gameLogic = module.exports = function(io, player) {
 
   player.on('flagPickup',function(id){
     flagCarrier = JSON.parse(id);
-    console.log('player ',flagCarrier,' picked up the flag');
     // broadcast to all players who has the flag.
     player.broadcast.to(player.room).emit('flagCarrier', JSON.stringify(flagCarrier));
     player.emit('flagCarrier', JSON.stringify(flagCarrier));

@@ -57,11 +57,8 @@ position to the server
 */
 Flag.prototype.capturedByPlayer = function(player){
   // envVariables.player.hasFlag = true;
-
   // emit event to server saying player.id has flag
   socket.emit('flagPickup', JSON.stringify(player.id));
-
-
   // envVariables.moveSpeed = 4; //reduces speed for player with flag
 };
 

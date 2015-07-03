@@ -39,6 +39,7 @@ socket.on('flagCarrier',function(id){
     // this.player = player;
     scene.remove(envVariables.flag.model);
   }else{
+    $('#flag-status').text("");
     scene.add(envVariables.flag.model);
   }
 });
