@@ -51,7 +51,18 @@ socket.on('newPlayer', function(data){ // listening for new player creation even
   // create a new player model.
   envVariables.playerContainer[newPlayer.id] = new Team(newPlayer.name, newPlayer.id, newPlayer.position,
                                                         null, newPlayer.team, newPlayer.hasFlag, newPlayer.radius, createPlayerModel());
+  var $teamStatus = $('#team-status');
+  // console.log('your on....team',envVariables.player.team);
+  if (envVariables.player.team === 1) {
+    console.log("you're on the blue team");
+    $teamStatus.text("you're on the blue team");
+    $teamStatus.css('color','blue');
+  } else {
+    console.log("you're on the red team");
+    $teamStatus.text("you're on the red team");
+    $teamStatus.css('color','red');
   // uiUpdatePlayers(); // update player list
+  }
 });
 
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
