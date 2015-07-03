@@ -55,12 +55,16 @@ socket.on('newPlayer', function(data){ // listening for new player creation even
   // console.log('your on....team',envVariables.player.team);
   if (envVariables.player.team === 1) {
     console.log("you're on the blue team");
-    $teamStatus.text("you're on the blue team");
-    $teamStatus.css('color','blue');
+    // $teamStatus.text("you're on the blue team");
+    // $teamStatus.css('color','blue');
+    $('.scoreboard').removeClass('scoreboard-red');
+    $('.scoreboard').addClass('scoreboard-blue');
   } else {
     console.log("you're on the red team");
-    $teamStatus.text("you're on the red team");
-    $teamStatus.css('color','red');
+    // $teamStatus.text("you're on the red team");
+    // $teamStatus.css('color','red');
+    $('.scoreboard').removeClass('scoreboard-blue');
+    $('.scoreboard').addClass('scoreboard-red');
   // uiUpdatePlayers(); // update player list
   }
 });

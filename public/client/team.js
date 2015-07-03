@@ -54,14 +54,16 @@ var createPlayerModel = function(teamId, username) {
   geometry.merge(text3d);
 
   if (teamId === 0) {
-    console.log("you're on the blue team");
-    $teamStatus.text("you're on the blue team");
-    $teamStatus.css('color','blue');
+    // $teamStatus.text("you're on the blue team");
+    // $teamStatus.css('color','blue');
+    $('.scoreboard').removeClass('scoreboard-red');
+    $('.scoreboard').addClass('scoreboard-blue');
     var material = redTeam;
   } else {
-    console.log("you're on the red team");
-    $teamStatus.text("you're on the red team");
-    $teamStatus.css('color','red');
+    // $teamStatus.text("you're on the red team");
+    // $teamStatus.css('color','red');
+    $('.scoreboard').removeClass('scoreboard-blue');
+    $('.scoreboard').addClass('scoreboard-red');
     var material = blueTeam;
   }
 
