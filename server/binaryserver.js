@@ -29,7 +29,7 @@ binaryHandler = {
           console.log('||| Audio stream ended');
         });
       } else {
-        console.log('.');
+        // console.log('.');
       }
     });
 
