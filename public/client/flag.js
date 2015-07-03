@@ -56,11 +56,10 @@ Setting this.player tracks the current players position to attach it to them and
 position to the server
 */
 Flag.prototype.capturedByPlayer = function(player){
-  envVariables.player.hasFlag = true;
-  $flagStatus.text("you have the flag!");
-  this.player = player;
-  scene.remove(this.model);
-  envVariables.moveSpeed = 4; //reduces speed for player with flag
+  // envVariables.player.hasFlag = true;
+  // emit event to server saying player.id has flag
+  socket.emit('flagPickup', JSON.stringify(player.id));
+  // envVariables.moveSpeed = 4; //reduces speed for player with flag
 };
 
 /*

@@ -274,7 +274,7 @@ function animate() {
     
     var speed = 400.0;
 
-    if(envVariables.player.hasFlag) speed = 300.0;
+    if(envVariables.player.hasFlag) speed = 200.0;
 
     if ( moveForward ) velocity.z -= speed * delta;
     if ( moveBackward ) velocity.z += speed * delta;
@@ -294,7 +294,8 @@ function animate() {
       if(Collisions.baseDetection(envVariables.player, envVariables['base' + envVariables.player.team])) { // returns true if player has flag and entered their own base to score a point
         envVariables.player.score = true; // necessary only allowing 1 scoring condition to be met before server resets
         envVariables.player.hasFlag = null; // player drops the flag before the flag position is reset
-        envVariables.flag.drop(); // drop the flag
+        // envVariables.flag.drop(); // drop the flag
+        $('#flag-status').text("");
 
         //adding comment for no reason :D
         socket.emit('playerScores'); // send to data to server about player scoring

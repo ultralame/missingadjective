@@ -30,7 +30,21 @@ socket.on('createPlayer', function(data) { // listening for data to create user'
   // uiUpdatePlayers(); // update player list
 });
 
+socket.on('flagCarrier',function(id){
+  console.log('flagcarrier', JSON.parse(id));
+  console.log('currentpalyer',envVariables.player.id);
 
+  if(envVariables.player.id === JSON.parse(id)){
+    $('#flag-status').text("you have the flag!");
+    envVariables.player.hasFlag = true;
+    // this.player = player;
+    scene.remove(envVariables.flag.model);
+  }else{
+    $('#flag-status').text("");
+    envVariables.player.hasFlag = false;
+    scene.add(envVariables.flag.model);
+  }
+});
 
 socket.on('newPlayer', function(data){ // listening for new player creation event from server
   var newPlayer = JSON.parse(data);
@@ -42,10 +56,10 @@ socket.on('newPlayer', function(data){ // listening for new player creation even
 
 socket.on('broadcastPlayerPosition', function(data){ // listening for all updated player positions from the server
   var playerMovement = JSON.parse(data);
-  Collisions.playersDetection(); // checks to see if players have collided.
   envVariables.playerContainer[playerMovement.id].position = playerMovement.position;
   envVariables.playerContainer[playerMovement.id].model.position.x = playerMovement.position.x;
   envVariables.playerContainer[playerMovement.id].model.position.z = playerMovement.position.y;
+  Collisions.playersDetection(); // checks to see if players have collided.
 });
 
 socket.on('broadcastFlagPosition', function(data) { // listening for updated flag position from the server

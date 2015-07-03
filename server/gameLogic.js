@@ -12,6 +12,8 @@ var Score = require('./score.js'); //for updating the score and win checking and
 //the key is the roomId
 var roomProperties = {};
 
+var flagCarrier = ''; // id of player who has the flag.
+
 //primary function that will listen for client events
 //the player is the passed in socket/client
 var gameLogic = module.exports = function(io, player) {
@@ -87,6 +89,12 @@ var gameLogic = module.exports = function(io, player) {
 
   });
 
+  player.on('flagPickup',function(id){
+    flagCarrier = JSON.parse(id);
+    // broadcast to all players who has the flag.
+    player.broadcast.to(player.room).emit('flagCarrier', JSON.stringify(flagCarrier));
+    player.emit('flagCarrier', JSON.stringify(flagCarrier));
+  });
 
   //handle player position update
   player.on('updatePosition', function(position, hasFlag) {
@@ -99,7 +107,7 @@ var gameLogic = module.exports = function(io, player) {
 
     //if the player has the flag, then update the position of the flag to be the position of the player
     //and tell every other player in the room about the updated flag position
-    if(player.hasFlag === true) {
+    if(player.id === flagCarrier) {
       roomProperties[player.room].flag.position = player.position;
       player.broadcast.to(player.room).emit('broadcastFlagPosition', JSON.stringify(roomProperties[player.room].flag));
     }
