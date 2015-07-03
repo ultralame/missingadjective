@@ -162,10 +162,6 @@ function init() {
         toggleVR();
         break;
 
-      case 13: // enter
-        soundController.emitSound();
-        break;
-
       case 16: // shift
         soundController.startRecording();
         break;
@@ -293,7 +289,9 @@ function animate() {
 
     var speed = 400.0;
 
-    if(envVariables.player.hasFlag) speed = 200.0;
+    if (envVariables.player.hasOwnProperty('hasFlag')) {
+      if(envVariables.player.hasFlag) speed = 200.0;
+    }
 
     if ( moveForward ) velocity.z -= speed * delta;
     if ( moveBackward ) velocity.z += speed * delta;

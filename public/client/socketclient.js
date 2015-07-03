@@ -31,8 +31,8 @@ socket.on('createPlayer', function(data) { // listening for data to create user'
 });
 
 socket.on('flagCarrier',function(id){
-  console.log('flagcarrier', JSON.parse(id));
-  console.log('currentpalyer',envVariables.player.id);
+  // console.log('flagcarrier', JSON.parse(id));
+  // console.log('currentpalyer',envVariables.player.id);
 
   if(envVariables.player.id === JSON.parse(id)){
     $('#flag-status').text("you have the flag!");

@@ -97,7 +97,7 @@ soundController.stopRecording = function () {
 //keepalive function: for keeping connectio open on Heroku
 setInterval(function () {
   if (soundController.recording === false) {
-    console.log('send keepalive msg');
+    // console.log('send keepalive msg');
     var temp = new ArrayBuffer(8); //random tiny bit of buffer
     client.send(temp, {data: 'keepalive'});
   }
@@ -170,15 +170,26 @@ soundController.emitSound = function () {
   socket.emit('sound');
 };
 
+soundController.playingFX = false;
+
 socket.on('sound', function(data){ //handle sound event
   console.log('sound event received');
   
-  var myAudio = document.createElement('audio');
-  if (myAudio.canPlayType('audio/mpeg')) {
-    myAudio.setAttribute('src','/assets/whip.wav');
-  }
+  if (soundController.playingFX === false) {  
+    soundController.playingFX = true;
+    console.log('>>>Play whip.wav sound');
 
-  myAudio.play();
+    var myAudio = document.createElement('audio');
+    if (myAudio.canPlayType('audio/mpeg')) {
+      myAudio.setAttribute('src','/assets/whip.wav');
+    }
+
+    myAudio.play();
+
+    setTimeout(function() {
+       soundController.playingFX = false;
+    }, 1000);
+  }
 
 });
 
