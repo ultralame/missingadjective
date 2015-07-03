@@ -172,16 +172,15 @@ soundController.emitSound = function () {
 
 soundController.playingFX = false;
 
-socket.on('sound', function(data){ //handle sound event
-  console.log('sound event received');
-  
+soundController.playSound = function (filename) {
+
   if (soundController.playingFX === false) {  
     soundController.playingFX = true;
-    console.log('>>>Play whip.wav sound');
+    console.log('>>>Playing sound:', filename);
 
     var myAudio = document.createElement('audio');
     if (myAudio.canPlayType('audio/mpeg')) {
-      myAudio.setAttribute('src','/assets/whip.wav');
+      myAudio.setAttribute('src','/assets/' + filename);
     }
 
     myAudio.play();
@@ -190,6 +189,12 @@ socket.on('sound', function(data){ //handle sound event
        soundController.playingFX = false;
     }, 1000);
   }
+
+}
+
+socket.on('sound', function(data){ //handle sound event
+  console.log('sound event received');
+  soundController.playSound('whip.wav');
 
 });
 

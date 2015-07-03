@@ -66,7 +66,6 @@ Flag.prototype.capturedByPlayer = function(player){
   // emit event to server saying player.id has flag
   socket.emit('flagPickup', JSON.stringify(player.id));
   soundController.emitSound();
-
   // envVariables.moveSpeed = 4; //reduces speed for player with flag
 };
 
@@ -75,6 +74,7 @@ This is only called after a player and enemy collide after the player is carryin
 Resetting player to null maintains the flag in a fixed position on the gameboard
 */
 Flag.prototype.drop = function(){
+  soundController.emitSound();
   $flagStatus.text('');
   this.player = null;
   this.dropped = true;
