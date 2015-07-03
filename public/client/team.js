@@ -34,8 +34,8 @@ var createPlayerModel = function(teamId, username) {
   }
 
   var text3d = new THREE.TextGeometry( theText, {
-    size: 10,
-    height: 5,
+    size: 7,
+    height: 1,
     curveSegments: 2,
     font: "helvetiker"
   });
