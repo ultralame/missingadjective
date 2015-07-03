@@ -55,10 +55,12 @@ socket.on('newPlayer', function(data){ // listening for new player creation even
   // console.log('your on....team',envVariables.player.team);
   if (envVariables.player.team === 1) {
     console.log("you're on the blue team");
-    $teamStatus.text("you're on the blue team")
+    $teamStatus.text("you're on the blue team");
+    $teamStatus.css('color','blue');
   } else {
     console.log("you're on the red team");
-    $teamStatus.text("you're on the red team")
+    $teamStatus.text("you're on the red team");
+    $teamStatus.css('color','red');
   // uiUpdatePlayers(); // update player list
   }
 });
